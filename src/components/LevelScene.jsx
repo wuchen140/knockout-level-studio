@@ -78,6 +78,8 @@ function makeEditableObject(item, catalog) {
   root.userData.objectId = item.uid;
   root.userData.nominalSize = [1, 1, 1];
   root.position.fromArray(item.position);
+  // Web data stores roll-pitch-yaw values extracted in ZYX order from Unity quaternions.
+  root.rotation.order = "ZYX";
   root.rotation.set(...item.rotation.map(THREE.MathUtils.degToRad));
   applyConfiguredSize(root, item.size);
 
