@@ -10,7 +10,13 @@ const DEFAULT_COLORS = {
 };
 
 function geometryFor(item) {
-  if (item.type === "platform") return new THREE.BoxGeometry(1, 1, 1);
+  if (item.type === "platform") {
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    // Platform coordinates describe the top surface in the source level data.
+    // Keep the mesh origin at that coordinate so blocks sit on, rather than in, it.
+    geometry.translate(0, -0.5, 0);
+    return geometry;
+  }
   if (item.shapeId === 1) return new THREE.CylinderGeometry(0.5, 0.5, 1, 28);
   if (item.shapeId === 2) return new THREE.ConeGeometry(0.58, 1, 28);
   return new THREE.BoxGeometry(1, 1, 1);
