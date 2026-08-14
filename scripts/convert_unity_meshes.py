@@ -121,9 +121,9 @@ def parse_mesh(path: Path) -> dict:
             raise ValueError(f"Only triangle topology is supported in {path}")
         start = first_byte // index_size
         indices = [index + base_vertex for index in raw_indices[start:start + index_count]]
-        # Unity meshes use clockwise front faces; glTF uses counter-clockwise.
-        for i in range(0, len(indices) - 2, 3):
-            indices[i + 1], indices[i + 2] = indices[i + 2], indices[i + 1]
+        # AssetRipper's exported index order already agrees with the vertex normals
+        # in the right-handed browser coordinate system. Reversing it exposes the
+        # inside of the mesh because Three.js culls the actual front faces.
         submeshes.append(indices)
 
     return {
