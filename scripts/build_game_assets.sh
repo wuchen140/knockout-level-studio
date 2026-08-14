@@ -7,8 +7,9 @@ mesh_dir="$source_dir/Mesh"
 texture_dir="$source_dir/Texture2D"
 output_model_dir="$repo_dir/public/models/game"
 output_texture_dir="$repo_dir/public/models/textures"
+output_background_dir="$repo_dir/public/models/backgrounds"
 
-mkdir -p "$output_model_dir" "$output_texture_dir"
+mkdir -p "$output_model_dir" "$output_texture_dir" "$output_background_dir"
 
 convert_mesh() {
   python3 "$repo_dir/scripts/convert_unity_meshes.py" "$mesh_dir/$2.asset" "$output_model_dir/$1.glb"
@@ -38,6 +39,14 @@ convert_mesh "plastic-cube" "Cube_1x1"
 convert_mesh "plastic-cylinder" "Cylinder_1x1"
 convert_mesh "plastic-cone" "pyramid_1x1"
 convert_mesh "shredder" "Shredder_Static"
+convert_mesh "platform-table" "Table"
+convert_mesh "platform-pipe" "blue_pipe"
+convert_mesh "platform-ball-1" "ball_1"
+convert_mesh "platform-ball-2" "ball_2"
+convert_mesh "platform-ball-3" "ball_3"
+convert_mesh "platform-ball-4" "ball_4"
+convert_mesh "platform-mid-gold" "mid_gold"
+convert_mesh "platform-bottom-gold" "bottom_gold"
 for length in 1 2 3; do
   convert_mesh "glass-shell-y${length}" "Jar_1x${length}_01_glass"
   convert_mesh "glass-lid-y${length}" "Jar_1x${length}_01_pieces"
@@ -75,5 +84,10 @@ magick "$texture_dir/smoothness_map_0.png" -alpha off -negate -resize "512x512>"
 resize_texture "shredder-color" "shredder_color_v15.png" 512
 resize_texture "shredder-emissive" "shredder_emission_v15.png" 512
 resize_texture "shredder-roughness" "shredder_smoothness.png" 512
+# Unity sprite scene_0 uses this bottom-left atlas rectangle. ImageMagick crops
+# from the top-left, so 4096 - 3862 = 234 is the corresponding Y offset.
+background_atlas="$texture_dir/sactx-0-4096x4096-ASTC 6x6-GameBackgroundAtlas-a419b31e.png"
+magick "$background_atlas" -crop "2316x3862+0+234" +repage -resize "1158x1931>" \
+  -define webp:method=6 -quality 86 "$output_background_dir/game-scene.webp"
 
-echo "Built $(find "$output_model_dir" -name '*.glb' | wc -l | tr -d ' ') GLBs and $(find "$output_texture_dir" -name '*.webp' | wc -l | tr -d ' ') textures."
+echo "Built $(find "$output_model_dir" -name '*.glb' | wc -l | tr -d ' ') GLBs, $(find "$output_texture_dir" -name '*.webp' | wc -l | tr -d ' ') textures, and the game background."

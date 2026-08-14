@@ -158,7 +158,7 @@ export default function App() {
   const [savedSnapshot, setSavedSnapshot] = useState("");
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState("translate");
-  const [showGrid, setShowGrid] = useState(true);
+  const [showGrid, setShowGrid] = useState(false);
   const [cameraCommand, setCameraCommand] = useState({ preset: "iso", token: 0 });
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);

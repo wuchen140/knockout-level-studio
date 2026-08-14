@@ -5,6 +5,15 @@ import { TransformControls } from "three/addons/controls/TransformControls.js";
 import { assetSpecFor, loadGameModel, materialFor } from "../gameAssets.js";
 
 const PLATFORM_COLOR = 0x59656a;
+const PLATFORM_PART_TRANSFORMS = {
+  "platform-pipe": { position: [0, 1.1042471, 0] },
+  "platform-ball-1": { position: [0.29251763, 0.33808148, 0] },
+  "platform-ball-2": { position: [0, 0.33808148, 0.2925176] },
+  "platform-ball-3": { position: [-0.2925175, 0.33808148, 0] },
+  "platform-ball-4": { position: [0, 0.33808148, -0.29251754] },
+  "platform-mid-gold": { position: [0, 0.56626093, 0] },
+  "platform-bottom-gold": { position: [0, 0.11257279, 0] },
+};
 const DEFAULT_COLORS = {
   0: "#d8d2c6", 1: "#e57373", 2: "#fae58c", 3: "#64b5f6",
   4: "#81c784", 5: "#ffad66", 6: "#f48fb1", 7: "#b39ddb",
@@ -88,15 +97,48 @@ function makeEditableObject(item, catalog) {
 function modelVisual(model, spec, item, catalog) {
   const visual = model.scene.clone(true);
   visual.name = `${item.name} 游戏模型`;
-  let meshIndex = 0;
-  visual.traverse((node) => {
-    if (!node.isMesh) return;
-    node.userData.ownsGeometry = false;
-    node.material = materialFor(spec, colorFor(item, catalog), meshIndex > 0 ? "lid" : "body");
-    meshIndex += 1;
-    node.castShadow = true;
-    node.receiveShadow = true;
-  });
+  if (spec.material === "platform") {
+    visual.position.y = -1.9;
+    visual.rotation.y = Math.PI;
+    const inverseSize = item.size.map((value) => 1 / Math.max(value, 0.05));
+    const parts = [...visual.children];
+    const base = new THREE.Group();
+    base.name = "平台固定支柱";
+    base.scale.fromArray(inverseSize);
+    visual.add(base);
+    for (const part of parts) {
+      const key = part.userData.assetPart;
+      if (key === "platform-table") {
+        part.position.set(0, 1.722669, 0);
+        part.scale.set(0.16228999, 1, 0.36993);
+      } else {
+        base.add(part);
+        const transform = PLATFORM_PART_TRANSFORMS[key];
+        if (transform) part.position.fromArray(transform.position);
+      }
+      let meshIndex = 0;
+      part.traverse((node) => {
+        if (!node.isMesh) return;
+        const variant = key === "platform-pipe" ? "blue"
+          : key === "platform-table" && meshIndex > 0 ? "red" : "gold";
+        node.userData.ownsGeometry = false;
+        node.material = materialFor(spec, null, variant);
+        node.castShadow = true;
+        node.receiveShadow = true;
+        meshIndex += 1;
+      });
+    }
+  } else {
+    let meshIndex = 0;
+    visual.traverse((node) => {
+      if (!node.isMesh) return;
+      node.userData.ownsGeometry = false;
+      node.material = materialFor(spec, colorFor(item, catalog), meshIndex > 0 ? "lid" : "body");
+      meshIndex += 1;
+      node.castShadow = true;
+      node.receiveShadow = true;
+    });
+  }
   return visual;
 }
 
@@ -114,16 +156,15 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
   useEffect(() => {
     const mount = mountRef.current;
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x182022);
-    scene.fog = new THREE.Fog(0x182022, 28, 72);
+    scene.fog = new THREE.Fog(0xb9e5f5, 48, 110);
 
     const camera = new THREE.PerspectiveCamera(42, 1, 0.05, 300);
     camera.position.set(12, 10, 15);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
-    renderer.setClearColor(0x182022, 1);
+    renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     mount.appendChild(renderer.domElement);
 
@@ -153,7 +194,7 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
       transformSnapshot.current = null;
     });
 
-    const hemi = new THREE.HemisphereLight(0xddeeff, 0x24302d, 2.4);
+    const hemi = new THREE.HemisphereLight(0xf4fbff, 0x6aa13d, 2.4);
     scene.add(hemi);
     const key = new THREE.DirectionalLight(0xfff1d6, 4.2);
     key.position.set(-8, 16, 8);
@@ -164,20 +205,20 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     key.shadow.camera.top = 20;
     key.shadow.camera.bottom = -20;
     scene.add(key);
-    const rim = new THREE.DirectionalLight(0x63bfc4, 1.6);
+    const rim = new THREE.DirectionalLight(0x74c9ff, 1.35);
     rim.position.set(12, 7, -10);
     scene.add(rim);
 
     const grid = new THREE.GridHelper(60, 60, 0x557174, 0x2b3a3c);
-    grid.position.y = -0.52;
+    grid.position.y = -2.04;
     scene.add(grid);
 
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(60, 60),
-      new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.22 }),
+      new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.07 }),
     );
     ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -0.515;
+    ground.position.y = -2.035;
     ground.receiveShadow = true;
     scene.add(ground);
 
@@ -217,7 +258,7 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
       frame = requestAnimationFrame(animate);
     };
     animate();
-    apiRef.current = { scene, camera, renderer, orbit, transform, objectGroup, grid };
+    apiRef.current = { scene, camera, renderer, orbit, transform, objectGroup, grid, ground };
 
     return () => {
       cancelAnimationFrame(frame);
@@ -238,6 +279,12 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     let cancelled = false;
     api.transform.detach();
     disposeGroup(api.objectGroup);
+    const platformFloor = Math.min(
+      -2.035,
+      ...(level.objects || []).filter((item) => item.type === "platform").map((item) => item.position[1] - 2.035),
+    );
+    api.grid.position.y = platformFloor - 0.005;
+    api.ground.position.y = platformFloor;
     for (const item of level.objects || []) {
       const { root, spec } = makeEditableObject(item, catalog);
       api.objectGroup.add(root);
@@ -289,5 +336,6 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     api.orbit.update();
   }, [cameraCommand, level?.key]);
 
-  return <div className="scene-mount" ref={mountRef} data-testid="level-canvas" />;
+  const backgroundImage = `url(${import.meta.env.BASE_URL}models/backgrounds/game-scene.webp)`;
+  return <div className="scene-mount" ref={mountRef} data-testid="level-canvas" style={{ backgroundImage }} />;
 }

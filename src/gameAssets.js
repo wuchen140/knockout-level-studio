@@ -27,7 +27,24 @@ function nearestLength(value) {
 }
 
 export function assetSpecFor(item) {
-  if (!item || item.type === "platform") return null;
+  if (!item) return null;
+  if (item.type === "platform") {
+    return {
+      key: "platform",
+      material: "platform",
+      nominalSize: [1, 1, 1],
+      parts: [
+        "platform-table",
+        "platform-pipe",
+        "platform-ball-1",
+        "platform-ball-2",
+        "platform-ball-3",
+        "platform-ball-4",
+        "platform-mid-gold",
+        "platform-bottom-gold",
+      ],
+    };
+  }
   const yLength = nearestLength(item.size?.[1]);
   if (item.materialId === 0) {
     const kind = item.shapeId === 1 ? "cylinder" : "cube";
@@ -97,7 +114,10 @@ export function loadGameModel(spec) {
       gltfLoader.load(assetUrl(`game/${key}.glb`), (gltf) => resolve(gltf.scene), undefined, reject);
     }))).then((scenes) => {
       const scene = new THREE.Group();
-      scenes.forEach((part) => scene.add(part));
+      scenes.forEach((part, index) => {
+        part.userData.assetPart = modelKeys[index];
+        scene.add(part);
+      });
       const bounds = new THREE.Box3().setFromObject(scene);
       return { scene, sourceSize: bounds.getSize(new THREE.Vector3()) };
     }));
@@ -106,6 +126,20 @@ export function loadGameModel(spec) {
 }
 
 export function materialFor(spec, tint, variant = "body") {
+  if (spec?.material === "platform") {
+    const settings = {
+      gold: { color: 0xffaa01, roughness: 0.3, metalness: 0.5 },
+      red: { color: 0xb30000, roughness: 0.5, metalness: 0.02 },
+      blue: { color: 0x0044ff, roughness: 0.55, metalness: 0.02 },
+    }[variant] || { color: 0xffaa01, roughness: 0.4, metalness: 0.35 };
+    const material = new THREE.MeshStandardMaterial(settings);
+    material.emissive.set(variant === "blue" ? 0x000b26 : variant === "red" ? 0x1a0000 : 0x281000);
+    material.emissiveIntensity = 0.2;
+    material.userData.baseEmissive = material.emissive.getHex();
+    material.userData.baseEmissiveIntensity = material.emissiveIntensity;
+    return material;
+  }
+
   if (spec?.material === "glass") {
     const isLid = variant === "lid";
     const material = new THREE.MeshPhysicalMaterial({
