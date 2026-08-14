@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { TransformControls } from "three/addons/controls/TransformControls.js";
+import { assetSpecFor, loadGameModel, materialFor } from "../gameAssets.js";
 
 const PLATFORM_COLOR = 0x59656a;
 const DEFAULT_COLORS = {
@@ -32,10 +33,72 @@ function colorFor(item, catalog) {
 function disposeGroup(group) {
   for (const child of [...group.children]) {
     group.remove(child);
-    child.geometry?.dispose();
-    if (Array.isArray(child.material)) child.material.forEach((material) => material.dispose());
-    else child.material?.dispose();
+    child.traverse((node) => {
+      if (node.geometry && node.userData.ownsGeometry !== false) node.geometry.dispose();
+      if (Array.isArray(node.material)) node.material.forEach((material) => material.dispose());
+      else node.material?.dispose();
+    });
   }
+}
+
+function applyConfiguredSize(object, size) {
+  const nominal = object.userData.nominalSize || [1, 1, 1];
+  object.scale.set(...size.map((value, index) => Math.max(0.05, value) / Math.max(nominal[index], 0.0001)));
+}
+
+function setSelected(object, selected) {
+  object.traverse((node) => {
+    const materials = Array.isArray(node.material) ? node.material : node.material ? [node.material] : [];
+    for (const material of materials) {
+      const base = material.userData.baseEmissive ?? 0x000000;
+      material.emissive?.setHex(base);
+      if (selected) material.emissive?.lerp(new THREE.Color(0x2d7771), 0.72);
+      material.emissiveIntensity = selected ? 1.05 : (material.userData.baseEmissiveIntensity ?? 0);
+    }
+  });
+}
+
+function makeEditableObject(item, catalog) {
+  const root = new THREE.Group();
+  root.name = item.name;
+  root.userData.objectId = item.uid;
+  root.userData.nominalSize = [1, 1, 1];
+  root.position.fromArray(item.position);
+  root.rotation.set(...item.rotation.map(THREE.MathUtils.degToRad));
+  applyConfiguredSize(root, item.size);
+
+  const spec = assetSpecFor(item);
+  const fallbackMaterial = item.type === "platform"
+    ? new THREE.MeshStandardMaterial({ color: PLATFORM_COLOR, roughness: 0.72, metalness: 0.05 })
+    : materialFor(spec, colorFor(item, catalog));
+  fallbackMaterial.userData.baseEmissive ??= 0x000000;
+  const fallback = new THREE.Mesh(geometryFor(item), fallbackMaterial);
+  fallback.userData.fallback = true;
+  fallback.castShadow = true;
+  fallback.receiveShadow = true;
+  root.add(fallback);
+  return { root, spec };
+}
+
+function modelVisual(model, spec, item, catalog) {
+  const visual = model.scene.clone(true);
+  visual.name = `${item.name} 游戏模型`;
+  let meshIndex = 0;
+  visual.traverse((node) => {
+    if (!node.isMesh) return;
+    node.userData.ownsGeometry = false;
+    node.material = materialFor(spec, colorFor(item, catalog));
+    if (spec.material === "glass" && meshIndex > 0) {
+      node.material.opacity = 1;
+      node.material.transmission = 0;
+      node.material.roughness = 0.32;
+      node.material.depthWrite = true;
+    }
+    meshIndex += 1;
+    node.castShadow = true;
+    node.receiveShadow = true;
+  });
+  return visual;
 }
 
 export default function LevelScene({ level, catalog, selectedId, onSelect, onTransform, mode, showGrid, cameraCommand }) {
@@ -44,8 +107,10 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
   const transformSnapshot = useRef(null);
   const transformCallbackRef = useRef(onTransform);
   const selectCallbackRef = useRef(onSelect);
+  const selectedRef = useRef(selectedId);
   transformCallbackRef.current = onTransform;
   selectCallbackRef.current = onSelect;
+  selectedRef.current = selectedId;
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -80,10 +145,11 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     transform.addEventListener("mouseUp", () => {
       const object = transform.object;
       if (!object || !transformSnapshot.current) return;
+      const nominal = object.userData.nominalSize || [1, 1, 1];
       transformCallbackRef.current?.(object.userData.objectId, {
         position: object.position.toArray().map((value) => Number(value.toFixed(4))),
         rotation: [object.rotation.x, object.rotation.y, object.rotation.z].map((value) => Number(THREE.MathUtils.radToDeg(value).toFixed(3))),
-        size: object.scale.toArray().map((value) => Number(Math.max(0.05, value).toFixed(4))),
+        size: object.scale.toArray().map((value, index) => Number(Math.max(0.05, value * nominal[index]).toFixed(4))),
       });
       transformSnapshot.current = null;
     });
@@ -127,8 +193,10 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
       pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(pointer, camera);
-      const hit = raycaster.intersectObjects(objectGroup.children, false)[0];
-      selectCallbackRef.current?.(hit?.object?.userData?.objectId || null);
+      const hit = raycaster.intersectObjects(objectGroup.children, true)[0];
+      let selected = hit?.object || null;
+      while (selected && !selected.userData.objectId) selected = selected.parent;
+      selectCallbackRef.current?.(selected?.userData?.objectId || null);
     };
     renderer.domElement.addEventListener("pointerdown", onPointerDown);
 
@@ -168,37 +236,35 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
   useEffect(() => {
     const api = apiRef.current;
     if (!api || !level) return;
+    let cancelled = false;
     api.transform.detach();
     disposeGroup(api.objectGroup);
     for (const item of level.objects || []) {
-      const material = new THREE.MeshStandardMaterial({
-        color: colorFor(item, catalog),
-        roughness: item.materialId === 2 ? 0.34 : 0.64,
-        metalness: item.materialId === 2 ? 0.72 : 0.05,
-        transparent: item.materialId === 4,
-        opacity: item.materialId === 4 ? 0.72 : 1,
+      const { root, spec } = makeEditableObject(item, catalog);
+      api.objectGroup.add(root);
+      if (!spec) continue;
+      loadGameModel(spec).then((model) => {
+        if (cancelled || !root.parent) return;
+        disposeGroup(root);
+        root.userData.nominalSize = spec.nominalSize;
+        applyConfiguredSize(root, item.size);
+        root.add(modelVisual(model, spec, item, catalog));
+        setSelected(root, root.userData.objectId === selectedRef.current);
+      }).catch((error) => {
+        console.warn(`游戏模型加载失败: ${spec.key}`, error);
       });
-      const mesh = new THREE.Mesh(geometryFor(item), material);
-      mesh.name = item.name;
-      mesh.userData.objectId = item.uid;
-      mesh.position.fromArray(item.position);
-      mesh.rotation.set(...item.rotation.map(THREE.MathUtils.degToRad));
-      mesh.scale.fromArray(item.size.map((value) => Math.max(0.05, value)));
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      api.objectGroup.add(mesh);
     }
+    return () => { cancelled = true; };
   }, [level, catalog]);
 
   useEffect(() => {
     const api = apiRef.current;
     if (!api) return;
     api.transform.detach();
-    for (const mesh of api.objectGroup.children) {
-      const active = mesh.userData.objectId === selectedId;
-      mesh.material.emissive?.set(active ? 0x214f4c : 0x000000);
-      mesh.material.emissiveIntensity = active ? 0.75 : 0;
-      if (active) api.transform.attach(mesh);
+    for (const object of api.objectGroup.children) {
+      const active = object.userData.objectId === selectedId;
+      setSelected(object, active);
+      if (active) api.transform.attach(object);
     }
   }, [selectedId, level]);
 
