@@ -9,6 +9,10 @@ const DEFAULT_COLORS = {
   0: "#d8d2c6", 1: "#e57373", 2: "#fae58c", 3: "#64b5f6",
   4: "#81c784", 5: "#ffad66", 6: "#f48fb1", 7: "#b39ddb",
 };
+const GAME_GLASS_COLORS = {
+  1: "#e5394f", 2: "#f4cf32", 3: "#2854df", 4: "#35b95c",
+  5: "#f2a13e", 6: "#df3db7", 7: "#8b2bd3",
+};
 
 function geometryFor(item) {
   if (item.type === "platform") {
@@ -25,6 +29,7 @@ function geometryFor(item) {
 
 function colorFor(item, catalog) {
   if (item.type === "platform") return PLATFORM_COLOR;
+  if (item.materialId === 4 && GAME_GLASS_COLORS[item.colorId]) return GAME_GLASS_COLORS[item.colorId];
   const match = catalog?.colors?.find((color) => color.materialId === item.materialId && color.colorId === item.colorId)
     || catalog?.colors?.find((color) => color.colorId === item.colorId);
   return match?.hex || DEFAULT_COLORS[item.colorId] || "#d8d2c6";
@@ -87,13 +92,7 @@ function modelVisual(model, spec, item, catalog) {
   visual.traverse((node) => {
     if (!node.isMesh) return;
     node.userData.ownsGeometry = false;
-    node.material = materialFor(spec, colorFor(item, catalog));
-    if (spec.material === "glass" && meshIndex > 0) {
-      node.material.opacity = 1;
-      node.material.transmission = 0;
-      node.material.roughness = 0.32;
-      node.material.depthWrite = true;
-    }
+    node.material = materialFor(spec, colorFor(item, catalog), meshIndex > 0 ? "lid" : "body");
     meshIndex += 1;
     node.castShadow = true;
     node.receiveShadow = true;

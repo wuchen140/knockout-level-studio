@@ -14,8 +14,9 @@ const TEXTURE_SETS = {
   "stone-cylinder": { map: "stone-cylinder-color", normalMap: "stone-cylinder-normal", roughness: 0.86 },
   "metal-cube": { map: "metal-cube-color", metalnessMap: "metal-cube-metalness", emissiveMap: "metal-cube-emissive", roughness: 0.3, metalness: 0.92 },
   "metal-cylinder": { map: "metal-cylinder-color", roughnessMap: "metal-cylinder-roughness", roughness: 0.54, metalness: 0.9 },
-  "ice-cube": { map: "ice-cube-color", normalMap: "ice-cube-normal", roughness: 0.26, transparent: true, opacity: 0.82 },
-  "ice-cylinder": { map: "ice-cylinder-color", normalMap: "ice-cylinder-normal", roughness: 0.26, transparent: true, opacity: 0.82 },
+  // The Unity ice materials use opaque mode (_Mode 0, alpha 1, ZWrite 1).
+  "ice-cube": { map: "ice-cube-color", normalMap: "ice-cube-normal", roughness: 0.375, metalness: 0.225 },
+  "ice-cylinder": { map: "ice-cylinder-color", normalMap: "ice-cylinder-normal", roughness: 0.375, metalness: 0.225 },
   column: { map: "column-color", normalMap: "column-normal", metalnessMap: "column-metalness", emissiveMap: "column-emissive", roughness: 0.38, metalness: 0.7 },
   jelly: { map: "jelly-color", emissiveMap: "jelly-emissive", roughness: 0.3, metalness: 0.08 },
   shredder: { map: "shredder-color", emissiveMap: "shredder-emissive", roughnessMap: "shredder-roughness", roughness: 0.42, metalness: 0.7 },
@@ -78,6 +79,9 @@ function texture(name, color = false) {
   if (!name) return null;
   if (!textureCache.has(name)) {
     const loaded = textureLoader.load(assetUrl(`textures/${name}.webp`));
+    // These textures use the UV orientation of the Unity-exported GLB meshes.
+    // GLTFLoader applies the same setting to embedded textures.
+    loaded.flipY = false;
     loaded.colorSpace = color ? THREE.SRGBColorSpace : THREE.NoColorSpace;
     loaded.anisotropy = 4;
     textureCache.set(name, loaded);
@@ -101,18 +105,27 @@ export function loadGameModel(spec) {
   return modelCache.get(spec.key);
 }
 
-export function materialFor(spec, tint) {
+export function materialFor(spec, tint, variant = "body") {
   if (spec?.material === "glass") {
+    const isLid = variant === "lid";
     const material = new THREE.MeshPhysicalMaterial({
-      color: tint,
-      roughness: 0.16,
-      metalness: 0,
-      transmission: 0.32,
-      transparent: true,
-      opacity: 0.72,
-      depthWrite: false,
+      color: isLid ? 0xd8d8d0 : tint,
+      map: texture("glass-color", true),
+      roughnessMap: texture("glass-roughness"),
+      // Match the opaque Unity toon material: _Mode 0, alpha 1 and ZWrite 1.
+      roughness: isLid ? 0.6 : 0.3,
+      metalness: 0.1,
+      clearcoat: isLid ? 0.35 : 0.72,
+      clearcoatRoughness: isLid ? 0.28 : 0.16,
+      transparent: false,
+      opacity: 1,
+      transmission: 0,
+      depthWrite: true,
     });
-    material.userData.baseEmissive = 0x000000;
+    material.emissive.set(isLid ? 0x11110f : new THREE.Color(tint).multiplyScalar(0.045));
+    material.emissiveIntensity = isLid ? 0.18 : 0.35;
+    material.userData.baseEmissive = material.emissive.getHex();
+    material.userData.baseEmissiveIntensity = material.emissiveIntensity;
     return material;
   }
 

@@ -70,6 +70,8 @@ resize_texture "column-metalness" "Column_All_Metallic.png" 1024
 resize_texture "column-emissive" "Column_All_Emission.png" 1024
 resize_texture "jelly-color" "JellyJar_Col_v1.png" 1024
 resize_texture "jelly-emissive" "JellyJar_emis.png" 1024
+resize_texture "glass-color" "Liq_gradient_v2_0.png" 512
+magick "$texture_dir/smoothness_map_0.png" -alpha off -negate -resize "512x512>" -define webp:method=6 -quality 90 "$output_texture_dir/glass-roughness.webp"
 resize_texture "shredder-color" "shredder_color_v15.png" 512
 resize_texture "shredder-emissive" "shredder_emission_v15.png" 512
 resize_texture "shredder-roughness" "shredder_smoothness.png" 512
