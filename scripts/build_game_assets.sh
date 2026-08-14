@@ -56,25 +56,35 @@ resize_texture() {
   magick "$texture_dir/$2" -resize "${3}x${3}>" -define webp:method=6 -quality 84 "$output_texture_dir/$1.webp"
 }
 
+convert_unity_normal() {
+  # AssetRipper preserves Unity's DXT5nm layout: X is stored in alpha and Y in green.
+  # Reconstruct tangent-space RGB normals before Three.js loads the texture.
+  magick "$texture_dir/$2" -resize "${3}x${3}>" \
+    -channel R -fx 'u.a' \
+    -channel G -fx 'u.g' \
+    -channel B -fx '0.5+0.5*sqrt(max(0,1-(2*u.a-1)^2-(2*u.g-1)^2))' \
+    +channel -alpha off -define webp:method=6 -quality 90 "$output_texture_dir/$1.webp"
+}
+
 resize_texture "wood-cube-color" "WoodBox_Color.png" 512
-resize_texture "wood-cube-normal" "WoodBox_Nrm.png" 512
+convert_unity_normal "wood-cube-normal" "WoodBox_Nrm.png" 512
 resize_texture "wood-cylinder-color" "Log_Color.png" 512
-resize_texture "wood-cylinder-normal" "Log_Normal.png" 512
+convert_unity_normal "wood-cylinder-normal" "Log_Normal.png" 512
 resize_texture "stone-cube-color" "Stones_Cube_Color_V2.png" 512
-resize_texture "stone-cube-normal" "Stones_Cube_Nrm.png" 512
+convert_unity_normal "stone-cube-normal" "Stones_Cube_Nrm.png" 512
 resize_texture "stone-cylinder-color" "Stones_Cylinder_Color_v2.png" 512
-resize_texture "stone-cylinder-normal" "Stones_Cylinder_Nrm.png" 512
+convert_unity_normal "stone-cylinder-normal" "Stones_Cylinder_Nrm.png" 512
 resize_texture "metal-cube-color" "metalbox_v2_color.png" 512
 resize_texture "metal-cube-metalness" "metalbox_v2_metallic.png" 512
 resize_texture "metal-cube-emissive" "metalbox_v2_emission.png" 512
 resize_texture "metal-cylinder-color" "metalcylinder_v2_color.png" 512
 resize_texture "metal-cylinder-roughness" "metalcylinder_v2_roughness.png" 512
 resize_texture "ice-cube-color" "Ice_Color.png" 512
-resize_texture "ice-cube-normal" "Ice_Normal.png" 512
+convert_unity_normal "ice-cube-normal" "Ice_Normal.png" 512
 resize_texture "ice-cylinder-color" "Ice_Cylinder_Color.png" 512
-resize_texture "ice-cylinder-normal" "Ice_Cylinder_ Nrm.png" 512
+convert_unity_normal "ice-cylinder-normal" "Ice_Cylinder_ Nrm.png" 512
 resize_texture "column-color" "Column_All_Col_v2.png" 1024
-resize_texture "column-normal" "Column_All_Nrm_v1.png" 1024
+convert_unity_normal "column-normal" "Column_All_Nrm_v1.png" 1024
 resize_texture "column-metalness" "Column_All_Metallic.png" 1024
 resize_texture "column-emissive" "Column_All_Emission.png" 1024
 resize_texture "jelly-color" "JellyJar_Col_v1.png" 1024

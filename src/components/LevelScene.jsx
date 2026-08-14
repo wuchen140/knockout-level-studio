@@ -133,7 +133,10 @@ function modelVisual(model, spec, item, catalog) {
     visual.traverse((node) => {
       if (!node.isMesh) return;
       node.userData.ownsGeometry = false;
-      node.material = materialFor(spec, colorFor(item, catalog), meshIndex > 0 ? "lid" : "body");
+      const variant = spec.material === "glass" && meshIndex > 0 ? "lid"
+        : spec.material === "wood-cube" && meshIndex > 0 ? "secondary"
+          : "body";
+      node.material = materialFor(spec, colorFor(item, catalog), variant);
       meshIndex += 1;
       node.castShadow = true;
       node.receiveShadow = true;

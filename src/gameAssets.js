@@ -8,15 +8,16 @@ const modelCache = new Map();
 const textureCache = new Map();
 
 const TEXTURE_SETS = {
-  "wood-cube": { map: "wood-cube-color", normalMap: "wood-cube-normal", roughness: 0.72 },
-  "wood-cylinder": { map: "wood-cylinder-color", normalMap: "wood-cylinder-normal", roughness: 0.76 },
-  "stone-cube": { map: "stone-cube-color", normalMap: "stone-cube-normal", roughness: 0.84 },
-  "stone-cylinder": { map: "stone-cylinder-color", normalMap: "stone-cylinder-normal", roughness: 0.86 },
+  "wood-cube": { color: 0xededed, map: "wood-cube-color", normalMap: "wood-cube-normal", normalScale: -0.5, roughness: 0.6 },
+  "wood-cube-metal": { color: 0xffffff, roughness: 0.398, metalness: 0.8 },
+  "wood-cylinder": { color: 0xdcf7e8, map: "wood-cylinder-color", normalMap: "wood-cylinder-normal", normalScale: 1, roughness: 0.7 },
+  "stone-cube": { color: 0xffffff, map: "stone-cube-color", normalMap: "stone-cube-normal", normalScale: 1, roughness: 0.62, metalness: 0.08, emissiveColor: 0x4a4d68, emissiveIntensity: 0.72 },
+  "stone-cylinder": { color: 0xffffff, map: "stone-cylinder-color", normalMap: "stone-cylinder-normal", normalScale: 1, roughness: 0.62, metalness: 0.08, emissiveColor: 0x4a4d68, emissiveIntensity: 0.72 },
   "metal-cube": { map: "metal-cube-color", metalnessMap: "metal-cube-metalness", emissiveMap: "metal-cube-emissive", roughness: 0.3, metalness: 0.92 },
   "metal-cylinder": { map: "metal-cylinder-color", roughnessMap: "metal-cylinder-roughness", roughness: 0.54, metalness: 0.9 },
   // The Unity ice materials use opaque mode (_Mode 0, alpha 1, ZWrite 1).
-  "ice-cube": { map: "ice-cube-color", normalMap: "ice-cube-normal", roughness: 0.375, metalness: 0.225 },
-  "ice-cylinder": { map: "ice-cylinder-color", normalMap: "ice-cylinder-normal", roughness: 0.375, metalness: 0.225 },
+  "ice-cube": { color: 0xdadada, map: "ice-cube-color", normalMap: "ice-cube-normal", normalScale: 1, roughness: 0.375, metalness: 0.225 },
+  "ice-cylinder": { color: 0xdadada, map: "ice-cylinder-color", normalMap: "ice-cylinder-normal", normalScale: 1, roughness: 0.375, metalness: 0.225 },
   column: { map: "column-color", normalMap: "column-normal", metalnessMap: "column-metalness", emissiveMap: "column-emissive", roughness: 0.38, metalness: 0.7 },
   jelly: { map: "jelly-color", emissiveMap: "jelly-emissive", roughness: 0.3, metalness: 0.08 },
   shredder: { map: "shredder-color", emissiveMap: "shredder-emissive", roughnessMap: "shredder-roughness", roughness: 0.42, metalness: 0.7 },
@@ -169,9 +170,12 @@ export function materialFor(spec, tint, variant = "body") {
     return material;
   }
 
-  const settings = TEXTURE_SETS[spec?.material] || {};
+  const materialKey = spec?.material === "wood-cube" && variant === "secondary"
+    ? "wood-cube-metal"
+    : spec?.material;
+  const settings = TEXTURE_SETS[materialKey] || {};
   const material = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
+    color: settings.color ?? 0xffffff,
     map: texture(settings.map, true),
     normalMap: texture(settings.normalMap),
     metalnessMap: texture(settings.metalnessMap),
@@ -182,10 +186,13 @@ export function materialFor(spec, tint, variant = "body") {
     transparent: settings.transparent || false,
     opacity: settings.opacity ?? 1,
   });
-  const hasEmission = Boolean(settings.emissiveMap);
-  material.emissive.setHex(hasEmission ? 0x262626 : 0x000000);
-  material.emissiveIntensity = hasEmission ? 0.65 : 0;
-  material.userData.baseEmissive = hasEmission ? 0x262626 : 0x000000;
-  material.userData.baseEmissiveIntensity = hasEmission ? 0.65 : 0;
+  if (settings.normalScale != null) material.normalScale.setScalar(settings.normalScale);
+  const hasEmission = Boolean(settings.emissiveMap || settings.emissiveColor);
+  const emissiveColor = settings.emissiveColor ?? (hasEmission ? 0x262626 : 0x000000);
+  const emissiveIntensity = settings.emissiveIntensity ?? (hasEmission ? 0.65 : 0);
+  material.emissive.setHex(emissiveColor);
+  material.emissiveIntensity = emissiveIntensity;
+  material.userData.baseEmissive = emissiveColor;
+  material.userData.baseEmissiveIntensity = emissiveIntensity;
   return material;
 }
