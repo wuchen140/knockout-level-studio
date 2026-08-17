@@ -67,8 +67,35 @@ export function exportLevelExcel(level) {
   writeFile(workbook, `${level.category}_${level.id}_关卡配置.xlsx`);
 }
 
+function pick(source, fields) {
+  return Object.fromEntries(fields.filter((field) => source?.[field] !== undefined).map((field) => [field, source[field]]));
+}
+
+function omitNulls(value) {
+  if (Array.isArray(value)) return value.filter((item) => item !== null && item !== undefined).map(omitNulls);
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([, item]) => item !== null && item !== undefined)
+      .map(([key, item]) => [key, omitNulls(item)]),
+  );
+}
+
+export function formatLevelJson(level) {
+  const root = pick(level, [
+    "id", "moveCount", "difficultyValue", "progressionCount", "firstProgressionLevel", "counts",
+  ]);
+  root.objects = (level.objects || []).map((item) => item.type === "platform"
+    ? pick(item, ["type", "name", "area", "stageIndex", "platformIndex", "position", "rotation", "size", "motion"])
+    : pick(item, [
+      "type", "name", "area", "stageIndex", "platformIndex", "waveIndex", "shutterIndex", "blockIndex",
+      "materialId", "shapeId", "colorId", "position", "rotation", "size",
+    ]));
+  return omitNulls(root);
+}
+
 export function exportLevelJson(level) {
-  const blob = new Blob([JSON.stringify(level, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(formatLevelJson(level), null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
