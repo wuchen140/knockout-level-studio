@@ -165,7 +165,7 @@ function LibraryApp() {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [toast, setToast] = useState("");
-  const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0 });
+  const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, impactForce: 10 });
   const [physicsStatus, setPhysicsStatus] = useState("idle");
   const physicsTransformsRef = useRef([]);
   const importRef = useRef(null);
@@ -221,7 +221,7 @@ function LibraryApp() {
     setSelectedId(null);
     setLeftOpen(false);
     setRightOpen(false);
-    setPhysics((current) => ({ enabled: true, paused: false, resetToken: current.resetToken + 1 }));
+    setPhysics((current) => ({ ...current, enabled: true, paused: false, resetToken: current.resetToken + 1 }));
   }, [level, notify]);
   const exitPhysics = useCallback(() => {
     setPhysics((current) => ({ ...current, enabled: false, paused: false }));
@@ -231,7 +231,7 @@ function LibraryApp() {
   const resetPhysics = useCallback(() => {
     physicsTransformsRef.current = [];
     setPhysicsStatus("loading");
-    setPhysics((current) => ({ enabled: true, paused: false, resetToken: current.resetToken + 1 }));
+    setPhysics((current) => ({ ...current, enabled: true, paused: false, resetToken: current.resetToken + 1 }));
   }, []);
   const applyPhysics = useCallback(() => {
     setPhysics((current) => ({ ...current, paused: true }));
@@ -391,6 +391,11 @@ function LibraryApp() {
         </div>
         {physics.enabled && <div className="physics-toolbar" aria-label="物理预演工具">
           <strong><i className={physicsStatus} />{{ loading: "载入物理", running: "物理运行中", paused: "物理已暂停", error: "物理启动失败" }[physicsStatus] || "物理预演"}</strong>
+          <label className="physics-force">
+            <span>点击力道</span>
+            <input type="range" min="2" max="20" step="1" value={physics.impactForce} aria-label="点击力道" onChange={(event) => setPhysics((current) => ({ ...current, impactForce: Number(event.target.value) }))} />
+            <b>{physics.impactForce}</b>
+          </label>
           <button disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={() => setPhysics((current) => ({ ...current, paused: !current.paused }))}>{physics.paused ? <Play size={14} /> : <Pause size={14} />}{physics.paused ? "继续" : "暂停"}</button>
           <button disabled={physicsStatus === "loading"} onClick={resetPhysics}><RotateCcw size={14} />重置</button>
           <button className="apply" disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={applyPhysics}><Check size={14} />应用结果</button>

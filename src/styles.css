@@ -236,6 +236,9 @@ button:disabled { cursor: not-allowed; opacity: .38; }
 .physics-toolbar button:hover:not(:disabled) { color: #fff; background: #3a4a4b; }
 .physics-toolbar button.apply { color: #8ee0ce; background: rgba(73,169,153,.14); }
 .physics-toolbar button.apply:hover:not(:disabled) { background: rgba(73,169,153,.25); }
+.physics-force { height: 27px; display: flex; align-items: center; gap: 6px; padding: 0 8px; color: #b9c7c7; border-right: 1px solid #435254; border-left: 1px solid #435254; font-size: 9px; white-space: nowrap; }
+.physics-force input { width: 82px; height: 16px; margin: 0; accent-color: #e8b853; cursor: pointer; }
+.physics-force b { min-width: 18px; color: #f2d38f; font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 600; text-align: right; }
 .physics-active .creator-tools, .physics-active .creator-properties { pointer-events: none; opacity: .72; }
 .library-physics-active .panel-wrap { pointer-events: none; opacity: .72; }
 @keyframes physics-pulse { 50% { opacity: .45; } }

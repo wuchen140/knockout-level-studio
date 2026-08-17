@@ -310,8 +310,9 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
         const body = apiRef.current.physicsSimulation?.bodies.get(selected?.userData?.objectId);
         if (body) {
           const direction = raycaster.ray.direction;
-          body.applyImpulse({ x: direction.x * 3.4, y: Math.max(direction.y * 3.4, 0.65), z: direction.z * 3.4 }, true);
-          body.applyTorqueImpulse({ x: -direction.z * 0.42, y: 0.18, z: direction.x * 0.42 }, true);
+          const strength = apiRef.current.physicsImpactForce || 10;
+          body.applyImpulse({ x: direction.x * strength, y: Math.max(direction.y * strength, strength * 0.2), z: direction.z * strength }, true);
+          body.applyTorqueImpulse({ x: -direction.z * strength * 0.12, y: strength * 0.05, z: direction.x * strength * 0.12 }, true);
         }
         return;
       }
@@ -359,7 +360,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
       frame = requestAnimationFrame(animate);
     };
     animate();
-    apiRef.current = { scene, camera, renderer, orbit, transform, objectGroup, selectionGroup, grid, ground, objectsById: new Map(), physicsEnabled: false, physicsSimulation: null };
+    apiRef.current = { scene, camera, renderer, orbit, transform, objectGroup, selectionGroup, grid, ground, objectsById: new Map(), physicsEnabled: false, physicsSimulation: null, physicsImpactForce: 10 };
 
     return () => {
       cancelAnimationFrame(frame);
@@ -375,6 +376,11 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
       apiRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (!apiRef.current) return;
+    apiRef.current.physicsImpactForce = Number(physics?.impactForce) || 10;
+  }, [physics?.impactForce]);
 
   useEffect(() => {
     const api = apiRef.current;
