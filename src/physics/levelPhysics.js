@@ -1,6 +1,8 @@
 import * as THREE from "three";
+import { GAME_TUNING } from "../gameTuning.js";
 
-const FIXED_STEP = 1 / 60;
+const { ball: BALL_TUNING, physics: PHYSICS_TUNING, blocks: BLOCK_TUNING } = GAME_TUNING;
+const FIXED_STEP = PHYSICS_TUNING.fixedStep;
 const FALLBACK_PROFILE = {
   mass: 1,
   staticFriction: 0.4,
@@ -74,7 +76,83 @@ function speedOf(velocity) {
   return Math.hypot(velocity.x, velocity.y, velocity.z);
 }
 
-function markImpactShatter(simulation, handle1, handle2) {
+function normalizedVelocity(velocity, speed) {
+  const length = speedOf(velocity);
+  if (length < 0.0001) return null;
+  const scale = speed / length;
+  return { x: velocity.x * scale, y: velocity.y * scale, z: velocity.z * scale };
+}
+
+function blocksTouch(left, right) {
+  const leftSize = normalizedSize(left.size);
+  const rightSize = normalizedSize(right.size);
+  return [0, 1, 2].every((axis) => (
+    Math.abs(Number(left.position?.[axis] || 0) - Number(right.position?.[axis] || 0))
+      <= (leftSize[axis] + rightSize[axis]) / 2 + 0.08
+  ));
+}
+
+function buildBlockClusters(objects) {
+  const blocks = objects.filter((item) => item.type === "block");
+  const neighbors = new Map(blocks.map((item) => [item.uid, []]));
+  for (let left = 0; left < blocks.length; left += 1) {
+    for (let right = left + 1; right < blocks.length; right += 1) {
+      if (!blocksTouch(blocks[left], blocks[right])) continue;
+      neighbors.get(blocks[left].uid).push(blocks[right].uid);
+      neighbors.get(blocks[right].uid).push(blocks[left].uid);
+    }
+  }
+  const clusters = new Map();
+  for (const block of blocks) {
+    if (clusters.has(block.uid)) continue;
+    const cluster = [];
+    const pending = [block.uid];
+    const visited = new Set(pending);
+    while (pending.length) {
+      const uid = pending.pop();
+      cluster.push(uid);
+      for (const neighbor of neighbors.get(uid) || []) {
+        if (visited.has(neighbor)) continue;
+        visited.add(neighbor);
+        pending.push(neighbor);
+      }
+    }
+    for (const uid of cluster) clusters.set(uid, cluster);
+  }
+  return clusters;
+}
+
+function applyFirstBallCollision(simulation, ballUid, targetUid, now) {
+  const profile = simulation.bodyProfiles.get(ballUid);
+  if (profile?.objectType !== "attackBall" || profile.firstCollisionAt != null) return;
+  const body = simulation.bodies.get(ballUid);
+  if (!body) return;
+  profile.firstCollisionAt = now;
+  const currentVelocity = body.linvel();
+  const previousVelocity = simulation.previousVelocities.get(ballUid) || currentVelocity;
+  const launchDirection = normalizedVelocity(
+    speedOf(currentVelocity) > 0.01 ? currentVelocity : previousVelocity,
+    BALL_TUNING.firstCollisionSpeed,
+  );
+  if (launchDirection) body.setLinvel(launchDirection, true);
+  const angularVelocity = body.angvel();
+  body.setAngvel({
+    x: angularVelocity.x * BALL_TUNING.firstCollisionAngularMultiplier,
+    y: angularVelocity.y * BALL_TUNING.firstCollisionAngularMultiplier,
+    z: angularVelocity.z * BALL_TUNING.firstCollisionAngularMultiplier,
+  }, true);
+
+  if (!targetUid || !launchDirection) return;
+  for (const uid of simulation.blockClusters.get(targetUid) || []) {
+    simulation.bodies.get(uid)?.applyImpulse({
+      x: launchDirection.x * BALL_TUNING.firstCollisionShockwaveImpulse,
+      y: launchDirection.y * BALL_TUNING.firstCollisionShockwaveImpulse,
+      z: launchDirection.z * BALL_TUNING.firstCollisionShockwaveImpulse,
+    }, true);
+  }
+}
+
+function markImpactShatter(simulation, handle1, handle2, now) {
   const uid1 = simulation.colliderUids.get(handle1);
   const uid2 = simulation.colliderUids.get(handle2);
   if (!uid1 && !uid2) return;
@@ -83,10 +161,15 @@ function markImpactShatter(simulation, handle1, handle2) {
     // The scene floor is a destruction zone: every movable block that falls
     // off a platform shatters there, regardless of its archive material.
     for (const uid of [uid1, uid2]) {
-      if (uid && simulation.bodyProfiles.get(uid)?.objectType !== "attackBall") simulation.shattered.add(uid);
+      if (!uid) continue;
+      const profile = simulation.bodyProfiles.get(uid);
+      if (profile?.objectType === "attackBall") profile.expiresAt = now;
+      else simulation.shattered.add(uid);
     }
     return;
   }
+  applyFirstBallCollision(simulation, uid1, uid2, now);
+  applyFirstBallCollision(simulation, uid2, uid1, now);
   const speed1 = uid1 ? speedOf(simulation.previousVelocities.get(uid1) || { x: 0, y: 0, z: 0 }) : 0;
   const speed2 = uid2 ? speedOf(simulation.previousVelocities.get(uid2) || { x: 0, y: 0, z: 0 }) : 0;
   const impactSpeed = speed1 + speed2;
@@ -115,11 +198,12 @@ export function profileFor(item, catalog) {
 
 export async function createLevelPhysics(level, catalog) {
   await ensureRapier();
-  const world = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
+  const world = new RAPIER.World({ x: 0, y: -PHYSICS_TUNING.gravity, z: 0 });
   world.timestep = FIXED_STEP;
   const bodies = new Map();
   const bodyProfiles = new Map();
   const colliderUids = new Map();
+  const blockClusters = buildBlockClusters(level.objects || []);
 
   for (const item of level.objects || []) {
     const rotation = quaternionFor(item.rotation);
@@ -153,7 +237,8 @@ export async function createLevelPhysics(level, catalog) {
     }
     if (item.type === "attackBall") {
       const scale = Math.max(...normalizedSize(item.size));
-      const radius = 0.35 * scale;
+      const radius = BALL_TUNING.radius * scale;
+      const spawnedAt = 0;
       const body = world.createRigidBody(
         RAPIER.RigidBodyDesc.dynamic()
           .setTranslation(...item.position)
@@ -168,7 +253,13 @@ export async function createLevelPhysics(level, catalog) {
         body,
       ).handle;
       bodies.set(item.uid, body);
-      bodyProfiles.set(item.uid, { mass: 1, impactShatter: false, objectType: "attackBall" });
+      bodyProfiles.set(item.uid, {
+        mass: 1,
+        impactShatter: false,
+        objectType: "attackBall",
+        spawnedAt,
+        expiresAt: spawnedAt + BALL_TUNING.lifetime * 1000,
+      });
       colliderUids.set(colliderHandle, item.uid);
       continue;
     }
@@ -177,7 +268,10 @@ export async function createLevelPhysics(level, catalog) {
     const size = normalizedSize(item.size);
     const volume = shapeVolume(size, item.shapeId);
     const referenceVolume = shapeVolume(profile.size || [1, 1, 1], item.shapeId);
-    const mass = Math.max(0.001, Number(profile.mass || 1) * volume / Math.max(referenceVolume, 0.0001));
+    const mass = Math.max(
+      0.001,
+      Number(profile.mass || 1) * BLOCK_TUNING.catalogMassMultiplier * volume / Math.max(referenceVolume, 0.0001),
+    );
     const body = world.createRigidBody(
       RAPIER.RigidBodyDesc.dynamic()
         .setTranslation(...item.position)
@@ -185,7 +279,8 @@ export async function createLevelPhysics(level, catalog) {
         .setLinearDamping(0.12)
         .setAngularDamping(0.18)
         .setCcdEnabled(true)
-        .setCanSleep(true),
+        .setCanSleep(true)
+        .setSleeping(PHYSICS_TUNING.blocksStartSleeping),
     );
     const collider = blockCollider(item)
       .setDensity(mass / volume)
@@ -217,16 +312,21 @@ export async function createLevelPhysics(level, catalog) {
     const collider = body.collider(0);
     if (RAPIER.ActiveEvents?.COLLISION_EVENTS != null) collider.setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
   }
+  const prewarmSteps = Math.ceil(PHYSICS_TUNING.prewarmDuration / FIXED_STEP);
+  for (let step = 0; step < prewarmSteps; step += 1) world.step(eventQueue);
+  eventQueue.drainCollisionEvents(() => {});
   return {
     world,
     bodies,
     bodyProfiles,
     colliderUids,
+    blockClusters,
     groundColliderHandle,
     eventQueue,
     previousVelocities: new Map(),
     shattered: new Set(),
     removed: new Set(),
+    simulationTime: 0,
     accumulator: 0,
     lastTime: performance.now(),
     fixedStep: FIXED_STEP,
@@ -242,23 +342,41 @@ export function spawnAttackBall(simulation, cannon) {
     .add(localDirection.clone().multiplyScalar(1.1))
     .applyEuler(cannonRotation)
     .add(new THREE.Vector3().fromArray(cannon.position || [0, 0, 5]));
+  const randomAngularVelocity = new THREE.Vector3(
+    Math.random() * 2 - 1,
+    Math.random() * 2 - 1,
+    Math.random() * 2 - 1,
+  ).normalize().multiplyScalar(Math.random() * BALL_TUNING.launchRandomAngularSpeed);
   const uid = `attack-ball-runtime-${crypto.randomUUID()}`;
+  const spawnedAt = simulation.simulationTime;
   const body = simulation.world.createRigidBody(
     RAPIER.RigidBodyDesc.dynamic()
       .setTranslation(position.x, position.y, position.z)
-      .setLinvel(direction.x * 14, direction.y * 14, direction.z * 14)
-      .setLinearDamping(0.04)
+      .setLinvel(
+        direction.x * BALL_TUNING.launchSpeed,
+        direction.y * BALL_TUNING.launchSpeed,
+        direction.z * BALL_TUNING.launchSpeed,
+      )
+      .setAngvel(randomAngularVelocity)
+      .setLinearDamping(0)
       .setAngularDamping(0.06)
       .setCcdEnabled(true)
       .setCanSleep(true),
   );
   const colliderHandle = simulation.world.createCollider(
-    RAPIER.ColliderDesc.ball(0.35).setMass(1).setFriction(0.35).setRestitution(0.25),
+    RAPIER.ColliderDesc.ball(BALL_TUNING.radius).setMass(1).setFriction(0.35).setRestitution(0.25),
     body,
   ).handle;
   if (RAPIER.ActiveEvents?.COLLISION_EVENTS != null) body.collider(0).setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
   simulation.bodies.set(uid, body);
-  simulation.bodyProfiles.set(uid, { mass: 1, impactShatter: false, objectType: "attackBall", spawnedAt: performance.now() });
+  simulation.bodyProfiles.set(uid, {
+    mass: 1,
+    impactShatter: false,
+    objectType: "attackBall",
+    spawnedAt,
+    expiresAt: spawnedAt + BALL_TUNING.lifetime * 1000,
+    spawnPosition: position.toArray(),
+  });
   simulation.colliderUids.set(colliderHandle, uid);
   return {
     uid, type: "attackBall", name: "攻击球", area: cannon.area || "根关卡",
@@ -266,32 +384,86 @@ export function spawnAttackBall(simulation, cannon) {
   };
 }
 
+function removeSimulationBody(simulation, uid, body) {
+  const collider = body.collider(0);
+  if (collider) simulation.colliderUids.delete(collider.handle);
+  simulation.world.removeRigidBody(body);
+  simulation.bodies.delete(uid);
+  simulation.bodyProfiles.delete(uid);
+  simulation.previousVelocities.delete(uid);
+  simulation.removed.add(uid);
+}
+
+function updateAttackBall(simulation, uid, body, profile, now) {
+  let velocity = body.linvel();
+  let speed = speedOf(velocity);
+  if (speed > PHYSICS_TUNING.maxBallSpeed) {
+    const clamped = normalizedVelocity(velocity, PHYSICS_TUNING.maxBallSpeed);
+    body.setLinvel(clamped, true);
+    velocity = clamped;
+    speed = PHYSICS_TUNING.maxBallSpeed;
+  }
+
+  const position = body.translation();
+  const depthTravelled = Math.abs(position.z - Number(profile.spawnPosition?.[2] ?? position.z));
+  body.setLinearDamping(
+    BALL_TUNING.farDistanceDampingEnabled && depthTravelled >= BALL_TUNING.dampingDepth
+      ? BALL_TUNING.farDistanceDamping
+      : 0,
+  );
+
+  if (profile.firstCollisionAt != null) {
+    if (speed < BALL_TUNING.stationarySpeed) {
+      profile.stationarySince ??= now;
+      if (now - profile.stationarySince >= BALL_TUNING.stationaryDuration * 1000) {
+        profile.expiresAt = Math.min(
+          profile.expiresAt,
+          now + BALL_TUNING.stationaryRemainingLifetime * 1000,
+        );
+      }
+    } else {
+      profile.stationarySince = null;
+    }
+  }
+
+  const outOfBounds = position.y < PHYSICS_TUNING.fallHeight
+    || Math.abs(position.x) > PHYSICS_TUNING.horizontalHalfBoundary
+    || Math.abs(position.z) > PHYSICS_TUNING.depthHalfBoundary
+    || depthTravelled > BALL_TUNING.outOfBoundsDepth;
+  if (now >= profile.expiresAt || outOfBounds) removeSimulationBody(simulation, uid, body);
+}
+
 export function stepLevelPhysics(simulation, now) {
-  const elapsed = Math.min(Math.max((now - simulation.lastTime) / 1000, 0), 0.1);
+  const elapsed = Math.min(
+    Math.max((now - simulation.lastTime) / 1000, 0),
+    PHYSICS_TUNING.maxFrameCompensation,
+  );
   simulation.lastTime = now;
   simulation.accumulator += elapsed;
   let steps = 0;
-  while (simulation.accumulator >= simulation.fixedStep && steps < 6) {
+  const maxSteps = Math.ceil(PHYSICS_TUNING.maxFrameCompensation / simulation.fixedStep);
+  while (simulation.accumulator >= simulation.fixedStep && steps < maxSteps) {
     for (const [uid, body] of simulation.bodies) simulation.previousVelocities.set(uid, body.linvel());
     simulation.world.step(simulation.eventQueue);
+    simulation.simulationTime += simulation.fixedStep * 1000;
     simulation.eventQueue?.drainCollisionEvents((handle1, handle2, started) => {
-      if (started) markImpactShatter(simulation, handle1, handle2);
+      if (started) markImpactShatter(simulation, handle1, handle2, simulation.simulationTime);
     });
     simulation.accumulator -= simulation.fixedStep;
     steps += 1;
   }
   for (const [uid, body] of [...simulation.bodies]) {
     const profile = simulation.bodyProfiles.get(uid);
-    if (profile?.objectType !== "attackBall" || !profile.spawnedAt) continue;
+    if (profile?.objectType === "attackBall" && profile.spawnedAt != null) {
+      updateAttackBall(simulation, uid, body, profile, simulation.simulationTime);
+      continue;
+    }
     const position = body.translation();
-    if (now - profile.spawnedAt < 12000 && position.y > -12 && Math.hypot(position.x, position.z) < 120) continue;
-    const collider = body.collider(0);
-    if (collider) simulation.colliderUids.delete(collider.handle);
-    simulation.world.removeRigidBody(body);
-    simulation.bodies.delete(uid);
-    simulation.bodyProfiles.delete(uid);
-    simulation.previousVelocities.delete(uid);
-    simulation.removed.add(uid);
+    if (position.y < PHYSICS_TUNING.fallHeight
+      || Math.abs(position.x) > PHYSICS_TUNING.horizontalHalfBoundary
+      || Math.abs(position.z) > PHYSICS_TUNING.depthHalfBoundary) {
+      simulation.shattered.add(uid);
+    }
   }
 }
 
