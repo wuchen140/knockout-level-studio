@@ -322,8 +322,10 @@ button:disabled { cursor: not-allowed; opacity: .38; }
   .batch-toolbar { top: 105px; left: 7px; right: 7px; max-width: none; overflow-x: auto; transform: none; }
   .batch-toolbar strong { margin-right: auto; }
   .batch-toolbar::-webkit-scrollbar { display: none; }
-  .physics-toolbar { left: 7px; right: 7px; bottom: 36px; overflow-x: auto; transform: none; }
-  .physics-toolbar strong { margin-right: auto; }
+  .physics-toolbar { left: 7px; right: 7px; bottom: 36px; flex-wrap: wrap; justify-content: center; overflow: visible; transform: none; }
+  .physics-toolbar strong { min-width: 82px; margin: 0; }
+  .physics-toolbar .physics-force { flex: 1 1 150px; }
+  .physics-toolbar .physics-force input { width: 62px; }
   .physics-toolbar::-webkit-scrollbar { display: none; }
   .build-dialog-backdrop { padding: 10px; }
   .build-dialog > header { min-height: 56px; padding: 0 13px; }

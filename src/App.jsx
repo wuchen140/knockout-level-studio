@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
-  Box, BoxSelect, Check, ChevronDown, Copy, Download, FileJson, FolderOpen,
+  Box, BoxSelect, Check, ChevronDown, CircleDot, Copy, Crosshair, Download, FileJson, FolderOpen,
   Grid3X3, Layers3, Menu, Move3D, PanelLeftClose, PanelRightClose, Pause, Play,
   Plus, Redo2, Rotate3D, RotateCcw, Save, Scaling, Search, Sparkles, Trash2,
   Undo2, Upload, X,
@@ -11,6 +11,7 @@ import { exportLevelExcel, exportLevelJson } from "./exportExcel";
 
 const clone = (value) => structuredClone(value);
 const dataUrl = (path) => `${import.meta.env.BASE_URL}data/${path}`;
+const OBJECT_LABELS = { block: "方块", platform: "平台", cannon: "大炮", attackBall: "攻击球" };
 
 function historyReducer(state, action) {
   if (action.type === "RESET") return { past: [], present: action.value, future: [] };
@@ -113,8 +114,8 @@ function Inspector({ level, selected, catalog, onUpdate, onDelete, onDuplicate, 
     {!level ? <div className="empty-state"><Box size={28} /><span>正在载入关卡</span></div> : selected ? <div className="inspector-scroll">
       <div className="object-heading">
         <span className={`object-icon ${selected.type}`}><Box size={17} /></span>
-        <div><strong>{selected.name}</strong><small>{selected.type === "block" ? "方块" : "平台"} · {selected.area || "根关卡"}</small></div>
-        <IconButton title="复制对象" onClick={onDuplicate}><Copy size={15} /></IconButton>
+        <div><strong>{selected.name}</strong><small>{OBJECT_LABELS[selected.type] || "对象"} · {selected.area || "根关卡"}</small></div>
+        {selected.type !== "cannon" && <IconButton title="复制对象" onClick={onDuplicate}><Copy size={15} /></IconButton>}
         <IconButton title="删除对象" className="danger" onClick={onDelete}><Trash2 size={15} /></IconButton>
       </div>
       {selected.type === "block" && <>
@@ -124,9 +125,11 @@ function Inspector({ level, selected, catalog, onUpdate, onDelete, onDuplicate, 
           <div className="field-row color-row"><span>颜色</span><div className="swatches">{colorOptions.map((item) => <button key={item.colorId} className={selected.colorId === item.colorId ? "selected" : ""} title={item.name} style={{ "--swatch": item.hex }} onClick={() => onUpdate({ colorId: item.colorId, colorName: item.name })} />)}</div></div>
         </div>
       </>}
-      <VectorEditor title="位置" value={selected.position} onCommit={(position) => onUpdate({ position })} />
-      <VectorEditor title="旋转（度）" value={selected.rotation} step={1} onCommit={(rotation) => onUpdate({ rotation })} />
-      <VectorEditor title="尺寸" value={selected.size} min={0.05} onCommit={(size) => onUpdate({ size })} />
+      {selected.type === "cannon" ? <div className="profile-note"><span>固定发射装置</span><p>大炮固定在场景前方中央，不参与关卡 JSON 导出。</p></div> : <>
+        <VectorEditor title="位置" value={selected.position} onCommit={(position) => onUpdate({ position })} />
+        <VectorEditor title="旋转（度）" value={selected.rotation} step={1} onCommit={(rotation) => onUpdate({ rotation })} />
+        <VectorEditor title="尺寸" value={selected.size} min={0.05} onCommit={(size) => onUpdate({ size })} />
+      </>}
       {selected.type === "platform" && <div className="property-section"><div className="section-label">平台运动</div>
         <Toggle label="持续旋转" checked={Boolean(selected.motion?.rotating)} onChange={(rotating) => onUpdate({ motion: { ...selected.motion, rotating } })} />
         {selected.motion?.rotating && <NumberField label="旋转速度" value={selected.motion.rotationSpeed} step={1} onCommit={(rotationSpeed) => onUpdate({ motion: { ...selected.motion, rotationSpeed } })} />}
@@ -165,7 +168,7 @@ function LibraryApp() {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [toast, setToast] = useState("");
-  const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, impactForce: 10 });
+  const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, fireToken: 0, impactForce: 10 });
   const [physicsStatus, setPhysicsStatus] = useState("idle");
   const physicsTransformsRef = useRef([]);
   const importRef = useRef(null);
@@ -213,8 +216,8 @@ function LibraryApp() {
 
   const commit = useCallback((next) => dispatch({ type: "COMMIT", value: next }), []);
   const startPhysics = useCallback(() => {
-    if (!level?.objects.some((item) => item.type === "block")) {
-      notify("当前关卡没有可模拟的方块");
+    if (!level?.objects.some((item) => item.type === "block" || item.type === "attackBall" || item.type === "cannon")) {
+      notify("当前关卡没有可模拟对象");
       return;
     }
     physicsTransformsRef.current = [];
@@ -232,6 +235,9 @@ function LibraryApp() {
     physicsTransformsRef.current = [];
     setPhysicsStatus("loading");
     setPhysics((current) => ({ ...current, enabled: true, paused: false, resetToken: current.resetToken + 1 }));
+  }, []);
+  const fireCannon = useCallback(() => {
+    setPhysics((current) => ({ ...current, paused: false, fireToken: current.fireToken + 1 }));
   }, []);
   const applyPhysics = useCallback(() => {
     setPhysics((current) => ({ ...current, paused: true }));
@@ -274,23 +280,42 @@ function LibraryApp() {
 
   const addObject = useCallback((type) => {
     if (!level) return;
+    if (type === "cannon") {
+      const existing = level.objects.find((item) => item.type === "cannon");
+      if (existing) {
+        setSelectedId(existing.uid);
+        setRightOpen(true);
+        notify("当前关卡已经有一门固定大炮");
+        return;
+      }
+    }
     const next = clone(level);
     const uid = `${type}-custom-${crypto.randomUUID()}`;
     const count = next.objects.filter((item) => item.type === type).length + 1;
-    const item = type === "block" ? {
+    let item;
+    if (type === "block") item = {
       uid, type, name: `方块 ${count}`, area: "根关卡", stageIndex: null, platformIndex: null,
       waveIndex: null, shutterIndex: null, blockIndex: count, materialId: 0, materialName: "木头",
       shapeId: 0, shapeName: "方块", colorId: 0, colorName: "无", position: [0, 1, 0], rotation: [0, 0, 0], size: [1, 1, 1],
-    } : {
+    };
+    else if (type === "platform") item = {
       uid, type, name: `平台 ${count}`, area: "根关卡", path: `platforms/${count}`, stageIndex: null,
       platformIndex: count, position: [0, 0, 0], rotation: [0, 0, 0], size: [4, 1, 3],
       motion: { rotating: false, rotationSpeed: 0, horizontal: false, horizontalMin: 0, horizontalMax: 0, horizontalDirection: "Positive", horizontalSpeed: 0, vertical: false, verticalMin: 0, verticalMax: 0, verticalDirection: "Positive", verticalSpeed: 0 },
+    };
+    else if (type === "cannon") item = {
+      uid, type, name: "固定大炮", area: "根关卡", stageIndex: null,
+      position: [0, 0, 5], rotation: [0, 180, 0], size: [1, 1, 1], fixed: true,
+    };
+    else item = {
+      uid, type, name: `攻击球 ${count}`, area: "根关卡", stageIndex: null,
+      position: [0, 1.25, 3.25], rotation: [0, 0, 0], size: [1, 1, 1],
     };
     next.objects.push(item);
     commit(next);
     setSelectedId(uid);
     setRightOpen(true);
-  }, [level, commit]);
+  }, [level, commit, notify]);
 
   const deleteSelected = useCallback(() => {
     if (!level || !selectedId) return;
@@ -388,6 +413,7 @@ function LibraryApp() {
         <div className="add-toolbar">
           <button disabled={physics.enabled} onClick={() => addObject("block")}><Plus size={15} /><Box size={16} /><span>方块</span></button>
           <button disabled={physics.enabled} onClick={() => addObject("platform")}><Plus size={15} /><Layers3 size={16} /><span>平台</span></button>
+          <button disabled={physics.enabled} onClick={() => addObject("cannon")}><Crosshair size={16} /><span>大炮</span></button>
         </div>
         {physics.enabled && <div className="physics-toolbar" aria-label="物理预演工具">
           <strong><i className={physicsStatus} />{{ loading: "载入物理", running: "物理运行中", paused: "物理已暂停", error: "物理启动失败" }[physicsStatus] || "物理预演"}</strong>
@@ -397,13 +423,14 @@ function LibraryApp() {
             <b>{physics.impactForce}</b>
           </label>
           <button disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={() => setPhysics((current) => ({ ...current, paused: !current.paused }))}>{physics.paused ? <Play size={14} /> : <Pause size={14} />}{physics.paused ? "继续" : "暂停"}</button>
+          <button className="apply" disabled={physicsStatus === "loading" || physicsStatus === "error" || !level?.objects.some((item) => item.type === "cannon")} onClick={fireCannon}><CircleDot size={14} />开炮</button>
           <button disabled={physicsStatus === "loading"} onClick={resetPhysics}><RotateCcw size={14} />重置</button>
           <button className="apply" disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={applyPhysics}><Check size={14} />应用结果</button>
           <button onClick={exitPhysics}><X size={14} />退出</button>
         </div>}
         <div className="viewport-status">
           <span className={`status-dot ${dirty ? "dirty" : ""}`} />
-          <span>{physics.enabled ? ({ loading: "正在初始化物理", running: "重力与碰撞预演", paused: "物理预演已暂停", error: "物理引擎不可用" }[physicsStatus] || "物理预演") : selected ? `${selected.name} · ${selected.type === "block" ? selected.materialName : "平台"}` : "未选择对象"}</span>
+          <span>{physics.enabled ? ({ loading: "正在初始化物理", running: "重力与碰撞预演", paused: "物理预演已暂停", error: "物理引擎不可用" }[physicsStatus] || "物理预演") : selected ? `${selected.name} · ${selected.type === "block" ? selected.materialName : OBJECT_LABELS[selected.type] || "对象"}` : "未选择对象"}</span>
           <b>{level?.objects.length || 0} 对象</b>
         </div>
       </section>

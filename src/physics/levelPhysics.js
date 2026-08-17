@@ -82,7 +82,9 @@ function markImpactShatter(simulation, handle1, handle2) {
   if (groundHit) {
     // The scene floor is a destruction zone: every movable block that falls
     // off a platform shatters there, regardless of its archive material.
-    for (const uid of [uid1, uid2]) if (uid) simulation.shattered.add(uid);
+    for (const uid of [uid1, uid2]) {
+      if (uid && simulation.bodyProfiles.get(uid)?.objectType !== "attackBall") simulation.shattered.add(uid);
+    }
     return;
   }
   const speed1 = uid1 ? speedOf(simulation.previousVelocities.get(uid1) || { x: 0, y: 0, z: 0 }) : 0;
@@ -133,6 +135,41 @@ export async function createLevelPhysics(level, catalog) {
         .setFriction(0.78)
         .setRestitution(0.02);
       world.createCollider(collider, body);
+      continue;
+    }
+    if (item.type === "cannon") {
+      const size = normalizedSize(item.size);
+      const body = world.createRigidBody(
+        RAPIER.RigidBodyDesc.fixed().setTranslation(...item.position).setRotation(rotation),
+      );
+      world.createCollider(
+        RAPIER.ColliderDesc.cuboid(0.75 * size[0], 1.05 * size[1], 1.15 * size[2])
+          .setTranslation(0, 1.05 * size[1], -0.35 * size[2])
+          .setFriction(0.7)
+          .setRestitution(0),
+        body,
+      );
+      continue;
+    }
+    if (item.type === "attackBall") {
+      const scale = Math.max(...normalizedSize(item.size));
+      const radius = 0.35 * scale;
+      const body = world.createRigidBody(
+        RAPIER.RigidBodyDesc.dynamic()
+          .setTranslation(...item.position)
+          .setRotation(rotation)
+          .setLinearDamping(0.05)
+          .setAngularDamping(0.08)
+          .setCcdEnabled(true)
+          .setCanSleep(true),
+      );
+      const colliderHandle = world.createCollider(
+        RAPIER.ColliderDesc.ball(radius).setMass(1).setFriction(0.35).setRestitution(0.25),
+        body,
+      ).handle;
+      bodies.set(item.uid, body);
+      bodyProfiles.set(item.uid, { mass: 1, impactShatter: false, objectType: "attackBall" });
+      colliderUids.set(colliderHandle, item.uid);
       continue;
     }
     if (item.type !== "block") continue;
@@ -189,9 +226,43 @@ export async function createLevelPhysics(level, catalog) {
     eventQueue,
     previousVelocities: new Map(),
     shattered: new Set(),
+    removed: new Set(),
     accumulator: 0,
     lastTime: performance.now(),
     fixedStep: FIXED_STEP,
+  };
+}
+
+export function spawnAttackBall(simulation, cannon) {
+  if (!simulation || !cannon) return null;
+  const cannonRotation = new THREE.Euler(...(cannon.rotation || [0, 0, 0]).map(THREE.MathUtils.degToRad));
+  const localDirection = new THREE.Vector3(0, Math.sin(THREE.MathUtils.degToRad(8)), Math.cos(THREE.MathUtils.degToRad(8)));
+  const direction = localDirection.clone().applyEuler(cannonRotation).normalize();
+  const position = new THREE.Vector3(0, 1.1, 0.1)
+    .add(localDirection.clone().multiplyScalar(1.1))
+    .applyEuler(cannonRotation)
+    .add(new THREE.Vector3().fromArray(cannon.position || [0, 0, 5]));
+  const uid = `attack-ball-runtime-${crypto.randomUUID()}`;
+  const body = simulation.world.createRigidBody(
+    RAPIER.RigidBodyDesc.dynamic()
+      .setTranslation(position.x, position.y, position.z)
+      .setLinvel(direction.x * 14, direction.y * 14, direction.z * 14)
+      .setLinearDamping(0.04)
+      .setAngularDamping(0.06)
+      .setCcdEnabled(true)
+      .setCanSleep(true),
+  );
+  const colliderHandle = simulation.world.createCollider(
+    RAPIER.ColliderDesc.ball(0.35).setMass(1).setFriction(0.35).setRestitution(0.25),
+    body,
+  ).handle;
+  if (RAPIER.ActiveEvents?.COLLISION_EVENTS != null) body.collider(0).setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
+  simulation.bodies.set(uid, body);
+  simulation.bodyProfiles.set(uid, { mass: 1, impactShatter: false, objectType: "attackBall", spawnedAt: performance.now() });
+  simulation.colliderUids.set(colliderHandle, uid);
+  return {
+    uid, type: "attackBall", name: "攻击球", area: cannon.area || "根关卡",
+    position: position.toArray(), rotation: [0, 0, 0], size: [1, 1, 1], runtime: true,
   };
 }
 
@@ -208,6 +279,19 @@ export function stepLevelPhysics(simulation, now) {
     });
     simulation.accumulator -= simulation.fixedStep;
     steps += 1;
+  }
+  for (const [uid, body] of [...simulation.bodies]) {
+    const profile = simulation.bodyProfiles.get(uid);
+    if (profile?.objectType !== "attackBall" || !profile.spawnedAt) continue;
+    const position = body.translation();
+    if (now - profile.spawnedAt < 12000 && position.y > -12 && Math.hypot(position.x, position.z) < 120) continue;
+    const collider = body.collider(0);
+    if (collider) simulation.colliderUids.delete(collider.handle);
+    simulation.world.removeRigidBody(body);
+    simulation.bodies.delete(uid);
+    simulation.bodyProfiles.delete(uid);
+    simulation.previousVelocities.delete(uid);
+    simulation.removed.add(uid);
   }
 }
 

@@ -47,6 +47,10 @@ convert_mesh "platform-ball-3" "ball_3"
 convert_mesh "platform-ball-4" "ball_4"
 convert_mesh "platform-mid-gold" "mid_gold"
 convert_mesh "platform-bottom-gold" "bottom_gold"
+convert_mesh "cannon-base" "Cannon_Base"
+convert_mesh "cannon-counter" "Cannon_Counter"
+convert_mesh "cannon-stabilizer" "Cannon_Stabilizer"
+convert_mesh "attack-ball" "Ball"
 for length in 1 2 3; do
   convert_mesh "glass-shell-y${length}" "Jar_1x${length}_01_glass"
   convert_mesh "glass-lid-y${length}" "Jar_1x${length}_01_pieces"
@@ -94,6 +98,12 @@ magick "$texture_dir/smoothness_map_0.png" -alpha off -negate -resize "512x512>"
 resize_texture "shredder-color" "shredder_color_v15.png" 512
 resize_texture "shredder-emissive" "shredder_emission_v15.png" 512
 resize_texture "shredder-roughness" "shredder_smoothness.png" 512
+convert_unity_normal "cannon-base-normal" "Cannon1_Normal_OpenGL.png" 512
+convert_unity_normal "cannon-accessory-normal" "Cannon1_accesorie_Normal_OpenGL.png" 512
+resize_texture "cannon-base-occlusion" "cannon_base_occ.png" 512
+resize_texture "cannon-stabilizer-occlusion" "cannon_stabilizer_occ.png" 512
+resize_texture "attack-ball-color" "ball.png" 512
+convert_unity_normal "attack-ball-normal" "Ball_nrm.png" 512
 # Unity sprite scene_0 uses this bottom-left atlas rectangle. ImageMagick crops
 # from the top-left, so 4096 - 3862 = 234 is the corresponding Y offset.
 background_atlas="$texture_dir/sactx-0-4096x4096-ASTC 6x6-GameBackgroundAtlas-a419b31e.png"

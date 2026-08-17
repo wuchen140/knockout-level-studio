@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { TransformControls } from "three/addons/controls/TransformControls.js";
 import { assetSpecFor, loadGameModel, materialFor } from "../gameAssets.js";
-import { createLevelPhysics, disposeLevelPhysics, physicsTransforms, stepLevelPhysics } from "../physics/levelPhysics.js";
+import { createLevelPhysics, disposeLevelPhysics, physicsTransforms, spawnAttackBall, stepLevelPhysics } from "../physics/levelPhysics.js";
 
 const PLATFORM_COLOR = 0x59656a;
 const PLATFORM_PART_TRANSFORMS = {
@@ -15,6 +15,11 @@ const PLATFORM_PART_TRANSFORMS = {
   "platform-mid-gold": { position: [0, 0.56626093, 0] },
   "platform-bottom-gold": { position: [0, 0.11257279, 0] },
 };
+const CANNON_PART_TRANSFORMS = {
+  "cannon-base": { position: [0, 1.02, 0.1], quaternion: [0.25267732, 0, 0, 0.96755064] },
+  "cannon-counter": { position: [0, 0.694, 0.62], quaternion: [-0.17364825, 0, 0, 0.9848078] },
+  "cannon-stabilizer": { position: [0, 0.429, -1.725], quaternion: [-0.026131358, 0, 0, 0.9996585], scale: [0.95581, 0.95581, 0.95581] },
+};
 const DEFAULT_COLORS = {
   0: "#d8d2c6", 1: "#e57373", 2: "#fae58c", 3: "#64b5f6",
   4: "#81c784", 5: "#ffad66", 6: "#f48fb1", 7: "#b39ddb",
@@ -25,6 +30,13 @@ const GAME_GLASS_COLORS = {
 };
 
 function geometryFor(item) {
+  if (item.type === "attackBall") return new THREE.SphereGeometry(0.29, 28, 18);
+  if (item.type === "cannon") {
+    const geometry = new THREE.CylinderGeometry(0.55, 0.72, 2.3, 24);
+    geometry.rotateX(Math.PI / 2);
+    geometry.translate(0, 1.05, -0.35);
+    return geometry;
+  }
   if (item.type === "platform") {
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     // Platform coordinates describe the top surface in the source level data.
@@ -39,6 +51,8 @@ function geometryFor(item) {
 
 function colorFor(item, catalog) {
   if (item.type === "platform") return PLATFORM_COLOR;
+  if (item.type === "cannon") return 0x870001;
+  if (item.type === "attackBall") return 0xffffff;
   if (item.materialId === 4 && GAME_GLASS_COLORS[item.colorId]) return GAME_GLASS_COLORS[item.colorId];
   const match = catalog?.colors?.find((color) => color.materialId === item.materialId && color.colorId === item.colorId)
     || catalog?.colors?.find((color) => color.colorId === item.colorId);
@@ -87,7 +101,17 @@ function stopPhysics(api, level) {
   disposeLevelPhysics(api.physicsSimulation);
   api.physicsSimulation = null;
   api.physicsEnabled = false;
+  clearRuntimeObjects(api);
   restoreConfiguredTransforms(api, level);
+}
+
+function clearRuntimeObjects(api) {
+  for (const object of [...api.objectGroup.children]) {
+    if (!object.userData.runtime) continue;
+    api.objectGroup.remove(object);
+    api.objectsById.delete(object.userData.objectId);
+    disposeGroup(object);
+  }
 }
 
 function applyConfiguredSize(object, size) {
@@ -111,6 +135,8 @@ function makeEditableObject(item, catalog) {
   const root = new THREE.Group();
   root.name = item.name;
   root.userData.objectId = item.uid;
+  root.userData.locked = item.type === "cannon" || item.type === "attackBall";
+  root.userData.runtime = Boolean(item.runtime);
   root.userData.nominalSize = [1, 1, 1];
   root.position.fromArray(item.position);
   root.rotation.set(...item.rotation.map(THREE.MathUtils.degToRad));
@@ -157,6 +183,27 @@ function modelVisual(model, spec, item, catalog) {
         const variant = key === "platform-pipe" ? "blue"
           : key === "platform-table" && meshIndex > 0 ? "red" : "gold";
         node.userData.ownsGeometry = false;
+        node.material = materialFor(spec, null, variant);
+        node.castShadow = true;
+        node.receiveShadow = true;
+        meshIndex += 1;
+      });
+    }
+  } else if (spec.material === "cannon") {
+    const parts = [...visual.children];
+    const base = parts.find((part) => part.userData.assetPart === "cannon-base");
+    for (const part of parts) {
+      const key = part.userData.assetPart;
+      const transform = CANNON_PART_TRANSFORMS[key];
+      if (key === "cannon-counter" && base) base.add(part);
+      if (transform?.position) part.position.fromArray(transform.position);
+      if (transform?.quaternion) part.quaternion.fromArray(transform.quaternion);
+      if (transform?.scale) part.scale.fromArray(transform.scale);
+      let meshIndex = 0;
+      part.traverse((node) => {
+        if (!node.isMesh) return;
+        node.userData.ownsGeometry = false;
+        const variant = key === "cannon-stabilizer" ? "beige" : meshIndex === 0 ? "red" : "gold";
         node.material = materialFor(spec, null, variant);
         node.castShadow = true;
         node.receiveShadow = true;
@@ -337,6 +384,15 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
       const simulation = apiRef.current?.physicsSimulation;
       if (simulation && !simulation.paused) {
         stepLevelPhysics(simulation, now);
+        for (const uid of simulation.removed) {
+          const object = apiRef.current.objectsById.get(uid);
+          if (object) {
+            apiRef.current.objectGroup.remove(object);
+            apiRef.current.objectsById.delete(uid);
+            disposeGroup(object);
+          }
+        }
+        simulation.removed.clear();
         for (const [uid, body] of simulation.bodies) {
           const object = apiRef.current.objectsById.get(uid);
           if (!object) continue;
@@ -428,6 +484,26 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
 
   useEffect(() => {
     const api = apiRef.current;
+    const token = Number(physics?.fireToken || 0);
+    if (!api || !api.physicsSimulation || token <= (api.lastFireToken || 0)) return;
+    api.lastFireToken = token;
+    const cannon = (level?.objects || []).find((item) => item.type === "cannon");
+    const projectile = spawnAttackBall(api.physicsSimulation, cannon);
+    if (!projectile) return;
+    const { root, spec } = makeEditableObject(projectile, catalog);
+    api.objectGroup.add(root);
+    api.objectsById.set(projectile.uid, root);
+    loadGameModel(spec).then((model) => {
+      if (!root.parent) return;
+      disposeGroup(root);
+      root.userData.nominalSize = spec.nominalSize;
+      applyConfiguredSize(root, projectile.size);
+      root.add(modelVisual(model, spec, projectile, catalog));
+    }).catch((error) => console.warn("攻击球模型加载失败", error));
+  }, [physics?.fireToken, level, catalog]);
+
+  useEffect(() => {
+    const api = apiRef.current;
     if (!api || !level) return;
     let cancelled = false;
     disposeLevelPhysics(api.physicsSimulation);
@@ -472,7 +548,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     for (const object of api.objectGroup.children) {
       const active = activeIds.includes(object.userData.objectId);
       setSelected(object, active);
-      if (active) activeObjects.push(object);
+      if (active && !object.userData.locked) activeObjects.push(object);
     }
     if (activeObjects.length === 1) api.transform.attach(activeObjects[0]);
     if (activeObjects.length > 1) {

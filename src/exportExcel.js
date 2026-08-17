@@ -85,7 +85,9 @@ export function formatLevelJson(level) {
   const root = pick(level, [
     "id", "moveCount", "difficultyValue", "progressionCount", "firstProgressionLevel", "counts",
   ]);
-  root.objects = (level.objects || []).map((item) => item.type === "platform"
+  root.objects = (level.objects || [])
+    .filter((item) => item.type !== "cannon" && item.type !== "attackBall")
+    .map((item) => item.type === "platform"
     ? pick(item, ["type", "name", "area", "stageIndex", "platformIndex", "position", "rotation", "size", "motion"])
     : pick(item, [
       "type", "name", "area", "stageIndex", "platformIndex", "waveIndex", "shutterIndex", "blockIndex",
