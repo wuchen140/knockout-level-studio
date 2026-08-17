@@ -71,14 +71,27 @@ def vector(row, names):
 
 def quaternion_to_euler_degrees(q):
     x, y, z, w = q
-    sinr_cosp = 2 * (w * x + y * z)
-    cosr_cosp = 1 - 2 * (x * x + y * y)
-    rx = math.atan2(sinr_cosp, cosr_cosp)
-    sinp = 2 * (w * y - z * x)
-    ry = math.copysign(math.pi / 2, sinp) if abs(sinp) >= 1 else math.asin(sinp)
-    siny_cosp = 2 * (w * z + x * y)
-    cosy_cosp = 1 - 2 * (y * y + z * z)
-    rz = math.atan2(siny_cosp, cosy_cosp)
+    length = math.sqrt(x * x + y * y + z * z + w * w)
+    if length == 0:
+        return [0, 0, 0]
+    x, y, z, w = (value / length for value in (x, y, z, w))
+    # Match THREE.Euler.setFromQuaternion(q, "XYZ"). The previous formula
+    # produced ZYX roll-pitch-yaw values that Three.js interpreted as XYZ.
+    m11 = 1 - 2 * (y * y + z * z)
+    m12 = 2 * (x * y - z * w)
+    m13 = 2 * (x * z + y * w)
+    m22 = 1 - 2 * (x * x + z * z)
+    m23 = 2 * (y * z - x * w)
+    m32 = 2 * (y * z + x * w)
+    m33 = 1 - 2 * (x * x + y * y)
+
+    ry = math.asin(max(-1, min(1, m13)))
+    if abs(m13) < 0.9999999:
+        rx = math.atan2(-m23, m33)
+        rz = math.atan2(-m12, m11)
+    else:
+        rx = math.atan2(m32, m22)
+        rz = 0
     return [round(math.degrees(value), 4) for value in (rx, ry, rz)]
 
 
