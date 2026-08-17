@@ -1,13 +1,14 @@
 import * as THREE from "three";
 
 const FIXED_STEP = 1 / 60;
-const MATERIAL_PHYSICS = {
-  0: { density: 0.7, friction: 0.68, restitution: 0.05 },
-  1: { density: 2.2, friction: 0.8, restitution: 0.02 },
-  2: { density: 3.2, friction: 0.5, restitution: 0.06 },
-  3: { density: 0.9, friction: 0.035, restitution: 0.03 },
-  4: { density: 1.25, friction: 0.32, restitution: 0.1 },
-  5: { density: 0.85, friction: 0.45, restitution: 0.16 },
+const FALLBACK_PROFILE = {
+  mass: 1,
+  staticFriction: 0.4,
+  dynamicFriction: 0.4,
+  physicsMaterial: "BlockPhysic_s0.4_d0.4",
+  impactShatter: false,
+  shatterThreshold: 8,
+  fragmentVelocityMultiplier: 0.15,
 };
 
 let rapierReady;
@@ -27,18 +28,70 @@ function quaternionFor(rotation = [0, 0, 0]) {
   return { x: quaternion.x, y: quaternion.y, z: quaternion.z, w: quaternion.w };
 }
 
+function normalizedSize(size = [1, 1, 1]) {
+  return size.map((value) => Math.max(0.05, Number(value) || 1));
+}
+
+function cylinderAxis(size) {
+  const [width, height, depth] = size;
+  if (width > height && width >= depth) return 0;
+  if (depth > height && depth > width) return 2;
+  return 1;
+}
+
+function shapeVolume(size, shapeId) {
+  const [width, height, depth] = normalizedSize(size);
+  if (shapeId === 1) {
+    const axis = cylinderAxis([width, height, depth]);
+    const dimensions = [width, height, depth];
+    const length = dimensions[axis];
+    const radius = Math.max(...dimensions.filter((_, index) => index !== axis)) / 2;
+    return Math.PI * radius * radius * length;
+  }
+  if (shapeId === 2) return Math.PI * (Math.max(width, depth) / 2) ** 2 * height / 3;
+  return width * height * depth;
+}
+
 function blockCollider(item) {
-  const [width, height, depth] = item.size.map((value) => Math.max(0.05, value));
-  if (item.shapeId === 1) return RAPIER.ColliderDesc.cylinder(height / 2, Math.max(width, depth) / 2);
+  const [width, height, depth] = normalizedSize(item.size);
+  if (item.shapeId === 1) {
+    const axis = cylinderAxis([width, height, depth]);
+    const dimensions = [width, height, depth];
+    const length = dimensions[axis];
+    const radius = Math.max(...dimensions.filter((_, index) => index !== axis)) / 2;
+    const collider = RAPIER.ColliderDesc.cylinder(length / 2, radius);
+    // Rapier cylinders are aligned to local Y. Unity also uses the longest
+    // scale axis as the cylinder axis for the horizontal column variants.
+    if (axis === 0) collider.setRotation({ x: 0, y: 0, z: Math.SQRT1_2, w: Math.SQRT1_2 });
+    if (axis === 2) collider.setRotation({ x: -Math.SQRT1_2, y: 0, z: 0, w: Math.SQRT1_2 });
+    return collider;
+  }
   if (item.shapeId === 2) return RAPIER.ColliderDesc.cone(height / 2, Math.max(width, depth) / 2);
   return RAPIER.ColliderDesc.cuboid(width / 2, height / 2, depth / 2);
 }
 
-export async function createLevelPhysics(level) {
+function sameSize(left, right) {
+  return left?.length === right?.length && left.every((value, index) => Math.abs(Number(value) - Number(right[index])) < 0.01);
+}
+
+export function profileFor(item, catalog) {
+  const profiles = catalog?.profiles || [];
+  const exact = profiles.find((profile) => profile.materialId === item.materialId && profile.shapeId === item.shapeId && sameSize(profile.size, item.size));
+  if (exact) return exact;
+  const candidates = profiles.filter((profile) => profile.materialId === item.materialId && profile.shapeId === item.shapeId);
+  if (!candidates.length) return FALLBACK_PROFILE;
+  return candidates.reduce((closest, profile) => {
+    const distance = profile.size.reduce((total, value, index) => total + Math.abs(Number(value) - Number(item.size?.[index] || 1)), 0);
+    return distance < closest.distance ? { profile, distance } : closest;
+  }, { profile: candidates[0], distance: Infinity }).profile;
+}
+
+export async function createLevelPhysics(level, catalog) {
   await ensureRapier();
   const world = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
   world.timestep = FIXED_STEP;
   const bodies = new Map();
+  const bodyProfiles = new Map();
 
   for (const item of level.objects || []) {
     const rotation = quaternionFor(item.rotation);
@@ -57,7 +110,11 @@ export async function createLevelPhysics(level) {
       continue;
     }
     if (item.type !== "block") continue;
-    const material = MATERIAL_PHYSICS[item.materialId] || MATERIAL_PHYSICS[0];
+    const profile = profileFor(item, catalog);
+    const size = normalizedSize(item.size);
+    const volume = shapeVolume(size, item.shapeId);
+    const referenceVolume = shapeVolume(profile.size || [1, 1, 1], item.shapeId);
+    const mass = Math.max(0.001, Number(profile.mass || 1) * volume / Math.max(referenceVolume, 0.0001));
     const body = world.createRigidBody(
       RAPIER.RigidBodyDesc.dynamic()
         .setTranslation(...item.position)
@@ -68,14 +125,17 @@ export async function createLevelPhysics(level) {
         .setCanSleep(true),
     );
     const collider = blockCollider(item)
-      .setDensity(material.density)
-      .setFriction(material.friction)
-      .setRestitution(material.restitution);
+      .setDensity(mass / volume)
+      .setFriction(Number(profile.dynamicFriction ?? profile.staticFriction ?? FALLBACK_PROFILE.dynamicFriction))
+      // The archive defines static/dynamic friction but no bounciness. Unity's
+      // block materials therefore behave as non-bouncy contacts in the preview.
+      .setRestitution(0);
     world.createCollider(collider, body);
     bodies.set(item.uid, body);
+    bodyProfiles.set(item.uid, { ...profile, mass });
   }
 
-  return { world, bodies, accumulator: 0, lastTime: performance.now(), fixedStep: FIXED_STEP };
+  return { world, bodies, bodyProfiles, accumulator: 0, lastTime: performance.now(), fixedStep: FIXED_STEP };
 }
 
 export function stepLevelPhysics(simulation, now) {

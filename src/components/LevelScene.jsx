@@ -386,7 +386,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     api.physicsSimulation = null;
     restoreConfiguredTransforms(api, level);
     physicsStatusCallbackRef.current?.("loading");
-    createLevelPhysics(level).then((simulation) => {
+    createLevelPhysics(level, catalog).then((simulation) => {
       if (cancelled || !apiRef.current || !physics?.enabled) {
         disposeLevelPhysics(simulation);
         return;
@@ -403,7 +403,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
       physicsStatusCallbackRef.current?.("error");
     });
     return () => { cancelled = true; };
-  }, [physics?.enabled, physics?.resetToken, level?.key]);
+  }, [physics?.enabled, physics?.resetToken, level?.key, catalog]);
 
   useEffect(() => {
     const simulation = apiRef.current?.physicsSimulation;
