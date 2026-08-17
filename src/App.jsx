@@ -159,7 +159,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState("translate");
   const [showGrid, setShowGrid] = useState(false);
-  const [cameraCommand, setCameraCommand] = useState({ preset: "iso", token: 0 });
+  const [cameraCommand, setCameraCommand] = useState({ preset: "front", token: 0 });
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [toast, setToast] = useState("");
@@ -197,7 +197,7 @@ export default function App() {
       }
       dispatch({ type: "RESET", value: next });
       setSavedSnapshot(stored || JSON.stringify(data));
-      setCameraCommand((current) => ({ preset: "iso", token: current.token + 1 }));
+      setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
       setLoading(false);
     }).catch((error) => { if (error.name !== "AbortError") notify("关卡载入失败"); });
     return () => controller.abort();

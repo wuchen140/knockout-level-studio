@@ -328,9 +328,13 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
     const distance = Math.max(size.length() * 1.05, 8);
+    const primaryPlatform = level.objects?.find((item) => item.type === "platform" && item.area === "根关卡")
+      || level.objects?.find((item) => item.type === "platform");
+    const levelYaw = THREE.MathUtils.degToRad(primaryPlatform?.rotation?.[1] || 0);
+    const frontDirection = new THREE.Vector3(0, 0.25, 1).applyAxisAngle(new THREE.Vector3(0, 1, 0), levelYaw);
     const direction = {
       top: new THREE.Vector3(0, 1, 0.001),
-      front: new THREE.Vector3(0, 0.25, 1),
+      front: frontDirection,
       side: new THREE.Vector3(1, 0.25, 0),
       iso: new THREE.Vector3(0.8, 0.65, 1),
     }[cameraCommand.preset] || new THREE.Vector3(0.8, 0.65, 1);
