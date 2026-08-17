@@ -55,6 +55,18 @@ function disposeGroup(group) {
   }
 }
 
+function releaseSelectionGroup(api) {
+  if (!api?.selectionGroup?.children.length) return;
+  api.transform.detach();
+  api.selectionGroup.updateMatrixWorld(true);
+  api.objectGroup.updateMatrixWorld(true);
+  for (const object of [...api.selectionGroup.children]) api.objectGroup.attach(object);
+  api.selectionGroup.position.set(0, 0, 0);
+  api.selectionGroup.rotation.set(0, 0, 0);
+  api.selectionGroup.scale.set(1, 1, 1);
+  api.selectionGroup.updateMatrixWorld(true);
+}
+
 function applyConfiguredSize(object, size) {
   const nominal = object.userData.nominalSize || [1, 1, 1];
   object.scale.set(...size.map((value, index) => Math.max(0.05, value) / Math.max(nominal[index], 0.0001)));
@@ -145,16 +157,20 @@ function modelVisual(model, spec, item, catalog) {
   return visual;
 }
 
-export default function LevelScene({ level, catalog, selectedId, onSelect, onTransform, mode, showGrid, cameraCommand, snap }) {
+export default function LevelScene({ level, catalog, selectedId, selectedIds, onSelect, onTransform, onTransformBatch, mode, showGrid, cameraCommand, snap }) {
   const mountRef = useRef(null);
   const apiRef = useRef(null);
   const transformSnapshot = useRef(null);
   const transformCallbackRef = useRef(onTransform);
+  const batchTransformCallbackRef = useRef(onTransformBatch);
   const selectCallbackRef = useRef(onSelect);
   const selectedRef = useRef(selectedId);
+  const selectedIdsRef = useRef(selectedIds || (selectedId ? [selectedId] : []));
   transformCallbackRef.current = onTransform;
+  batchTransformCallbackRef.current = onTransformBatch;
   selectCallbackRef.current = onSelect;
   selectedRef.current = selectedId;
+  selectedIdsRef.current = selectedIds || (selectedId ? [selectedId] : []);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -183,11 +199,34 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     transform.addEventListener("dragging-changed", (event) => { orbit.enabled = !event.value; });
     transform.addEventListener("mouseDown", () => {
       const object = transform.object;
-      transformSnapshot.current = object ? object.userData.objectId : null;
+      transformSnapshot.current = object === apiRef.current?.selectionGroup
+        ? object.children.map((child) => child.userData.objectId)
+        : object?.userData.objectId || null;
     });
     transform.addEventListener("mouseUp", () => {
       const object = transform.object;
       if (!object || !transformSnapshot.current) return;
+      if (object === apiRef.current?.selectionGroup && Array.isArray(transformSnapshot.current)) {
+        const changes = [];
+        object.updateMatrixWorld(true);
+        objectGroup.updateMatrixWorld(true);
+        for (const child of [...object.children]) {
+          objectGroup.attach(child);
+          const nominal = child.userData.nominalSize || [1, 1, 1];
+          changes.push({
+            uid: child.userData.objectId,
+            position: child.position.toArray().map((value) => Number(value.toFixed(4))),
+            rotation: [child.rotation.x, child.rotation.y, child.rotation.z].map((value) => Number(THREE.MathUtils.radToDeg(value).toFixed(3))),
+            size: child.scale.toArray().map((value, index) => Number(Math.max(0.05, value * nominal[index]).toFixed(4))),
+          });
+        }
+        object.position.set(0, 0, 0);
+        object.rotation.set(0, 0, 0);
+        object.scale.set(1, 1, 1);
+        batchTransformCallbackRef.current?.(changes);
+        transformSnapshot.current = null;
+        return;
+      }
       const nominal = object.userData.nominalSize || [1, 1, 1];
       transformCallbackRef.current?.(object.userData.objectId, {
         position: object.position.toArray().map((value) => Number(value.toFixed(4))),
@@ -227,6 +266,9 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
 
     const objectGroup = new THREE.Group();
     scene.add(objectGroup);
+    const selectionGroup = new THREE.Group();
+    selectionGroup.name = "批量选择枢轴";
+    scene.add(selectionGroup);
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
 
@@ -236,10 +278,10 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
       pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(pointer, camera);
-      const hit = raycaster.intersectObjects(objectGroup.children, true)[0];
+      const hit = raycaster.intersectObjects([...objectGroup.children, ...selectionGroup.children], true)[0];
       let selected = hit?.object || null;
       while (selected && !selected.userData.objectId) selected = selected.parent;
-      selectCallbackRef.current?.(selected?.userData?.objectId || null);
+      selectCallbackRef.current?.(selected?.userData?.objectId || null, { additive: event.shiftKey || event.metaKey || event.ctrlKey });
     };
     renderer.domElement.addEventListener("pointerdown", onPointerDown);
 
@@ -261,12 +303,13 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
       frame = requestAnimationFrame(animate);
     };
     animate();
-    apiRef.current = { scene, camera, renderer, orbit, transform, objectGroup, grid, ground };
+    apiRef.current = { scene, camera, renderer, orbit, transform, objectGroup, selectionGroup, grid, ground };
 
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
       renderer.domElement.removeEventListener("pointerdown", onPointerDown);
+      releaseSelectionGroup(apiRef.current);
       disposeGroup(objectGroup);
       transform.dispose();
       orbit.dispose();
@@ -280,6 +323,7 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     const api = apiRef.current;
     if (!api || !level) return;
     let cancelled = false;
+    releaseSelectionGroup(api);
     api.transform.detach();
     disposeGroup(api.objectGroup);
     const platformFloor = Math.min(
@@ -298,7 +342,7 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
         root.userData.nominalSize = spec.nominalSize;
         applyConfiguredSize(root, item.size);
         root.add(modelVisual(model, spec, item, catalog));
-        setSelected(root, root.userData.objectId === selectedRef.current);
+        setSelected(root, selectedIdsRef.current.includes(root.userData.objectId));
       }).catch((error) => {
         console.warn(`游戏模型加载失败: ${spec.key}`, error);
       });
@@ -309,13 +353,27 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
   useEffect(() => {
     const api = apiRef.current;
     if (!api) return;
+    releaseSelectionGroup(api);
     api.transform.detach();
+    const activeIds = selectedIds || (selectedId ? [selectedId] : []);
+    const activeObjects = [];
     for (const object of api.objectGroup.children) {
-      const active = object.userData.objectId === selectedId;
+      const active = activeIds.includes(object.userData.objectId);
       setSelected(object, active);
-      if (active) api.transform.attach(object);
+      if (active) activeObjects.push(object);
     }
-  }, [selectedId, level]);
+    if (activeObjects.length === 1) api.transform.attach(activeObjects[0]);
+    if (activeObjects.length > 1) {
+      const bounds = new THREE.Box3();
+      for (const object of activeObjects) bounds.expandByObject(object);
+      api.selectionGroup.position.copy(bounds.getCenter(new THREE.Vector3()));
+      api.selectionGroup.rotation.set(0, 0, 0);
+      api.selectionGroup.scale.set(1, 1, 1);
+      api.selectionGroup.updateMatrixWorld(true);
+      for (const object of activeObjects) api.selectionGroup.attach(object);
+      api.transform.attach(api.selectionGroup);
+    }
+  }, [selectedId, selectedIds, level]);
 
   useEffect(() => { apiRef.current?.transform.setMode(mode); }, [mode]);
   useEffect(() => { if (apiRef.current) apiRef.current.grid.visible = showGrid; }, [showGrid]);
@@ -331,6 +389,7 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     const api = apiRef.current;
     if (!api || !level || !cameraCommand) return;
     const box = new THREE.Box3().setFromObject(api.objectGroup);
+    if (api.selectionGroup.children.length) box.expandByObject(api.selectionGroup);
     if (box.isEmpty()) return;
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());

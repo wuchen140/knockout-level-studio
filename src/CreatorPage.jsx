@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
   ArrowLeft, Box, Check, Copy, Download, FileJson, Grid3X3, Layers3,
-  Move3D, Plus, Redo2, Rotate3D, Save, Scaling, Sparkles, Trash2,
+  MousePointer2, Move3D, Plus, Redo2, Rotate3D, Save, Scaling, Sparkles, Trash2,
   Undo2, Upload, X,
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
@@ -134,14 +134,51 @@ function patternPoints(pattern, size) {
   ])).flat();
 }
 
-function CreatorInspector({ level, selected, catalog, activeStage, onUpdate, onDelete, onDuplicate, onLevelUpdate, open }) {
+function BatchInspector({ selectedItems, onApply, onDelete, onDuplicate, onSelectAll, onSelectSameMaterial, onClear }) {
+  const [offset, setOffset] = useState([0, 0, 0]);
+  const [rotation, setRotation] = useState([0, 0, 0]);
+  const [scale, setScale] = useState([1, 1, 1]);
+  const vectorFields = (value, setValue, step = 0.5) => <div className="vector-grid">{value.map((item, index) => <NumberField key={index} label={["X", "Y", "Z"][index]} value={item} step={step} onCommit={(next) => { const vector = [...value]; vector[index] = next; setValue(vector); }} />)}</div>;
+
+  return <div className="inspector-scroll batch-inspector">
+    <div className="object-heading">
+      <span className="object-icon"><MousePointer2 size={17} /></span>
+      <div><strong>{selectedItems.length} 个对象</strong><small>共享变换枢轴</small></div>
+      <IconButton title="批量复制" onClick={onDuplicate}><Copy size={15} /></IconButton>
+      <IconButton title="批量删除" className="danger" onClick={onDelete}><Trash2 size={15} /></IconButton>
+    </div>
+    <div className="property-section vector-section">
+      <div className="section-label">批量位移</div>
+      {vectorFields(offset, setOffset)}
+      <button className="batch-apply" onClick={() => { onApply({ offset }); setOffset([0, 0, 0]); }}><Move3D size={14} />应用位移</button>
+    </div>
+    <div className="property-section vector-section">
+      <div className="section-label">批量旋转增量（度）</div>
+      {vectorFields(rotation, setRotation, 5)}
+      <button className="batch-apply" onClick={() => { onApply({ rotation }); setRotation([0, 0, 0]); }}><Rotate3D size={14} />应用旋转</button>
+    </div>
+    <div className="property-section vector-section">
+      <div className="section-label">批量缩放倍数</div>
+      {vectorFields(scale, setScale, 0.1)}
+      <button className="batch-apply" onClick={() => { onApply({ scale }); setScale([1, 1, 1]); }}><Scaling size={14} />应用缩放</button>
+    </div>
+    <div className="property-section batch-selection-actions"><div className="section-label">选择工具</div>
+      <button onClick={onSelectAll}>全选方块</button>
+      <button disabled={selectedItems.at(-1)?.type !== "block"} onClick={onSelectSameMaterial}>同材质</button>
+      <button onClick={onClear}>清空选择</button>
+    </div>
+  </div>;
+}
+
+function CreatorInspector({ level, selected, selectedItems, catalog, activeStage, onUpdate, onDelete, onDuplicate, onLevelUpdate, onBatchApply, onSelectAll, onSelectSameMaterial, onClearSelection, open }) {
   const materials = useMemo(() => [...new Map((catalog?.profiles || []).map((item) => [item.materialId, item.material])).entries()].map(([id, name]) => ({ id, name })), [catalog]);
   const shapes = useMemo(() => [...new Map((catalog?.profiles || []).map((item) => [item.shapeId, item.shape])).entries()].map(([id, name]) => ({ id, name })), [catalog]);
   const colors = useMemo(() => [...new Map((catalog?.colors || []).map((item) => [item.colorId, item])).values()].sort((a, b) => a.colorId - b.colorId), [catalog]);
 
+  const multiple = selectedItems.length > 1;
   return <aside className={`creator-properties ${open ? "open" : ""}`}>
-    <div className="creator-panel-title"><div><strong>{selected ? "对象属性" : "关卡设置"}</strong><small>{selected ? selected.name : activeStage.name}</small></div></div>
-    {selected ? <div className="inspector-scroll">
+    <div className="creator-panel-title"><div><strong>{multiple ? "批量编辑" : selected ? "对象属性" : "关卡设置"}</strong><small>{multiple ? `${selectedItems.length} 个对象` : selected ? selected.name : activeStage.name}</small></div></div>
+    {multiple ? <BatchInspector selectedItems={selectedItems} onApply={onBatchApply} onDelete={onDelete} onDuplicate={onDuplicate} onSelectAll={onSelectAll} onSelectSameMaterial={onSelectSameMaterial} onClear={onClearSelection} /> : selected ? <div className="inspector-scroll">
       <div className="object-heading">
         <span className={`object-icon ${selected.type}`}><Box size={17} /></span>
         <div><strong>{selected.name}</strong><small>{selected.type === "block" ? "方块" : "平台"} · {activeStage.name}</small></div>
@@ -185,7 +222,8 @@ export default function CreatorPage() {
     return { past: [], present: blankLevel(), future: [] };
   });
   const [activeStageKey, setActiveStageKey] = useState("root");
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [multiSelect, setMultiSelect] = useState(false);
   const [mode, setMode] = useState("translate");
   const [showGrid, setShowGrid] = useState(true);
   const [snapEnabled, setSnapEnabled] = useState(true);
@@ -203,7 +241,10 @@ export default function CreatorPage() {
   const activeStage = stages.find((stage) => stage.key === activeStageKey) || stages[0];
   const stageObjects = level.objects.filter((item) => (item.stageIndex ?? null) === (activeStage.stageIndex ?? null));
   const visibleLevel = { ...level, key: `${level.key}:${activeStage.key}`, objects: stageObjects };
-  const selected = level.objects.find((item) => item.uid === selectedId) || null;
+  const selectedItems = selectedIds.map((uid) => level.objects.find((item) => item.uid === uid)).filter(Boolean);
+  const selectedId = selectedIds.at(-1) || null;
+  const selected = selectedItems.length === 1 ? selectedItems[0] : null;
+  const primarySelected = selectedItems.at(-1) || null;
   const dirty = JSON.stringify(level) !== savedSnapshot;
 
   const materials = useMemo(() => [...new Map((catalog?.profiles || []).map((item) => [item.materialId, item.material])).entries()].map(([id, name]) => ({ id, name })), [catalog]);
@@ -211,6 +252,13 @@ export default function CreatorPage() {
   const colors = useMemo(() => [...new Map((catalog?.colors || []).map((item) => [item.colorId, item])).values()].sort((a, b) => a.colorId - b.colorId), [catalog]);
 
   useEffect(() => { fetch(dataUrl("catalog.json")).then((response) => response.json()).then(setCatalog).catch(() => setToast("模型目录载入失败")); }, []);
+  useEffect(() => {
+    const liveIds = new Set(level.objects.map((item) => item.uid));
+    setSelectedIds((current) => {
+      const valid = current.filter((uid) => liveIds.has(uid));
+      return valid.length === current.length ? current : valid;
+    });
+  }, [history.present.objects]);
   const notify = useCallback((message) => {
     setToast(message);
     window.clearTimeout(notify.timer);
@@ -219,27 +267,80 @@ export default function CreatorPage() {
   const commit = useCallback((next) => dispatch({ type: "COMMIT", value: withCounts(next) }), []);
 
   const updateSelected = useCallback((changes) => {
-    if (!selectedId) return;
+    if (!selected) return;
     const next = clone(level);
-    const item = next.objects.find((object) => object.uid === selectedId);
+    const item = next.objects.find((object) => object.uid === selected.uid);
     if (item) Object.assign(item, changes);
     commit(next);
-  }, [level, selectedId, commit]);
+  }, [level, selected, commit]);
   const updateLevel = useCallback((changes) => commit({ ...level, ...changes }), [level, commit]);
   const deleteSelected = useCallback(() => {
-    if (!selectedId) return;
-    commit({ ...level, objects: level.objects.filter((item) => item.uid !== selectedId) });
-    setSelectedId(null);
-  }, [level, selectedId, commit]);
+    if (!selectedIds.length) return;
+    const ids = new Set(selectedIds);
+    commit({ ...level, objects: level.objects.filter((item) => !ids.has(item.uid)) });
+    setSelectedIds([]);
+  }, [level, selectedIds, commit]);
   const duplicateSelected = useCallback(() => {
-    if (!selected) return;
-    const copy = clone(selected);
-    copy.uid = `${copy.type}-custom-${crypto.randomUUID()}`;
-    copy.name = `${copy.name} 副本`;
-    copy.position = [copy.position[0] + snapSize, copy.position[1] + snapSize, copy.position[2]];
-    commit({ ...level, objects: [...level.objects, copy] });
-    setSelectedId(copy.uid);
-  }, [level, selected, snapSize, commit]);
+    if (!selectedItems.length) return;
+    let blockIndex = level.objects.filter((item) => item.type === "block").length;
+    let platformIndex = level.objects.filter((item) => item.type === "platform").length;
+    const copies = selectedItems.map((item) => {
+      const copy = clone(item);
+      copy.uid = `${copy.type}-custom-${crypto.randomUUID()}`;
+      copy.name = `${copy.name} 副本`;
+      copy.position = [copy.position[0] + snapSize, copy.position[1] + snapSize, copy.position[2]];
+      if (copy.type === "block") copy.blockIndex = ++blockIndex;
+      if (copy.type === "platform") copy.platformIndex = ++platformIndex;
+      return copy;
+    });
+    commit({ ...level, objects: [...level.objects, ...copies] });
+    setSelectedIds(copies.map((item) => item.uid));
+  }, [level, selectedItems, snapSize, commit]);
+
+  const applyBatch = useCallback(({ offset, rotation, scale }) => {
+    if (selectedItems.length < 2) return;
+    const ids = new Set(selectedIds);
+    const next = clone(level);
+    for (const item of next.objects) {
+      if (!ids.has(item.uid)) continue;
+      if (offset) item.position = item.position.map((value, index) => Number((value + offset[index]).toFixed(4)));
+      if (rotation) item.rotation = item.rotation.map((value, index) => Number((value + rotation[index]).toFixed(3)));
+      if (scale) item.size = item.size.map((value, index) => Number(Math.max(0.05, value * scale[index]).toFixed(4)));
+    }
+    commit(next);
+  }, [level, selectedIds, selectedItems.length, commit]);
+
+  const updateTransformBatch = useCallback((changes) => {
+    if (!changes?.length) return;
+    const next = clone(level);
+    const byId = new Map(changes.map((change) => [change.uid, change]));
+    for (const item of next.objects) {
+      const change = byId.get(item.uid);
+      if (change) Object.assign(item, { position: change.position, rotation: change.rotation, size: change.size });
+    }
+    commit(next);
+  }, [level, commit]);
+
+  const selectAllBlocks = useCallback(() => setSelectedIds(stageObjects.filter((item) => item.type === "block").map((item) => item.uid)), [stageObjects]);
+  const selectSameMaterial = useCallback(() => {
+    if (primarySelected?.type !== "block") return;
+    setSelectedIds(stageObjects.filter((item) => item.type === "block" && item.materialId === primarySelected.materialId).map((item) => item.uid));
+  }, [stageObjects, primarySelected]);
+
+  const handleSceneSelect = useCallback((uid, options = {}) => {
+    const additive = multiSelect || options.additive;
+    if (!uid) {
+      if (!additive) setSelectedIds([]);
+      return;
+    }
+    if (additive) {
+      setSelectedIds((current) => current.includes(uid) ? current.filter((item) => item !== uid) : [...current, uid]);
+      return;
+    }
+    setSelectedIds([uid]);
+    setPropertiesOpen(true);
+    setToolsOpen(false);
+  }, [multiSelect]);
 
   const addPattern = useCallback((pattern) => {
     const points = patternPoints(pattern, palette.size);
@@ -259,7 +360,7 @@ export default function CreatorPage() {
       position, rotation: [0, 0, 0], size: [...palette.size],
     }));
     commit({ ...level, objects: [...level.objects, ...blocks] });
-    setSelectedId(blocks.at(-1)?.uid || null);
+    setSelectedIds(blocks.at(-1) ? [blocks.at(-1).uid] : []);
     setCameraCommand((current) => ({ ...current, token: current.token + 1 }));
     notify(`已生成 ${blocks.length} 个方块`);
   }, [level, palette, materials, shapes, colors, activeStage, commit, notify]);
@@ -268,7 +369,7 @@ export default function CreatorPage() {
     const index = level.objects.filter((item) => item.type === "platform").length + 1;
     const item = makePlatform(activeStage.stageIndex, index);
     commit({ ...level, objects: [...level.objects, item] });
-    setSelectedId(item.uid);
+    setSelectedIds([item.uid]);
     setCameraCommand((current) => ({ ...current, token: current.token + 1 }));
   }, [level, activeStage, commit]);
 
@@ -278,7 +379,7 @@ export default function CreatorPage() {
     const stage = { key: `stage-${stageIndex}`, name: `子关卡 ${stageIndex}`, stageIndex };
     commit({ ...level, stages: [...stages, stage], objects: [...level.objects, makePlatform(stageIndex, level.counts.platforms + 1)] });
     setActiveStageKey(stage.key);
-    setSelectedId(null);
+    setSelectedIds([]);
     setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
   }, [level, stages, commit]);
 
@@ -287,13 +388,13 @@ export default function CreatorPage() {
     const nextStages = stages.filter((stage) => stage.key !== activeStage.key);
     commit({ ...level, stages: nextStages, objects: level.objects.filter((item) => item.stageIndex !== activeStage.stageIndex) });
     setActiveStageKey("root");
-    setSelectedId(null);
+    setSelectedIds([]);
   }, [level, stages, activeStage, commit]);
 
   const clearStage = useCallback(() => {
     if (!window.confirm(`清空${activeStage.name}中的全部方块？平台会保留。`)) return;
     commit({ ...level, objects: level.objects.filter((item) => (item.stageIndex ?? null) !== (activeStage.stageIndex ?? null) || item.type === "platform") });
-    setSelectedId(null);
+    setSelectedIds([]);
   }, [level, activeStage, commit]);
 
   const save = useCallback(() => {
@@ -309,7 +410,7 @@ export default function CreatorPage() {
     const next = blankLevel(Number(level.id) + 1);
     dispatch({ type: "RESET", value: next });
     setActiveStageKey("root");
-    setSelectedId(null);
+    setSelectedIds([]);
     setSavedSnapshot("");
     setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
   }, [dirty, level.id]);
@@ -323,7 +424,7 @@ export default function CreatorPage() {
       if (!Array.isArray(data.objects)) throw new Error("invalid");
       dispatch({ type: "RESET", value: data });
       setActiveStageKey(data.stages[0].key);
-      setSelectedId(null);
+      setSelectedIds([]);
       setSavedSnapshot("");
       notify("关卡 JSON 已载入");
     } catch { notify("不是有效的关卡 JSON"); }
@@ -332,6 +433,7 @@ export default function CreatorPage() {
   useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === "Escape" && buildPattern) { setBuildPattern(null); return; }
+      if (event.key === "Escape") { setSelectedIds([]); setMultiSelect(false); return; }
       const command = event.metaKey || event.ctrlKey;
       if (command && event.key.toLowerCase() === "s") { event.preventDefault(); save(); }
       if (command && event.key.toLowerCase() === "z") { event.preventDefault(); dispatch({ type: event.shiftKey ? "REDO" : "UNDO" }); }
@@ -372,7 +474,7 @@ export default function CreatorPage() {
         <div className="stage-list">
           {stages.map((stage) => {
             const count = level.objects.filter((item) => (item.stageIndex ?? null) === (stage.stageIndex ?? null) && item.type === "block").length;
-            return <button key={stage.key} className={stage.key === activeStage.key ? "active" : ""} onClick={() => { setActiveStageKey(stage.key); setSelectedId(null); setCameraCommand((current) => ({ preset: "front", token: current.token + 1 })); }}><span><Layers3 size={15} />{stage.name}</span><b>{count}</b></button>;
+            return <button key={stage.key} className={stage.key === activeStage.key ? "active" : ""} onClick={() => { setActiveStageKey(stage.key); setSelectedIds([]); setCameraCommand((current) => ({ preset: "front", token: current.token + 1 })); }}><span><Layers3 size={15} />{stage.name}</span><b>{count}</b></button>;
           })}
         </div>
         <div className="stage-actions">
@@ -389,12 +491,13 @@ export default function CreatorPage() {
       </aside>
 
       <section className="viewport creator-viewport">
-        <LevelScene level={visibleLevel} catalog={catalog} selectedId={selectedId} onSelect={(uid) => { setSelectedId(uid); if (uid) { setPropertiesOpen(true); setToolsOpen(false); } }} onTransform={(uid, changes) => { const next = clone(level); const item = next.objects.find((object) => object.uid === uid); if (item) Object.assign(item, changes); commit(next); }} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} snap={{ enabled: snapEnabled, translation: snapSize, rotation: 15, scale: snapSize }} />
+        <LevelScene level={visibleLevel} catalog={catalog} selectedId={selectedId} selectedIds={selectedIds} onSelect={handleSceneSelect} onTransform={(uid, changes) => { const next = clone(level); const item = next.objects.find((object) => object.uid === uid); if (item) Object.assign(item, changes); commit(next); }} onTransformBatch={updateTransformBatch} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} snap={{ enabled: snapEnabled, translation: snapSize, rotation: 15, scale: snapSize }} />
         <div className="scene-toolbar" aria-label="场景工具">
           <IconButton title="移动" active={mode === "translate"} onClick={() => setMode("translate")}><Move3D size={18} /></IconButton>
           <IconButton title="旋转" active={mode === "rotate"} onClick={() => setMode("rotate")}><Rotate3D size={18} /></IconButton>
           <IconButton title="缩放" active={mode === "scale"} onClick={() => setMode("scale")}><Scaling size={18} /></IconButton>
           <span />
+          <IconButton title="多选对象" active={multiSelect} onClick={() => setMultiSelect((value) => !value)}><MousePointer2 size={18} /></IconButton>
           <IconButton title="显示网格" active={showGrid} onClick={() => setShowGrid((value) => !value)}><Grid3X3 size={18} /></IconButton>
           <button className={`snap-toggle ${snapEnabled ? "active" : ""}`} onClick={() => setSnapEnabled((value) => !value)}>吸附</button>
           <select className="snap-select" value={snapSize} disabled={!snapEnabled} onChange={(event) => setSnapSize(Number(event.target.value))}><option value="0.25">0.25</option><option value="0.5">0.5</option><option value="1">1</option></select>
@@ -402,14 +505,22 @@ export default function CreatorPage() {
         <div className="camera-toolbar">
           {[["iso", "透视"], ["front", "正视"], ["back", "背视图"], ["side", "侧视"], ["top", "顶视"]].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}
         </div>
+        {(multiSelect || selectedItems.length > 1) && <div className="batch-toolbar" aria-label="批量选择工具">
+          <strong>{selectedItems.length} 已选</strong>
+          <button onClick={selectAllBlocks}>全选方块</button>
+          <button disabled={primarySelected?.type !== "block"} onClick={selectSameMaterial}>同材质</button>
+          <button disabled={!selectedItems.length} onClick={duplicateSelected}>复制</button>
+          <button disabled={!selectedItems.length} className="danger" onClick={deleteSelected}>删除</button>
+          <IconButton title="清空选择" onClick={() => setSelectedIds([])}><X size={15} /></IconButton>
+        </div>}
         <div className="viewport-status">
           <span className={`status-dot ${dirty ? "dirty" : ""}`} />
-          <span>{activeStage.name} · {selected ? selected.name : "点击对象进行编辑"}</span>
+          <span>{activeStage.name} · {selectedItems.length > 1 ? `${selectedItems.length} 个对象已选` : selected ? selected.name : multiSelect ? "多选模式" : "点击对象进行编辑"}</span>
           <b>{stageObjects.length} 对象 · 网格 {snapEnabled ? snapSize : "关闭"}</b>
         </div>
       </section>
 
-      <CreatorInspector level={level} selected={selected} catalog={catalog} activeStage={activeStage} onUpdate={updateSelected} onDelete={deleteSelected} onDuplicate={duplicateSelected} onLevelUpdate={updateLevel} open={propertiesOpen} />
+      <CreatorInspector level={level} selected={selected} selectedItems={selectedItems} catalog={catalog} activeStage={activeStage} onUpdate={updateSelected} onDelete={deleteSelected} onDuplicate={duplicateSelected} onLevelUpdate={updateLevel} onBatchApply={applyBatch} onSelectAll={selectAllBlocks} onSelectSameMaterial={selectSameMaterial} onClearSelection={() => setSelectedIds([])} open={propertiesOpen} />
       {(toolsOpen || propertiesOpen) && <button className="creator-mobile-scrim" aria-label="关闭面板" onClick={() => { setToolsOpen(false); setPropertiesOpen(false); }} />}
     </main>
     {pendingPattern && <div className="build-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setBuildPattern(null); }}>
