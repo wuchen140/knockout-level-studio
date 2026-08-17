@@ -80,11 +80,9 @@ function markImpactShatter(simulation, handle1, handle2) {
   if (!uid1 && !uid2) return;
   const groundHit = handle1 === simulation.groundColliderHandle || handle2 === simulation.groundColliderHandle;
   if (groundHit) {
-    // A breakable object falling off a platform and reaching the scene floor
-    // is a game-meaningful impact even if the final contact speed is damped.
-    for (const uid of [uid1, uid2]) {
-      if (uid && simulation.bodyProfiles.get(uid)?.impactShatter) simulation.shattered.add(uid);
-    }
+    // The scene floor is a destruction zone: every movable block that falls
+    // off a platform shatters there, regardless of its archive material.
+    for (const uid of [uid1, uid2]) if (uid) simulation.shattered.add(uid);
     return;
   }
   const speed1 = uid1 ? speedOf(simulation.previousVelocities.get(uid1) || { x: 0, y: 0, z: 0 }) : 0;
