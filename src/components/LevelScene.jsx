@@ -328,9 +328,16 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
     const distance = Math.max(size.length() * 1.05, 8);
-    const primaryPlatform = level.objects?.find((item) => item.type === "platform" && item.area === "根关卡")
-      || level.objects?.find((item) => item.type === "platform");
-    const levelYaw = THREE.MathUtils.degToRad(primaryPlatform?.rotation?.[1] || 0);
+    const rootPlatforms = level.objects?.filter((item) => item.type === "platform" && item.area === "根关卡") || [];
+    const platforms = rootPlatforms.length ? rootPlatforms : level.objects?.filter((item) => item.type === "platform") || [];
+    const heading = platforms.reduce((sum, platform) => {
+      const yaw = THREE.MathUtils.degToRad(platform.rotation?.[1] || 0);
+      const weight = Math.max(Math.abs((platform.size?.[0] || 1) * (platform.size?.[2] || 1)), 0.001);
+      sum.sin += Math.sin(yaw) * weight;
+      sum.cos += Math.cos(yaw) * weight;
+      return sum;
+    }, { sin: 0, cos: 0 });
+    const levelYaw = platforms.length ? Math.atan2(heading.sin, heading.cos) : 0;
     const frontDirection = new THREE.Vector3(0, 0.25, 1).applyAxisAngle(new THREE.Vector3(0, 1, 0), levelYaw);
     const direction = {
       top: new THREE.Vector3(0, 1, 0.001),
