@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "r
 import {
   Box, BoxSelect, Check, ChevronDown, Copy, Download, FileJson, FolderOpen,
   Grid3X3, Layers3, Menu, Move3D, PanelLeftClose, PanelRightClose, Plus,
-  Redo2, Rotate3D, Save, Scaling, Search, Trash2, Undo2, Upload, X,
+  Redo2, Rotate3D, Save, Scaling, Search, Sparkles, Trash2, Undo2, Upload, X,
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
+import CreatorPage from "./CreatorPage";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
 
 const clone = (value) => structuredClone(value);
@@ -149,7 +150,7 @@ function Inspector({ level, selected, catalog, onUpdate, onDelete, onDuplicate, 
   </aside>;
 }
 
-export default function App() {
+function LibraryApp() {
   const [index, setIndex] = useState([]);
   const [catalog, setCatalog] = useState(null);
   const [chosen, setChosen] = useState(null);
@@ -301,6 +302,7 @@ export default function App() {
       <IconButton title="打开关卡库" className="sidebar-toggle" onClick={() => setLeftOpen(true)}><Menu size={18} /></IconButton>
       <div className="current-level"><span>{level ? `关卡 ${level.id}` : "载入中"}</span><small>{level?.category || "配置数据"}</small>{dirty && <i title="有未保存修改" />}</div>
       <div className="topbar-spacer" />
+      <a className="command-button creator-link" href={`${import.meta.env.BASE_URL}?view=creator`}><Sparkles size={16} /><span>新建关卡</span></a>
       <div className="history-tools">
         <IconButton title="撤销" disabled={!history.past.length} onClick={() => dispatch({ type: "UNDO" })}><Undo2 size={17} /></IconButton>
         <IconButton title="重做" disabled={!history.future.length} onClick={() => dispatch({ type: "REDO" })}><Redo2 size={17} /></IconButton>
@@ -346,4 +348,8 @@ export default function App() {
     </main>
     {toast && <div className="toast"><Check size={16} />{toast}</div>}
   </div>;
+}
+
+export default function App() {
+  return new URLSearchParams(window.location.search).get("view") === "creator" ? <CreatorPage /> : <LibraryApp />;
 }

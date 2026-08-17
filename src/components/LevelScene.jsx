@@ -145,7 +145,7 @@ function modelVisual(model, spec, item, catalog) {
   return visual;
 }
 
-export default function LevelScene({ level, catalog, selectedId, onSelect, onTransform, mode, showGrid, cameraCommand }) {
+export default function LevelScene({ level, catalog, selectedId, onSelect, onTransform, mode, showGrid, cameraCommand, snap }) {
   const mountRef = useRef(null);
   const apiRef = useRef(null);
   const transformSnapshot = useRef(null);
@@ -319,6 +319,13 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
 
   useEffect(() => { apiRef.current?.transform.setMode(mode); }, [mode]);
   useEffect(() => { if (apiRef.current) apiRef.current.grid.visible = showGrid; }, [showGrid]);
+  useEffect(() => {
+    const transform = apiRef.current?.transform;
+    if (!transform) return;
+    transform.setTranslationSnap(snap?.enabled ? snap.translation : null);
+    transform.setRotationSnap(snap?.enabled ? THREE.MathUtils.degToRad(snap.rotation) : null);
+    transform.setScaleSnap(snap?.enabled ? snap.scale : null);
+  }, [snap?.enabled, snap?.translation, snap?.rotation, snap?.scale]);
 
   useEffect(() => {
     const api = apiRef.current;
