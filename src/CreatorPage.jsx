@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
   ArrowLeft, Box, Check, Copy, Download, FileJson, Grid3X3, Layers3,
-  MousePointer2, Move3D, Plus, Redo2, Rotate3D, Save, Scaling, Sparkles, Trash2,
-  Undo2, Upload, X,
+  MousePointer2, Move3D, Pause, Play, Plus, Redo2, Rotate3D, RotateCcw, Save,
+  Scaling, Sparkles, Trash2, Undo2, Upload, X,
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
@@ -235,12 +235,15 @@ export default function CreatorPage() {
   const [palette, setPalette] = useState({ materialId: 0, shapeId: 0, colorId: 1, size: [1, 1, 1] });
   const [savedSnapshot, setSavedSnapshot] = useState(() => localStorage.getItem("knockout:creator:draft") || "");
   const [toast, setToast] = useState("");
+  const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0 });
+  const [physicsStatus, setPhysicsStatus] = useState("idle");
+  const physicsTransformsRef = useRef([]);
   const importRef = useRef(null);
-  const level = withCounts(history.present);
+  const level = useMemo(() => withCounts(history.present), [history.present]);
   const stages = level.stages;
   const activeStage = stages.find((stage) => stage.key === activeStageKey) || stages[0];
-  const stageObjects = level.objects.filter((item) => (item.stageIndex ?? null) === (activeStage.stageIndex ?? null));
-  const visibleLevel = { ...level, key: `${level.key}:${activeStage.key}`, objects: stageObjects };
+  const stageObjects = useMemo(() => level.objects.filter((item) => (item.stageIndex ?? null) === (activeStage.stageIndex ?? null)), [level.objects, activeStage.stageIndex]);
+  const visibleLevel = useMemo(() => ({ ...level, key: `${level.key}:${activeStage.key}`, objects: stageObjects }), [level, activeStage.key, stageObjects]);
   const selectedItems = selectedIds.map((uid) => level.objects.find((item) => item.uid === uid)).filter(Boolean);
   const selectedId = selectedIds.at(-1) || null;
   const selected = selectedItems.length === 1 ? selectedItems[0] : null;
@@ -265,6 +268,51 @@ export default function CreatorPage() {
     notify.timer = window.setTimeout(() => setToast(""), 2200);
   }, []);
   const commit = useCallback((next) => dispatch({ type: "COMMIT", value: withCounts(next) }), []);
+
+  const startPhysics = useCallback(() => {
+    if (!stageObjects.some((item) => item.type === "block")) {
+      notify("当前关卡没有可模拟的方块");
+      return;
+    }
+    physicsTransformsRef.current = [];
+    setSelectedIds([]);
+    setMultiSelect(false);
+    setToolsOpen(false);
+    setPropertiesOpen(false);
+    setPhysics((current) => ({ enabled: true, paused: false, resetToken: current.resetToken + 1 }));
+  }, [stageObjects, notify]);
+
+  const exitPhysics = useCallback(() => {
+    setPhysics((current) => ({ ...current, enabled: false, paused: false }));
+    setPhysicsStatus("idle");
+    physicsTransformsRef.current = [];
+  }, []);
+
+  const resetPhysics = useCallback(() => {
+    physicsTransformsRef.current = [];
+    setPhysicsStatus("loading");
+    setPhysics((current) => ({ enabled: true, paused: false, resetToken: current.resetToken + 1 }));
+  }, []);
+
+  const applyPhysics = useCallback(() => {
+    setPhysics((current) => ({ ...current, paused: true }));
+    window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+      if (!physicsTransformsRef.current.length) return;
+      const transforms = new Map(physicsTransformsRef.current.map((item) => [item.uid, item]));
+      const next = clone(level);
+      for (const item of next.objects) {
+        const transform = transforms.get(item.uid);
+        if (!transform) continue;
+        item.position = transform.position;
+        item.rotation = transform.rotation;
+      }
+      commit(next);
+      setPhysics((current) => ({ ...current, enabled: false, paused: false }));
+      setPhysicsStatus("idle");
+      physicsTransformsRef.current = [];
+      notify("物理落位结果已应用");
+    }));
+  }, [level, commit, notify]);
 
   const updateSelected = useCallback((changes) => {
     if (!selected) return;
@@ -433,9 +481,11 @@ export default function CreatorPage() {
   useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === "Escape" && buildPattern) { setBuildPattern(null); return; }
+      if (event.key === "Escape" && physics.enabled) { exitPhysics(); return; }
       if (event.key === "Escape") { setSelectedIds([]); setMultiSelect(false); return; }
       const command = event.metaKey || event.ctrlKey;
       if (command && event.key.toLowerCase() === "s") { event.preventDefault(); save(); }
+      if (physics.enabled) return;
       if (command && event.key.toLowerCase() === "z") { event.preventDefault(); dispatch({ type: event.shiftKey ? "REDO" : "UNDO" }); }
       if (command && event.key.toLowerCase() === "y") { event.preventDefault(); dispatch({ type: "REDO" }); }
       if ((event.key === "Delete" || event.key === "Backspace") && !["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement?.tagName)) deleteSelected();
@@ -443,23 +493,23 @@ export default function CreatorPage() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [save, deleteSelected, duplicateSelected, buildPattern]);
+  }, [save, deleteSelected, duplicateSelected, buildPattern, physics.enabled, exitPhysics]);
 
   const pendingPattern = PATTERNS.find((pattern) => pattern.key === buildPattern);
   const pendingCount = buildPattern ? patternPoints(buildPattern, palette.size).length : 0;
 
-  return <div className="app-shell creator-shell">
+  return <div className={`app-shell creator-shell ${physics.enabled ? "physics-active" : ""}`}>
     <header className="topbar creator-topbar">
       <a className="icon-button" title="返回关卡浏览" aria-label="返回关卡浏览" href={import.meta.env.BASE_URL}><ArrowLeft size={18} /></a>
       <div className="brand-mark creator-brand"><span><Sparkles size={18} /></span><div><strong>新关卡编辑器</strong><small>LEVEL CREATOR</small></div></div>
       <div className="current-level"><span>关卡 {level.id}</span><small>{activeStage.name}</small>{dirty && <i title="有未保存修改" />}</div>
       <div className="topbar-spacer" />
       <div className="history-tools">
-        <IconButton title="撤销" disabled={!history.past.length} onClick={() => dispatch({ type: "UNDO" })}><Undo2 size={17} /></IconButton>
-        <IconButton title="重做" disabled={!history.future.length} onClick={() => dispatch({ type: "REDO" })}><Redo2 size={17} /></IconButton>
+        <IconButton title="撤销" disabled={physics.enabled || !history.past.length} onClick={() => dispatch({ type: "UNDO" })}><Undo2 size={17} /></IconButton>
+        <IconButton title="重做" disabled={physics.enabled || !history.future.length} onClick={() => dispatch({ type: "REDO" })}><Redo2 size={17} /></IconButton>
       </div>
-      <button className="command-button secondary" onClick={resetLevel}><Plus size={16} /><span>新建</span></button>
-      <button className="command-button secondary" onClick={() => importRef.current?.click()}><Upload size={16} /><span>导入</span></button>
+      <button className="command-button secondary" disabled={physics.enabled} onClick={resetLevel}><Plus size={16} /><span>新建</span></button>
+      <button className="command-button secondary" disabled={physics.enabled} onClick={() => importRef.current?.click()}><Upload size={16} /><span>导入</span></button>
       <input ref={importRef} type="file" accept="application/json,.json" hidden onChange={importJson} />
       <button className="command-button secondary" onClick={() => exportLevelExcel(withCounts(level))}><Download size={16} /><span>Excel</span></button>
       <IconButton title="导出 JSON" onClick={() => exportLevelJson(withCounts(level))}><FileJson size={16} /></IconButton>
@@ -491,16 +541,18 @@ export default function CreatorPage() {
       </aside>
 
       <section className="viewport creator-viewport">
-        <LevelScene level={visibleLevel} catalog={catalog} selectedId={selectedId} selectedIds={selectedIds} onSelect={handleSceneSelect} onTransform={(uid, changes) => { const next = clone(level); const item = next.objects.find((object) => object.uid === uid); if (item) Object.assign(item, changes); commit(next); }} onTransformBatch={updateTransformBatch} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} snap={{ enabled: snapEnabled, translation: snapSize, rotation: 15, scale: snapSize }} />
+        <LevelScene level={visibleLevel} catalog={catalog} selectedId={selectedId} selectedIds={selectedIds} onSelect={handleSceneSelect} onTransform={(uid, changes) => { const next = clone(level); const item = next.objects.find((object) => object.uid === uid); if (item) Object.assign(item, changes); commit(next); }} onTransformBatch={updateTransformBatch} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} snap={{ enabled: snapEnabled, translation: snapSize, rotation: 15, scale: snapSize }} physics={physics} onPhysicsUpdate={(transforms) => { physicsTransformsRef.current = transforms; }} onPhysicsStatus={setPhysicsStatus} />
         <div className="scene-toolbar" aria-label="场景工具">
-          <IconButton title="移动" active={mode === "translate"} onClick={() => setMode("translate")}><Move3D size={18} /></IconButton>
-          <IconButton title="旋转" active={mode === "rotate"} onClick={() => setMode("rotate")}><Rotate3D size={18} /></IconButton>
-          <IconButton title="缩放" active={mode === "scale"} onClick={() => setMode("scale")}><Scaling size={18} /></IconButton>
+          <IconButton title="移动" disabled={physics.enabled} active={mode === "translate"} onClick={() => setMode("translate")}><Move3D size={18} /></IconButton>
+          <IconButton title="旋转" disabled={physics.enabled} active={mode === "rotate"} onClick={() => setMode("rotate")}><Rotate3D size={18} /></IconButton>
+          <IconButton title="缩放" disabled={physics.enabled} active={mode === "scale"} onClick={() => setMode("scale")}><Scaling size={18} /></IconButton>
           <span />
-          <IconButton title="多选对象" active={multiSelect} onClick={() => setMultiSelect((value) => !value)}><MousePointer2 size={18} /></IconButton>
+          <IconButton title="多选对象" disabled={physics.enabled} active={multiSelect} onClick={() => setMultiSelect((value) => !value)}><MousePointer2 size={18} /></IconButton>
           <IconButton title="显示网格" active={showGrid} onClick={() => setShowGrid((value) => !value)}><Grid3X3 size={18} /></IconButton>
-          <button className={`snap-toggle ${snapEnabled ? "active" : ""}`} onClick={() => setSnapEnabled((value) => !value)}>吸附</button>
-          <select className="snap-select" value={snapSize} disabled={!snapEnabled} onChange={(event) => setSnapSize(Number(event.target.value))}><option value="0.25">0.25</option><option value="0.5">0.5</option><option value="1">1</option></select>
+          <button className={`snap-toggle ${snapEnabled ? "active" : ""}`} disabled={physics.enabled} onClick={() => setSnapEnabled((value) => !value)}>吸附</button>
+          <select className="snap-select" value={snapSize} disabled={physics.enabled || !snapEnabled} onChange={(event) => setSnapSize(Number(event.target.value))}><option value="0.25">0.25</option><option value="0.5">0.5</option><option value="1">1</option></select>
+          <span />
+          <button className={`physics-launch ${physics.enabled ? "active" : ""}`} disabled={physics.enabled} title="让当前关卡方块按重力和碰撞运行" onClick={startPhysics}><Play size={14} />物理</button>
         </div>
         <div className="camera-toolbar">
           {[["iso", "透视"], ["front", "正视"], ["back", "背视图"], ["side", "侧视"], ["top", "顶视"]].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}
@@ -513,9 +565,16 @@ export default function CreatorPage() {
           <button disabled={!selectedItems.length} className="danger" onClick={deleteSelected}>删除</button>
           <IconButton title="清空选择" onClick={() => setSelectedIds([])}><X size={15} /></IconButton>
         </div>}
+        {physics.enabled && <div className="physics-toolbar" aria-label="物理预演工具">
+          <strong><i className={physicsStatus} />{{ loading: "载入物理", running: "物理运行中", paused: "物理已暂停", error: "物理启动失败" }[physicsStatus] || "物理预演"}</strong>
+          <button disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={() => setPhysics((current) => ({ ...current, paused: !current.paused }))}>{physics.paused ? <Play size={14} /> : <Pause size={14} />}{physics.paused ? "继续" : "暂停"}</button>
+          <button disabled={physicsStatus === "loading"} onClick={resetPhysics}><RotateCcw size={14} />重置</button>
+          <button className="apply" disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={applyPhysics}><Check size={14} />应用结果</button>
+          <button onClick={exitPhysics}><X size={14} />退出</button>
+        </div>}
         <div className="viewport-status">
           <span className={`status-dot ${dirty ? "dirty" : ""}`} />
-          <span>{activeStage.name} · {selectedItems.length > 1 ? `${selectedItems.length} 个对象已选` : selected ? selected.name : multiSelect ? "多选模式" : "点击对象进行编辑"}</span>
+          <span>{activeStage.name} · {physics.enabled ? ({ loading: "正在初始化物理", running: "重力与碰撞预演", paused: "物理预演已暂停", error: "物理引擎不可用" }[physicsStatus] || "物理预演") : selectedItems.length > 1 ? `${selectedItems.length} 个对象已选` : selected ? selected.name : multiSelect ? "多选模式" : "点击对象进行编辑"}</span>
           <b>{stageObjects.length} 对象 · 网格 {snapEnabled ? snapSize : "关闭"}</b>
         </div>
       </section>

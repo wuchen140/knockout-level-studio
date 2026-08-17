@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { TransformControls } from "three/addons/controls/TransformControls.js";
 import { assetSpecFor, loadGameModel, materialFor } from "../gameAssets.js";
+import { createLevelPhysics, disposeLevelPhysics, physicsTransforms, stepLevelPhysics } from "../physics/levelPhysics.js";
 
 const PLATFORM_COLOR = 0x59656a;
 const PLATFORM_PART_TRANSFORMS = {
@@ -65,6 +66,27 @@ function releaseSelectionGroup(api) {
   api.selectionGroup.rotation.set(0, 0, 0);
   api.selectionGroup.scale.set(1, 1, 1);
   api.selectionGroup.updateMatrixWorld(true);
+}
+
+function restoreConfiguredTransforms(api, level) {
+  const byId = new Map((level?.objects || []).map((item) => [item.uid, item]));
+  releaseSelectionGroup(api);
+  for (const object of api.objectGroup.children) {
+    const item = byId.get(object.userData.objectId);
+    if (!item) continue;
+    object.position.fromArray(item.position);
+    object.rotation.set(...item.rotation.map(THREE.MathUtils.degToRad));
+    applyConfiguredSize(object, item.size);
+  }
+  api.objectGroup.updateMatrixWorld(true);
+}
+
+function stopPhysics(api, level) {
+  if (!api) return;
+  disposeLevelPhysics(api.physicsSimulation);
+  api.physicsSimulation = null;
+  api.physicsEnabled = false;
+  restoreConfiguredTransforms(api, level);
 }
 
 function applyConfiguredSize(object, size) {
@@ -157,19 +179,21 @@ function modelVisual(model, spec, item, catalog) {
   return visual;
 }
 
-export default function LevelScene({ level, catalog, selectedId, selectedIds, onSelect, onTransform, onTransformBatch, mode, showGrid, cameraCommand, snap }) {
+export default function LevelScene({ level, catalog, selectedId, selectedIds, onSelect, onTransform, onTransformBatch, mode, showGrid, cameraCommand, snap, physics, onPhysicsUpdate, onPhysicsStatus }) {
   const mountRef = useRef(null);
   const apiRef = useRef(null);
   const transformSnapshot = useRef(null);
   const transformCallbackRef = useRef(onTransform);
   const batchTransformCallbackRef = useRef(onTransformBatch);
   const selectCallbackRef = useRef(onSelect);
-  const selectedRef = useRef(selectedId);
+  const physicsUpdateCallbackRef = useRef(onPhysicsUpdate);
+  const physicsStatusCallbackRef = useRef(onPhysicsStatus);
   const selectedIdsRef = useRef(selectedIds || (selectedId ? [selectedId] : []));
   transformCallbackRef.current = onTransform;
   batchTransformCallbackRef.current = onTransformBatch;
   selectCallbackRef.current = onSelect;
-  selectedRef.current = selectedId;
+  physicsUpdateCallbackRef.current = onPhysicsUpdate;
+  physicsStatusCallbackRef.current = onPhysicsStatus;
   selectedIdsRef.current = selectedIds || (selectedId ? [selectedId] : []);
 
   useEffect(() => {
@@ -273,7 +297,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     const pointer = new THREE.Vector2();
 
     const onPointerDown = (event) => {
-      if (transform.dragging) return;
+      if (transform.dragging || apiRef.current?.physicsEnabled) return;
       const rect = renderer.domElement.getBoundingClientRect();
       pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -297,18 +321,36 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     resize();
 
     let frame;
-    const animate = () => {
+    let lastPhysicsPublish = 0;
+    const animate = (now) => {
+      const simulation = apiRef.current?.physicsSimulation;
+      if (simulation && !simulation.paused) {
+        stepLevelPhysics(simulation, now);
+        for (const [uid, body] of simulation.bodies) {
+          const object = apiRef.current.objectsById.get(uid);
+          if (!object) continue;
+          const position = body.translation();
+          const rotation = body.rotation();
+          object.position.set(position.x, position.y, position.z);
+          object.quaternion.set(rotation.x, rotation.y, rotation.z, rotation.w);
+        }
+        if (now - lastPhysicsPublish > 120) {
+          physicsUpdateCallbackRef.current?.(physicsTransforms(simulation));
+          lastPhysicsPublish = now;
+        }
+      }
       orbit.update();
       renderer.render(scene, camera);
       frame = requestAnimationFrame(animate);
     };
     animate();
-    apiRef.current = { scene, camera, renderer, orbit, transform, objectGroup, selectionGroup, grid, ground };
+    apiRef.current = { scene, camera, renderer, orbit, transform, objectGroup, selectionGroup, grid, ground, objectsById: new Map(), physicsEnabled: false, physicsSimulation: null };
 
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
       renderer.domElement.removeEventListener("pointerdown", onPointerDown);
+      disposeLevelPhysics(apiRef.current?.physicsSimulation);
       releaseSelectionGroup(apiRef.current);
       disposeGroup(objectGroup);
       transform.dispose();
@@ -321,11 +363,58 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
 
   useEffect(() => {
     const api = apiRef.current;
+    if (!api) return;
+    let cancelled = false;
+    if (!physics?.enabled) {
+      stopPhysics(api, level);
+      physicsStatusCallbackRef.current?.("idle");
+      return;
+    }
+    releaseSelectionGroup(api);
+    api.transform.detach();
+    api.physicsEnabled = true;
+    disposeLevelPhysics(api.physicsSimulation);
+    api.physicsSimulation = null;
+    restoreConfiguredTransforms(api, level);
+    physicsStatusCallbackRef.current?.("loading");
+    createLevelPhysics(level).then((simulation) => {
+      if (cancelled || !apiRef.current || !physics?.enabled) {
+        disposeLevelPhysics(simulation);
+        return;
+      }
+      disposeLevelPhysics(api.physicsSimulation);
+      restoreConfiguredTransforms(api, level);
+      simulation.paused = Boolean(physics.paused);
+      api.physicsSimulation = simulation;
+      physicsUpdateCallbackRef.current?.(physicsTransforms(simulation));
+      physicsStatusCallbackRef.current?.(simulation.paused ? "paused" : "running");
+    }).catch((error) => {
+      console.error("物理引擎初始化失败", error);
+      api.physicsEnabled = false;
+      physicsStatusCallbackRef.current?.("error");
+    });
+    return () => { cancelled = true; };
+  }, [physics?.enabled, physics?.resetToken, level?.key]);
+
+  useEffect(() => {
+    const simulation = apiRef.current?.physicsSimulation;
+    if (!simulation) return;
+    simulation.paused = Boolean(physics?.paused);
+    simulation.lastTime = performance.now();
+    physicsUpdateCallbackRef.current?.(physicsTransforms(simulation));
+    physicsStatusCallbackRef.current?.(simulation.paused ? "paused" : "running");
+  }, [physics?.paused]);
+
+  useEffect(() => {
+    const api = apiRef.current;
     if (!api || !level) return;
     let cancelled = false;
+    disposeLevelPhysics(api.physicsSimulation);
+    api.physicsSimulation = null;
     releaseSelectionGroup(api);
     api.transform.detach();
     disposeGroup(api.objectGroup);
+    api.objectsById.clear();
     const platformFloor = Math.min(
       -2.035,
       ...(level.objects || []).filter((item) => item.type === "platform").map((item) => item.position[1] - 2.035),
@@ -335,6 +424,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     for (const item of level.objects || []) {
       const { root, spec } = makeEditableObject(item, catalog);
       api.objectGroup.add(root);
+      api.objectsById.set(item.uid, root);
       if (!spec) continue;
       loadGameModel(spec).then((model) => {
         if (cancelled || !root.parent) return;
@@ -355,6 +445,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     if (!api) return;
     releaseSelectionGroup(api);
     api.transform.detach();
+    if (physics?.enabled) return;
     const activeIds = selectedIds || (selectedId ? [selectedId] : []);
     const activeObjects = [];
     for (const object of api.objectGroup.children) {
@@ -373,7 +464,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
       for (const object of activeObjects) api.selectionGroup.attach(object);
       api.transform.attach(api.selectionGroup);
     }
-  }, [selectedId, selectedIds, level]);
+  }, [selectedId, selectedIds, level, physics?.enabled]);
 
   useEffect(() => { apiRef.current?.transform.setMode(mode); }, [mode]);
   useEffect(() => { if (apiRef.current) apiRef.current.grid.visible = showGrid; }, [showGrid]);
