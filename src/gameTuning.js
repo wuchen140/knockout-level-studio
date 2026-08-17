@@ -1,8 +1,25 @@
 export const GAME_TUNING = Object.freeze({
+  ammunition: Object.freeze({
+    normal: Object.freeze({
+      id: 0,
+      name: "普通球",
+      costType: "free",
+      projectileCount: 1,
+      burstInterval: 0,
+      launchSpeed: 180,
+      gravityMultiplier: 1,
+      visualScale: 1,
+      mass: 1,
+      angularDamping: 0.05,
+      cooldownOverride: -1,
+      appearanceHoldDuration: 0,
+      coinPrice: 0,
+    }),
+  }),
   ball: Object.freeze({
     cooldown: 0,
     lifetime: 2,
-    launchSpeed: 18,
+    baseLaunchSpeed: 18,
     spawnDelay: 0,
     muzzleEffectDelay: 0,
     radius: 0.35,

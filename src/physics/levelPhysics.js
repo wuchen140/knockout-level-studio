@@ -1,7 +1,13 @@
 import * as THREE from "three";
 import { GAME_TUNING } from "../gameTuning.js";
 
-const { ball: BALL_TUNING, physics: PHYSICS_TUNING, blocks: BLOCK_TUNING } = GAME_TUNING;
+const {
+  ammunition: AMMUNITION_TUNING,
+  ball: BALL_TUNING,
+  physics: PHYSICS_TUNING,
+  blocks: BLOCK_TUNING,
+} = GAME_TUNING;
+const NORMAL_AMMUNITION = AMMUNITION_TUNING.normal;
 const FIXED_STEP = PHYSICS_TUNING.fixedStep;
 const FALLBACK_PROFILE = {
   mass: 1,
@@ -237,24 +243,29 @@ export async function createLevelPhysics(level, catalog) {
     }
     if (item.type === "attackBall") {
       const scale = Math.max(...normalizedSize(item.size));
-      const radius = BALL_TUNING.radius * scale;
+      const radius = BALL_TUNING.radius * scale * NORMAL_AMMUNITION.visualScale;
       const spawnedAt = 0;
       const body = world.createRigidBody(
         RAPIER.RigidBodyDesc.dynamic()
           .setTranslation(...item.position)
           .setRotation(rotation)
+          .setGravityScale(NORMAL_AMMUNITION.gravityMultiplier)
           .setLinearDamping(0.05)
-          .setAngularDamping(0.08)
+          .setAngularDamping(NORMAL_AMMUNITION.angularDamping)
           .setCcdEnabled(true)
           .setCanSleep(true),
       );
       const colliderHandle = world.createCollider(
-        RAPIER.ColliderDesc.ball(radius).setMass(1).setFriction(0.35).setRestitution(0.25),
+        RAPIER.ColliderDesc.ball(radius)
+          .setMass(NORMAL_AMMUNITION.mass)
+          .setFriction(0.35)
+          .setRestitution(0.25),
         body,
       ).handle;
       bodies.set(item.uid, body);
       bodyProfiles.set(item.uid, {
-        mass: 1,
+        mass: NORMAL_AMMUNITION.mass,
+        ammunitionId: NORMAL_AMMUNITION.id,
         impactShatter: false,
         objectType: "attackBall",
         spawnedAt,
@@ -353,24 +364,30 @@ export function spawnAttackBall(simulation, cannon) {
     RAPIER.RigidBodyDesc.dynamic()
       .setTranslation(position.x, position.y, position.z)
       .setLinvel(
-        direction.x * BALL_TUNING.launchSpeed,
-        direction.y * BALL_TUNING.launchSpeed,
-        direction.z * BALL_TUNING.launchSpeed,
+        direction.x * NORMAL_AMMUNITION.launchSpeed,
+        direction.y * NORMAL_AMMUNITION.launchSpeed,
+        direction.z * NORMAL_AMMUNITION.launchSpeed,
       )
       .setAngvel(randomAngularVelocity)
+      .setGravityScale(NORMAL_AMMUNITION.gravityMultiplier)
       .setLinearDamping(0)
-      .setAngularDamping(0.06)
+      .setAngularDamping(NORMAL_AMMUNITION.angularDamping)
       .setCcdEnabled(true)
+      .setSoftCcdPrediction(NORMAL_AMMUNITION.launchSpeed * FIXED_STEP)
       .setCanSleep(true),
   );
   const colliderHandle = simulation.world.createCollider(
-    RAPIER.ColliderDesc.ball(BALL_TUNING.radius).setMass(1).setFriction(0.35).setRestitution(0.25),
+    RAPIER.ColliderDesc.ball(BALL_TUNING.radius * NORMAL_AMMUNITION.visualScale)
+      .setMass(NORMAL_AMMUNITION.mass)
+      .setFriction(0.35)
+      .setRestitution(0.25),
     body,
   ).handle;
   if (RAPIER.ActiveEvents?.COLLISION_EVENTS != null) body.collider(0).setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
   simulation.bodies.set(uid, body);
   simulation.bodyProfiles.set(uid, {
-    mass: 1,
+    mass: NORMAL_AMMUNITION.mass,
+    ammunitionId: NORMAL_AMMUNITION.id,
     impactShatter: false,
     objectType: "attackBall",
     spawnedAt,
@@ -379,8 +396,9 @@ export function spawnAttackBall(simulation, cannon) {
   });
   simulation.colliderUids.set(colliderHandle, uid);
   return {
-    uid, type: "attackBall", name: "攻击球", area: cannon.area || "根关卡",
-    position: position.toArray(), rotation: [0, 0, 0], size: [1, 1, 1], runtime: true,
+    uid, type: "attackBall", name: NORMAL_AMMUNITION.name, area: cannon.area || "根关卡",
+    position: position.toArray(), rotation: [0, 0, 0],
+    size: Array(3).fill(NORMAL_AMMUNITION.visualScale), runtime: true,
   };
 }
 
