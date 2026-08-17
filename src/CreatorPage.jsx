@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "r
 import {
   ArrowLeft, Box, Check, Copy, Download, FileJson, Grid3X3, Layers3,
   Move3D, Plus, Redo2, Rotate3D, Save, Scaling, Sparkles, Trash2,
-  Undo2, Upload,
+  Undo2, Upload, X,
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
@@ -188,6 +188,7 @@ export default function CreatorPage() {
   const [cameraCommand, setCameraCommand] = useState({ preset: "front", token: 0 });
   const [toolsOpen, setToolsOpen] = useState(false);
   const [propertiesOpen, setPropertiesOpen] = useState(false);
+  const [buildPattern, setBuildPattern] = useState(null);
   const [palette, setPalette] = useState({ materialId: 0, shapeId: 0, colorId: 1, size: [1, 1, 1] });
   const [savedSnapshot, setSavedSnapshot] = useState(() => localStorage.getItem("knockout:creator:draft") || "");
   const [toast, setToast] = useState("");
@@ -325,6 +326,7 @@ export default function CreatorPage() {
 
   useEffect(() => {
     const onKeyDown = (event) => {
+      if (event.key === "Escape" && buildPattern) { setBuildPattern(null); return; }
       const command = event.metaKey || event.ctrlKey;
       if (command && event.key.toLowerCase() === "s") { event.preventDefault(); save(); }
       if (command && event.key.toLowerCase() === "z") { event.preventDefault(); dispatch({ type: event.shiftKey ? "REDO" : "UNDO" }); }
@@ -334,7 +336,10 @@ export default function CreatorPage() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [save, deleteSelected, duplicateSelected]);
+  }, [save, deleteSelected, duplicateSelected, buildPattern]);
+
+  const pendingPattern = PATTERNS.find((pattern) => pattern.key === buildPattern);
+  const pendingCount = buildPattern ? patternPoints(buildPattern, palette.size).length : 0;
 
   return <div className="app-shell creator-shell">
     <header className="topbar creator-topbar">
@@ -371,17 +376,9 @@ export default function CreatorPage() {
           {activeStage.stageIndex != null && <IconButton title="删除当前子关卡" className="danger" onClick={removeStage}><Trash2 size={15} /></IconButton>}
         </div>
 
-        <div className="tool-section">
-          <div className="section-label">方块预设</div>
-          <label className="creator-select"><span>材质</span><select value={palette.materialId} onChange={(event) => setPalette((current) => ({ ...current, materialId: Number(event.target.value) }))}>{materials.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-          <label className="creator-select"><span>形状</span><select value={palette.shapeId} onChange={(event) => setPalette((current) => ({ ...current, shapeId: Number(event.target.value) }))}>{shapes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-          <div className="creator-swatches">{colors.map((item) => <button key={item.colorId} className={palette.colorId === item.colorId ? "active" : ""} title={item.name} style={{ "--swatch": item.hex }} onClick={() => setPalette((current) => ({ ...current, colorId: item.colorId }))} />)}</div>
-          <div className="size-presets">{[[1, 1, 1], [1, 2, 1], [1, 3, 1]].map((size) => <button key={size[1]} className={palette.size[1] === size[1] ? "active" : ""} onClick={() => setPalette((current) => ({ ...current, size }))}>1×{size[1]}</button>)}</div>
-        </div>
-
         <div className="tool-section pattern-section">
           <div className="section-label">快速搭建</div>
-          <div className="pattern-grid">{PATTERNS.map((pattern) => <button key={pattern.key} onClick={() => addPattern(pattern.key)}><Box size={16} /><span>{pattern.label}</span><small>{pattern.description}</small></button>)}</div>
+          <div className="pattern-grid">{PATTERNS.map((pattern) => <button key={pattern.key} onClick={() => setBuildPattern(pattern.key)}><Box size={16} /><span>{pattern.label}</span><small>{pattern.description}</small></button>)}</div>
           <button className="wide-tool-button" onClick={addPlatform}><Plus size={15} /><Layers3 size={16} />添加平台</button>
         </div>
       </aside>
@@ -410,6 +407,24 @@ export default function CreatorPage() {
       <CreatorInspector level={level} selected={selected} catalog={catalog} activeStage={activeStage} onUpdate={updateSelected} onDelete={deleteSelected} onDuplicate={duplicateSelected} onLevelUpdate={updateLevel} open={propertiesOpen} />
       {(toolsOpen || propertiesOpen) && <button className="creator-mobile-scrim" aria-label="关闭面板" onClick={() => { setToolsOpen(false); setPropertiesOpen(false); }} />}
     </main>
+    {pendingPattern && <div className="build-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setBuildPattern(null); }}>
+      <section className="build-dialog" role="dialog" aria-modal="true" aria-labelledby="build-dialog-title">
+        <header>
+          <div><strong id="build-dialog-title">搭建{pendingPattern.label}</strong><small>{activeStage.name} · {pendingCount} 个方块</small></div>
+          <IconButton title="取消搭建" onClick={() => setBuildPattern(null)}><X size={17} /></IconButton>
+        </header>
+        <div className="build-dialog-body">
+          <label className="build-option"><span>材质</span><select value={palette.materialId} onChange={(event) => setPalette((current) => ({ ...current, materialId: Number(event.target.value) }))}>{materials.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+          <label className="build-option"><span>形状</span><select value={palette.shapeId} onChange={(event) => setPalette((current) => ({ ...current, shapeId: Number(event.target.value) }))}>{shapes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+          <div className="build-option build-colors"><span>颜色</span><div className="creator-swatches">{colors.map((item) => <button key={item.colorId} className={palette.colorId === item.colorId ? "active" : ""} title={item.name} aria-label={item.name} style={{ "--swatch": item.hex }} onClick={() => setPalette((current) => ({ ...current, colorId: item.colorId }))} />)}</div></div>
+          <div className="build-option"><span>尺寸</span><div className="size-presets">{[[1, 1, 1], [1, 2, 1], [1, 3, 1]].map((size) => <button key={size[1]} className={palette.size[1] === size[1] ? "active" : ""} onClick={() => setPalette((current) => ({ ...current, size }))}>1×{size[1]}×1</button>)}</div></div>
+        </div>
+        <footer>
+          <button className="dialog-cancel" onClick={() => setBuildPattern(null)}>取消</button>
+          <button className="dialog-confirm" onClick={() => { addPattern(buildPattern); setBuildPattern(null); setToolsOpen(false); }}>生成 {pendingCount} 个</button>
+        </footer>
+      </section>
+    </div>}
     {toast && <div className="toast"><Check size={16} />{toast}</div>}
   </div>;
 }
