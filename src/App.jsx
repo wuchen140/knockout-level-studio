@@ -235,7 +235,7 @@ function LibraryApp() {
       shapeId: 0, shapeName: "方块", colorId: 0, colorName: "无", position: [0, 1, 0], rotation: [0, 0, 0], size: [1, 1, 1],
     } : {
       uid, type, name: `平台 ${count}`, area: "根关卡", path: `platforms/${count}`, stageIndex: null,
-      platformIndex: count, position: [0, 0, 0], rotation: [0, 0, 0], size: [4, 0.5, 3],
+      platformIndex: count, position: [0, 0, 0], rotation: [0, 0, 0], size: [4, 1, 3],
       motion: { rotating: false, rotationSpeed: 0, horizontal: false, horizontalMin: 0, horizontalMax: 0, horizontalDirection: "Positive", horizontalSpeed: 0, vertical: false, verticalMin: 0, verticalMax: 0, verticalDirection: "Positive", verticalSpeed: 0 },
     };
     next.objects.push(item);

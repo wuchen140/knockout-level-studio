@@ -46,7 +46,7 @@ function makePlatform(stageIndex, index = 1) {
     platformIndex: index,
     position: [0, 0, 0],
     rotation: [0, 0, 0],
-    size: [10, 0.5, 4],
+    size: [10, 1, 4],
     motion: defaultMotion(),
   };
 }
@@ -77,13 +77,18 @@ function stagesFor(level) {
 
 function withCounts(level) {
   const stages = stagesFor(level);
-  const objects = level.objects || [];
+  const objects = (level.objects || []).map((item) => item.type === "platform"
+    && item.uid?.includes("-custom-")
+    && Math.abs((item.size?.[1] ?? 1) - 0.5) < 0.001
+    ? { ...item, size: [item.size[0], 1, item.size[2]] }
+    : item);
   return {
     ...level,
     key: `${level.category || "custom"}:${level.id}`,
     slug: `${level.category || "custom"}-${level.id}`,
     firstProgressionLevel: level.firstProgressionLevel || level.id,
     stages,
+    objects,
     counts: {
       ...(level.counts || {}),
       platforms: objects.filter((item) => item.type === "platform").length,
