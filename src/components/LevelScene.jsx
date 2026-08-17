@@ -339,9 +339,11 @@ export default function LevelScene({ level, catalog, selectedId, onSelect, onTra
     }, { sin: 0, cos: 0 });
     const levelYaw = platforms.length ? Math.atan2(heading.sin, heading.cos) : 0;
     const frontDirection = new THREE.Vector3(0, 0.25, 1).applyAxisAngle(new THREE.Vector3(0, 1, 0), levelYaw);
+    const backDirection = new THREE.Vector3(0, 0.25, -1).applyAxisAngle(new THREE.Vector3(0, 1, 0), levelYaw);
     const direction = {
       top: new THREE.Vector3(0, 1, 0.001),
       front: frontDirection,
+      back: backDirection,
       side: new THREE.Vector3(1, 0.25, 0),
       iso: new THREE.Vector3(0.8, 0.65, 1),
     }[cameraCommand.preset] || new THREE.Vector3(0.8, 0.65, 1);

@@ -329,7 +329,7 @@ export default function App() {
           <IconButton title="显示网格" active={showGrid} onClick={() => setShowGrid((value) => !value)}><Grid3X3 size={18} /></IconButton>
         </div>
         <div className="camera-toolbar">
-          {[ ["iso", "透视"], ["front", "正视"], ["side", "侧视"], ["top", "顶视"] ].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}
+          {[ ["iso", "透视"], ["front", "正视"], ["back", "背视图"], ["side", "侧视"], ["top", "顶视"] ].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}
         </div>
         <div className="add-toolbar">
           <button onClick={() => addObject("block")}><Plus size={15} /><Box size={16} /><span>方块</span></button>
