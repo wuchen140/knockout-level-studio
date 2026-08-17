@@ -297,7 +297,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     const pointer = new THREE.Vector2();
 
     const onPointerDown = (event) => {
-      if (transform.dragging || apiRef.current?.physicsEnabled) return;
+      if (transform.dragging) return;
       const rect = renderer.domElement.getBoundingClientRect();
       pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -305,6 +305,15 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
       const hit = raycaster.intersectObjects([...objectGroup.children, ...selectionGroup.children], true)[0];
       let selected = hit?.object || null;
       while (selected && !selected.userData.objectId) selected = selected.parent;
+      if (apiRef.current?.physicsEnabled) {
+        const body = apiRef.current.physicsSimulation?.bodies.get(selected?.userData?.objectId);
+        if (body) {
+          const direction = raycaster.ray.direction;
+          body.applyImpulse({ x: direction.x * 3.4, y: Math.max(direction.y * 3.4, 0.65), z: direction.z * 3.4 }, true);
+          body.applyTorqueImpulse({ x: -direction.z * 0.42, y: 0.18, z: direction.x * 0.42 }, true);
+        }
+        return;
+      }
       selectCallbackRef.current?.(selected?.userData?.objectId || null, { additive: event.shiftKey || event.metaKey || event.ctrlKey });
     };
     renderer.domElement.addEventListener("pointerdown", onPointerDown);
@@ -510,5 +519,5 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
   }, [cameraCommand, level?.key]);
 
   const backgroundImage = `url(${import.meta.env.BASE_URL}models/backgrounds/game-scene.webp)`;
-  return <div className="scene-mount" ref={mountRef} data-testid="level-canvas" style={{ backgroundImage }} />;
+  return <div className="scene-mount" ref={mountRef} data-testid="level-canvas" title={physics?.enabled ? "点击方块施加冲击" : undefined} style={{ backgroundImage }} />;
 }

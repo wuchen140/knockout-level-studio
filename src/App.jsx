@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
   Box, BoxSelect, Check, ChevronDown, Copy, Download, FileJson, FolderOpen,
-  Grid3X3, Layers3, Menu, Move3D, PanelLeftClose, PanelRightClose, Plus,
-  Redo2, Rotate3D, Save, Scaling, Search, Sparkles, Trash2, Undo2, Upload, X,
+  Grid3X3, Layers3, Menu, Move3D, PanelLeftClose, PanelRightClose, Pause, Play,
+  Plus, Redo2, Rotate3D, RotateCcw, Save, Scaling, Search, Sparkles, Trash2,
+  Undo2, Upload, X,
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
 import CreatorPage from "./CreatorPage";
@@ -164,6 +165,9 @@ function LibraryApp() {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [toast, setToast] = useState("");
+  const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0 });
+  const [physicsStatus, setPhysicsStatus] = useState("idle");
+  const physicsTransformsRef = useRef([]);
   const importRef = useRef(null);
   const level = history.present;
   const selected = level?.objects.find((item) => item.uid === selectedId) || null;
@@ -188,6 +192,9 @@ function LibraryApp() {
   useEffect(() => {
     if (!chosen) return;
     const controller = new AbortController();
+    setPhysics((current) => ({ ...current, enabled: false, paused: false }));
+    setPhysicsStatus("idle");
+    physicsTransformsRef.current = [];
     setLoading(true);
     setSelectedId(null);
     fetch(dataUrl(`levels/${chosen.slug}.json`), { signal: controller.signal }).then((response) => response.json()).then((data) => {
@@ -205,6 +212,46 @@ function LibraryApp() {
   }, [chosen, notify]);
 
   const commit = useCallback((next) => dispatch({ type: "COMMIT", value: next }), []);
+  const startPhysics = useCallback(() => {
+    if (!level?.objects.some((item) => item.type === "block")) {
+      notify("当前关卡没有可模拟的方块");
+      return;
+    }
+    physicsTransformsRef.current = [];
+    setSelectedId(null);
+    setLeftOpen(false);
+    setRightOpen(false);
+    setPhysics((current) => ({ enabled: true, paused: false, resetToken: current.resetToken + 1 }));
+  }, [level, notify]);
+  const exitPhysics = useCallback(() => {
+    setPhysics((current) => ({ ...current, enabled: false, paused: false }));
+    setPhysicsStatus("idle");
+    physicsTransformsRef.current = [];
+  }, []);
+  const resetPhysics = useCallback(() => {
+    physicsTransformsRef.current = [];
+    setPhysicsStatus("loading");
+    setPhysics((current) => ({ enabled: true, paused: false, resetToken: current.resetToken + 1 }));
+  }, []);
+  const applyPhysics = useCallback(() => {
+    setPhysics((current) => ({ ...current, paused: true }));
+    window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+      if (!level || !physicsTransformsRef.current.length) return;
+      const transforms = new Map(physicsTransformsRef.current.map((item) => [item.uid, item]));
+      const next = clone(level);
+      for (const item of next.objects) {
+        const transform = transforms.get(item.uid);
+        if (!transform) continue;
+        item.position = transform.position;
+        item.rotation = transform.rotation;
+      }
+      commit(next);
+      setPhysics((current) => ({ ...current, enabled: false, paused: false }));
+      setPhysicsStatus("idle");
+      physicsTransformsRef.current = [];
+      notify("物理落位结果已应用");
+    }));
+  }, [level, commit, notify]);
   const updateSelected = useCallback((changes) => {
     if (!history.present || !selectedId) return;
     const next = clone(history.present);
@@ -272,15 +319,17 @@ function LibraryApp() {
 
   useEffect(() => {
     const onKeyDown = (event) => {
+      if (event.key === "Escape" && physics.enabled) { exitPhysics(); return; }
       const command = event.metaKey || event.ctrlKey;
       if (command && event.key.toLowerCase() === "s") { event.preventDefault(); save(); }
+      if (physics.enabled) return;
       if (command && event.key.toLowerCase() === "z") { event.preventDefault(); dispatch({ type: event.shiftKey ? "REDO" : "UNDO" }); }
       if (command && event.key.toLowerCase() === "y") { event.preventDefault(); dispatch({ type: "REDO" }); }
       if ((event.key === "Delete" || event.key === "Backspace") && document.activeElement?.tagName !== "INPUT") deleteSelected();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [save, deleteSelected]);
+  }, [save, deleteSelected, physics.enabled, exitPhysics]);
 
   const importJson = async (event) => {
     const file = event.target.files?.[0];
@@ -295,7 +344,7 @@ function LibraryApp() {
     } catch { notify("不是有效的关卡 JSON"); }
   };
 
-  return <div className="app-shell">
+  return <div className={`app-shell ${physics.enabled ? "library-physics-active" : ""}`}>
     <header className="topbar">
       <div className="brand-mark"><span><Box size={18} /></span><div><strong>KnockOut</strong><small>LEVEL STUDIO</small></div></div>
       <div className="topbar-divider" />
@@ -304,11 +353,11 @@ function LibraryApp() {
       <div className="topbar-spacer" />
       <a className="command-button creator-link" href={`${import.meta.env.BASE_URL}?view=creator`}><Sparkles size={16} /><span>新建关卡</span></a>
       <div className="history-tools">
-        <IconButton title="撤销" disabled={!history.past.length} onClick={() => dispatch({ type: "UNDO" })}><Undo2 size={17} /></IconButton>
-        <IconButton title="重做" disabled={!history.future.length} onClick={() => dispatch({ type: "REDO" })}><Redo2 size={17} /></IconButton>
+        <IconButton title="撤销" disabled={physics.enabled || !history.past.length} onClick={() => dispatch({ type: "UNDO" })}><Undo2 size={17} /></IconButton>
+        <IconButton title="重做" disabled={physics.enabled || !history.future.length} onClick={() => dispatch({ type: "REDO" })}><Redo2 size={17} /></IconButton>
       </div>
       <div className="topbar-divider" />
-      <button className="command-button secondary" onClick={() => importRef.current?.click()}><Upload size={16} /><span>导入 JSON</span></button>
+      <button className="command-button secondary" disabled={physics.enabled} onClick={() => importRef.current?.click()}><Upload size={16} /><span>导入 JSON</span></button>
       <input ref={importRef} type="file" accept="application/json,.json" hidden onChange={importJson} />
       <div className="export-menu">
         <button className="command-button secondary" onClick={() => level && exportLevelExcel(level)}><Download size={16} /><span>导出 Excel</span></button>
@@ -322,24 +371,33 @@ function LibraryApp() {
       <div className={`panel-wrap left-wrap ${leftOpen ? "open" : ""}`}><LevelSidebar levels={index} selectedKey={chosen?.key} onChoose={(item) => { setChosen(item); setLeftOpen(false); }} onClose={() => setLeftOpen(false)} /></div>
       <section className="viewport">
         {loading && <div className="loading-overlay"><span /><p>正在构建关卡 {chosen?.id}</p></div>}
-        <LevelScene level={level} catalog={catalog} selectedId={selectedId} onSelect={(uid) => { setSelectedId(uid); if (uid) setRightOpen(true); }} onTransform={updateTransform} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} />
+        <LevelScene level={level} catalog={catalog} selectedId={selectedId} onSelect={(uid) => { setSelectedId(uid); if (uid) setRightOpen(true); }} onTransform={updateTransform} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} physics={physics} onPhysicsUpdate={(transforms) => { physicsTransformsRef.current = transforms; }} onPhysicsStatus={setPhysicsStatus} />
         <div className="scene-toolbar" aria-label="场景工具">
-          <IconButton title="移动" active={mode === "translate"} onClick={() => setMode("translate")}><Move3D size={18} /></IconButton>
-          <IconButton title="旋转" active={mode === "rotate"} onClick={() => setMode("rotate")}><Rotate3D size={18} /></IconButton>
-          <IconButton title="缩放" active={mode === "scale"} onClick={() => setMode("scale")}><Scaling size={18} /></IconButton>
+          <IconButton title="移动" disabled={physics.enabled} active={mode === "translate"} onClick={() => setMode("translate")}><Move3D size={18} /></IconButton>
+          <IconButton title="旋转" disabled={physics.enabled} active={mode === "rotate"} onClick={() => setMode("rotate")}><Rotate3D size={18} /></IconButton>
+          <IconButton title="缩放" disabled={physics.enabled} active={mode === "scale"} onClick={() => setMode("scale")}><Scaling size={18} /></IconButton>
           <span />
           <IconButton title="显示网格" active={showGrid} onClick={() => setShowGrid((value) => !value)}><Grid3X3 size={18} /></IconButton>
+          <span />
+          <button className={`physics-launch ${physics.enabled ? "active" : ""}`} disabled={physics.enabled || loading || !level} title="让当前关卡方块按重力和碰撞运行" onClick={startPhysics}><Play size={14} />物理</button>
         </div>
         <div className="camera-toolbar">
           {[ ["iso", "透视"], ["front", "正视"], ["back", "背视图"], ["side", "侧视"], ["top", "顶视"] ].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}
         </div>
         <div className="add-toolbar">
-          <button onClick={() => addObject("block")}><Plus size={15} /><Box size={16} /><span>方块</span></button>
-          <button onClick={() => addObject("platform")}><Plus size={15} /><Layers3 size={16} /><span>平台</span></button>
+          <button disabled={physics.enabled} onClick={() => addObject("block")}><Plus size={15} /><Box size={16} /><span>方块</span></button>
+          <button disabled={physics.enabled} onClick={() => addObject("platform")}><Plus size={15} /><Layers3 size={16} /><span>平台</span></button>
         </div>
+        {physics.enabled && <div className="physics-toolbar" aria-label="物理预演工具">
+          <strong><i className={physicsStatus} />{{ loading: "载入物理", running: "物理运行中", paused: "物理已暂停", error: "物理启动失败" }[physicsStatus] || "物理预演"}</strong>
+          <button disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={() => setPhysics((current) => ({ ...current, paused: !current.paused }))}>{physics.paused ? <Play size={14} /> : <Pause size={14} />}{physics.paused ? "继续" : "暂停"}</button>
+          <button disabled={physicsStatus === "loading"} onClick={resetPhysics}><RotateCcw size={14} />重置</button>
+          <button className="apply" disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={applyPhysics}><Check size={14} />应用结果</button>
+          <button onClick={exitPhysics}><X size={14} />退出</button>
+        </div>}
         <div className="viewport-status">
           <span className={`status-dot ${dirty ? "dirty" : ""}`} />
-          <span>{selected ? `${selected.name} · ${selected.type === "block" ? selected.materialName : "平台"}` : "未选择对象"}</span>
+          <span>{physics.enabled ? ({ loading: "正在初始化物理", running: "重力与碰撞预演", paused: "物理预演已暂停", error: "物理引擎不可用" }[physicsStatus] || "物理预演") : selected ? `${selected.name} · ${selected.type === "block" ? selected.materialName : "平台"}` : "未选择对象"}</span>
           <b>{level?.objects.length || 0} 对象</b>
         </div>
       </section>

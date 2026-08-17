@@ -237,6 +237,7 @@ button:disabled { cursor: not-allowed; opacity: .38; }
 .physics-toolbar button.apply { color: #8ee0ce; background: rgba(73,169,153,.14); }
 .physics-toolbar button.apply:hover:not(:disabled) { background: rgba(73,169,153,.25); }
 .physics-active .creator-tools, .physics-active .creator-properties { pointer-events: none; opacity: .72; }
+.library-physics-active .panel-wrap { pointer-events: none; opacity: .72; }
 @keyframes physics-pulse { 50% { opacity: .45; } }
 .batch-toolbar { position: absolute; top: 58px; left: 50%; z-index: 3; min-height: 35px; display: flex; align-items: center; gap: 4px; padding: 4px; transform: translateX(-50%); color: #cbd7d6; border: 1px solid #455659; border-radius: 6px; background: rgba(30,40,42,.92); box-shadow: 0 7px 18px rgba(5,12,12,.22); }
 .batch-toolbar strong { min-width: 60px; padding: 0 7px; color: #77d7ca; font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 600; text-align: center; white-space: nowrap; }
