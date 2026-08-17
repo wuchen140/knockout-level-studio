@@ -78,6 +78,15 @@ function markImpactShatter(simulation, handle1, handle2) {
   const uid1 = simulation.colliderUids.get(handle1);
   const uid2 = simulation.colliderUids.get(handle2);
   if (!uid1 && !uid2) return;
+  const groundHit = handle1 === simulation.groundColliderHandle || handle2 === simulation.groundColliderHandle;
+  if (groundHit) {
+    // A breakable object falling off a platform and reaching the scene floor
+    // is a game-meaningful impact even if the final contact speed is damped.
+    for (const uid of [uid1, uid2]) {
+      if (uid && simulation.bodyProfiles.get(uid)?.impactShatter) simulation.shattered.add(uid);
+    }
+    return;
+  }
   const speed1 = uid1 ? speedOf(simulation.previousVelocities.get(uid1) || { x: 0, y: 0, z: 0 }) : 0;
   const speed2 = uid2 ? speedOf(simulation.previousVelocities.get(uid2) || { x: 0, y: 0, z: 0 }) : 0;
   const impactSpeed = speed1 + speed2;
@@ -155,6 +164,19 @@ export async function createLevelPhysics(level, catalog) {
     colliderUids.set(colliderHandle, item.uid);
   }
 
+  const groundLevel = Math.min(
+    -2.035,
+    ...(level.objects || []).filter((item) => item.type === "platform").map((item) => Number(item.position?.[1] || 0) - 2.035),
+  );
+  const groundBody = world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(0, groundLevel, 0));
+  const groundColliderHandle = world.createCollider(
+    RAPIER.ColliderDesc.cuboid(50, 0.1, 50)
+      .setTranslation(0, -0.1, 0)
+      .setFriction(0.78)
+      .setRestitution(0),
+    groundBody,
+  ).handle;
+
   const eventQueue = new RAPIER.EventQueue(true);
   for (const [uid, body] of bodies) {
     const collider = body.collider(0);
@@ -165,6 +187,7 @@ export async function createLevelPhysics(level, catalog) {
     bodies,
     bodyProfiles,
     colliderUids,
+    groundColliderHandle,
     eventQueue,
     previousVelocities: new Map(),
     shattered: new Set(),
