@@ -300,6 +300,7 @@ export default function CreatorPage() {
       if (!physicsTransformsRef.current.length) return;
       const transforms = new Map(physicsTransformsRef.current.map((item) => [item.uid, item]));
       const next = clone(level);
+      next.objects = next.objects.filter((item) => !transforms.get(item.uid)?.shattered);
       for (const item of next.objects) {
         const transform = transforms.get(item.uid);
         if (!transform) continue;

@@ -70,6 +70,24 @@ function blockCollider(item) {
   return RAPIER.ColliderDesc.cuboid(width / 2, height / 2, depth / 2);
 }
 
+function speedOf(velocity) {
+  return Math.hypot(velocity.x, velocity.y, velocity.z);
+}
+
+function markImpactShatter(simulation, handle1, handle2) {
+  const uid1 = simulation.colliderUids.get(handle1);
+  const uid2 = simulation.colliderUids.get(handle2);
+  if (!uid1 && !uid2) return;
+  const speed1 = uid1 ? speedOf(simulation.previousVelocities.get(uid1) || { x: 0, y: 0, z: 0 }) : 0;
+  const speed2 = uid2 ? speedOf(simulation.previousVelocities.get(uid2) || { x: 0, y: 0, z: 0 }) : 0;
+  const impactSpeed = speed1 + speed2;
+  for (const uid of [uid1, uid2]) {
+    if (!uid || simulation.shattered.has(uid)) continue;
+    const profile = simulation.bodyProfiles.get(uid);
+    if (profile?.impactShatter && impactSpeed >= Number(profile.shatterThreshold || Infinity)) simulation.shattered.add(uid);
+  }
+}
+
 function sameSize(left, right) {
   return left?.length === right?.length && left.every((value, index) => Math.abs(Number(value) - Number(right[index])) < 0.01);
 }
@@ -92,6 +110,7 @@ export async function createLevelPhysics(level, catalog) {
   world.timestep = FIXED_STEP;
   const bodies = new Map();
   const bodyProfiles = new Map();
+  const colliderUids = new Map();
 
   for (const item of level.objects || []) {
     const rotation = quaternionFor(item.rotation);
@@ -130,12 +149,29 @@ export async function createLevelPhysics(level, catalog) {
       // The archive defines static/dynamic friction but no bounciness. Unity's
       // block materials therefore behave as non-bouncy contacts in the preview.
       .setRestitution(0);
-    world.createCollider(collider, body);
+    const colliderHandle = world.createCollider(collider, body).handle;
     bodies.set(item.uid, body);
     bodyProfiles.set(item.uid, { ...profile, mass });
+    colliderUids.set(colliderHandle, item.uid);
   }
 
-  return { world, bodies, bodyProfiles, accumulator: 0, lastTime: performance.now(), fixedStep: FIXED_STEP };
+  const eventQueue = new RAPIER.EventQueue(true);
+  for (const [uid, body] of bodies) {
+    const collider = body.collider(0);
+    if (RAPIER.ActiveEvents?.COLLISION_EVENTS != null) collider.setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
+  }
+  return {
+    world,
+    bodies,
+    bodyProfiles,
+    colliderUids,
+    eventQueue,
+    previousVelocities: new Map(),
+    shattered: new Set(),
+    accumulator: 0,
+    lastTime: performance.now(),
+    fixedStep: FIXED_STEP,
+  };
 }
 
 export function stepLevelPhysics(simulation, now) {
@@ -144,7 +180,11 @@ export function stepLevelPhysics(simulation, now) {
   simulation.accumulator += elapsed;
   let steps = 0;
   while (simulation.accumulator >= simulation.fixedStep && steps < 6) {
-    simulation.world.step();
+    for (const [uid, body] of simulation.bodies) simulation.previousVelocities.set(uid, body.linvel());
+    simulation.world.step(simulation.eventQueue);
+    simulation.eventQueue?.drainCollisionEvents((handle1, handle2, started) => {
+      if (started) markImpactShatter(simulation, handle1, handle2);
+    });
     simulation.accumulator -= simulation.fixedStep;
     steps += 1;
   }
@@ -160,10 +200,12 @@ export function physicsTransforms(simulation) {
       uid,
       position: [position.x, position.y, position.z].map((value) => Number(value.toFixed(4))),
       rotation: [euler.x, euler.y, euler.z].map((value) => Number(THREE.MathUtils.radToDeg(value).toFixed(3))),
+      shattered: simulation.shattered.has(uid),
     };
   });
 }
 
 export function disposeLevelPhysics(simulation) {
+  simulation?.eventQueue?.free();
   simulation?.world?.free();
 }

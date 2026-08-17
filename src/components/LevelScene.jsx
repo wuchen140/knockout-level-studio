@@ -74,6 +74,7 @@ function restoreConfiguredTransforms(api, level) {
   for (const object of api.objectGroup.children) {
     const item = byId.get(object.userData.objectId);
     if (!item) continue;
+    object.visible = true;
     object.position.fromArray(item.position);
     object.rotation.set(...item.rotation.map(THREE.MathUtils.degToRad));
     applyConfiguredSize(object, item.size);
@@ -338,6 +339,11 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
         for (const [uid, body] of simulation.bodies) {
           const object = apiRef.current.objectsById.get(uid);
           if (!object) continue;
+          if (simulation.shattered.has(uid)) {
+            object.visible = false;
+            continue;
+          }
+          object.visible = true;
           const position = body.translation();
           const rotation = body.rotation();
           object.position.set(position.x, position.y, position.z);
