@@ -204,7 +204,9 @@ export function profileFor(item, catalog) {
 
 export async function createLevelPhysics(level, catalog) {
   await ensureRapier();
-  const world = new RAPIER.World({ x: 0, y: -PHYSICS_TUNING.gravity, z: 0 });
+  // Build contacts without letting gravity displace the authored structure
+  // before its first visible frame.
+  const world = new RAPIER.World({ x: 0, y: 0, z: 0 });
   world.timestep = FIXED_STEP;
   const bodies = new Map();
   const bodyProfiles = new Map();
@@ -315,6 +317,17 @@ export async function createLevelPhysics(level, catalog) {
   }
   const prewarmSteps = Math.ceil(PHYSICS_TUNING.prewarmDuration / FIXED_STEP);
   for (let step = 0; step < prewarmSteps; step += 1) world.step(eventQueue);
+  for (const item of level.objects || []) {
+    if (item.type !== "block") continue;
+    const body = bodies.get(item.uid);
+    if (!body) continue;
+    body.setTranslation({ x: item.position[0], y: item.position[1], z: item.position[2] }, false);
+    body.setRotation(quaternionFor(item.rotation), false);
+    body.setLinvel({ x: 0, y: 0, z: 0 }, false);
+    body.setAngvel({ x: 0, y: 0, z: 0 }, false);
+    body.sleep();
+  }
+  world.gravity = { x: 0, y: -PHYSICS_TUNING.gravity, z: 0 };
   eventQueue.drainCollisionEvents(() => {});
   return {
     world,
