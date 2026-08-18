@@ -2,7 +2,7 @@ const stageMeta = { area: "根关卡", stageIndex: null };
 
 function makeBlock(index, x, y, z, colorId, colorName) {
   return {
-    uid: `block-custom-1-${index}`,
+    uid: `block-prod-30000-${index}`,
     type: "block",
     name: `城堡方块 ${index}`,
     ...stageMeta,
@@ -40,15 +40,15 @@ function buildCastleBlocks() {
 const blocks = buildCastleBlocks();
 
 export const FEATURED_LEVEL_INDEX = {
-  key: "featured:1",
-  slug: "featured-1",
+  key: "prod:30000",
+  slug: "prod-30000",
   category: "prod",
-  id: 1,
+  id: 30000,
   moveCount: 20,
   difficulty: "NORMAL",
   difficultyValue: 0,
   progressionCount: 1,
-  firstProgressionLevel: 1,
+  firstProgressionLevel: 30000,
   ballCount: 20,
   counts: { platforms: 1, blocks: blocks.length, barriers: 0, stages: 0, shutters: 0, waves: 0, generatedBlocks: 0, shutterBlocks: 0 },
 };
@@ -58,7 +58,7 @@ export const FEATURED_LEVEL = {
   schemaVersion: 1,
   source: { levels: "新建关卡", game: "游戏配置.xlsx" },
   objects: [{
-    uid: "platform-custom-1-1",
+    uid: "platform-prod-30000-1",
     type: "platform",
     name: "城堡平台",
     ...stageMeta,
