@@ -7,7 +7,7 @@ const colors = {
   purple: { colorId: 7, colorName: "紫" },
 };
 
-function makeBlock(levelId, index, { x, y, color, shapeId = 0 }) {
+function makeBlock(levelId, index, { x, y, z = -0.5, color, shapeId = 0 }) {
   return {
     uid: `block-prod-${levelId}-${index}`,
     type: "block",
@@ -23,7 +23,7 @@ function makeBlock(levelId, index, { x, y, color, shapeId = 0 }) {
     shapeName: shapeNames[shapeId],
     colorId: color.colorId,
     colorName: color.colorName,
-    position: [x, y + 0.5, -0.5],
+    position: [x, y + 0.5, z],
     rotation: [0, 0, 0],
     size: [1, 1, 1],
   };
@@ -113,29 +113,39 @@ function buildCastleBlocks() {
 
 function buildTowerBlocks() {
   const layout = [];
-  const add = (x, y, color, shapeId = 0) => layout.push({ x, y, color, shapeId });
-  const shaftXs = [-1.5, -0.5, 0.5, 1.5];
-
-  // The tall shaft, repeated orange bands, open-looking gallery, and tiered
-  // purple roof preserve the reference image before difficulty tuning.
-  for (let x = -2.5; x <= 2.5; x += 1) add(x, 0, colors.orange);
-  for (const x of shaftXs) {
-    const outerShape = Math.abs(x) === 1.5 ? 1 : 0;
-    const inner = Math.abs(x) === 0.5;
-    add(x, 1, inner ? colors.red : colors.yellow, outerShape);
-    add(x, 2, inner ? colors.red : colors.yellow, outerShape);
-    add(x, 3, colors.orange, outerShape);
-    add(x, 4, inner ? colors.purple : colors.yellow, outerShape);
-    add(x, 5, colors.yellow, outerShape);
-    add(x, 6, colors.orange, outerShape);
-    add(x, 7, inner ? colors.purple : colors.yellow, outerShape);
+  const add = (x, y, z, color, shapeId = 0) => layout.push({ x, y, z, color, shapeId });
+  const centerZ = -0.5;
+  const bodyRing = [
+    [-1, -2], [0, -2], [1, -2],
+    [-2, -1], [2, -1],
+    [-2, 0], [2, 0],
+    [-2, 1], [2, 1],
+    [-1, 2], [0, 2], [1, 2],
+  ];
+  const addRing = (ring, y, colorFor, shapeFor = () => 0) => {
+    for (const [x, relativeZ] of ring) add(x, y, centerZ + relativeZ, colorFor(x, relativeZ), shapeFor(x, relativeZ));
+  };
+  // Every body layer is a 5x5 rounded ring with an empty 3x3 interior.
+  for (let y = 0; y <= 8; y += 1) {
+    addRing(bodyRing, y, (x, relativeZ) => {
+      const frontDoor = y === 1 && relativeZ === 2 && x === 0;
+      const backDoor = y === 1 && relativeZ === -2 && x === 0;
+      const frontWindow = (y === 3 || y === 5) && relativeZ === 2 && x === 0;
+      const rightWindow = (y === 3 || y === 5) && x === 2 && relativeZ === 0;
+      const backWindow = y === 5 && relativeZ === -2 && x === 0;
+      if (frontDoor || backDoor) return colors.red;
+      if (frontWindow || rightWindow || backWindow) return colors.purple;
+      if (y === 0 || y === 2 || y === 4 || y === 6 || y === 8) return colors.orange;
+      if (y === 7 && (x === 0 || relativeZ === 0)) return colors.purple;
+      return colors.yellow;
+    });
   }
-  for (const x of shaftXs) add(x, 8, colors.orange);
-  for (const x of shaftXs) add(x, 9, Math.abs(x) === 0.5 ? colors.purple : colors.yellow, Math.abs(x) === 1.5 ? 1 : 0);
-  for (const x of shaftXs) add(x, 10, colors.orange);
-  for (const x of shaftXs) add(x, 11, colors.purple);
-  for (const x of [-0.5, 0.5]) add(x, 12, colors.purple);
-  add(0, 13, colors.yellow, 1);
+
+  // The roof uses the same ring footprint, so every piece has direct vertical
+  // support and the center remains empty. Cones on the top row provide the
+  // pointed purple silhouette without a suspended center cap.
+  addRing(bodyRing, 9, () => colors.purple);
+  addRing(bodyRing, 10, () => colors.purple, () => 2);
 
   return layout.map((item, index) => makeBlock(30001, index + 1, item));
 }
@@ -153,8 +163,8 @@ const castle = makeLevel({
 const tower = makeLevel({
   id: 30001,
   blocks: towerBlocks,
-  platform: makePlatform(30001, "高塔平台", [6, 1, 1]),
-  moveCount: 18,
+  platform: makePlatform(30001, "高塔平台", [6, 1, 6]),
+  moveCount: 20,
   sourceLevels: "图片参考关卡",
 });
 
