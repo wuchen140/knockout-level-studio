@@ -1,6 +1,8 @@
 const stageMeta = { area: "根关卡", stageIndex: null };
 
-function makeBlock(index, x, y, z, colorId, colorName) {
+const shapeNames = { 0: "方块", 1: "圆柱", 2: "圆锥" };
+
+function makeBlock(index, { x, y, colorId, colorName, shapeId = 0 }) {
   return {
     uid: `block-prod-30000-${index}`,
     type: "block",
@@ -12,29 +14,49 @@ function makeBlock(index, x, y, z, colorId, colorName) {
     blockIndex: index,
     materialId: 6,
     materialName: "塑料",
-    shapeId: 0,
-    shapeName: "方块",
+    shapeId,
+    shapeName: shapeNames[shapeId],
     colorId,
     colorName,
-    position: [x, y + 0.5, z],
+    position: [x, y + 0.5, -0.5],
     rotation: [0, 0, 0],
     size: [1, 1, 1],
   };
 }
 
 function buildCastleBlocks() {
-  const layout = [
-    ...[-2, -1, 0, 1, 2].map((x) => ({ x, y: 0, colorId: 5, colorName: "橙" })),
-    { x: -2, y: 1, colorId: 2, colorName: "黄" },
-    { x: 0, y: 1, colorId: 2, colorName: "黄" },
-    { x: 2, y: 1, colorId: 2, colorName: "黄" },
-    { x: -2, y: 2, colorId: 7, colorName: "紫" },
-    { x: 0, y: 2, colorId: 7, colorName: "紫" },
-    { x: 2, y: 2, colorId: 7, colorName: "紫" },
-    { x: 0, y: 3, colorId: 7, colorName: "紫" },
-    { x: 0, y: 4, colorId: 7, colorName: "紫" },
-  ];
-  return layout.map((item, index) => makeBlock(index + 1, item.x, item.y, -0.5, item.colorId, item.colorName));
+  const orange = { colorId: 5, colorName: "橙" };
+  const yellow = { colorId: 2, colorName: "黄" };
+  const red = { colorId: 1, colorName: "红" };
+  const purple = { colorId: 7, colorName: "紫" };
+  const layout = [];
+  const add = (x, y, color, shapeId = 0) => layout.push({ x, y, ...color, shapeId });
+
+  // Broad plinth, two round side towers and a taller central keep reproduce
+  // the reference silhouette while keeping every 1x1x1 piece supported.
+  for (let x = -4; x <= 4; x += 1) add(x, 0, orange);
+  for (const x of [-3, 3]) {
+    for (let y = 1; y <= 3; y += 1) add(x, y, yellow, 1);
+    add(x, 4, orange, 1);
+    add(x, 5, purple, 2);
+  }
+  for (const x of [-2, 2]) {
+    add(x, 1, yellow);
+    add(x, 2, yellow);
+    add(x, 3, orange);
+  }
+  for (const x of [-1, 0, 1]) {
+    add(x, 1, x === 0 ? red : yellow);
+    add(x, 2, x === 0 ? red : orange);
+    add(x, 3, yellow);
+    add(x, 4, x === 0 ? purple : yellow);
+    add(x, 5, orange);
+    add(x, 6, purple);
+  }
+  add(0, 7, purple);
+  add(0, 8, purple, 2);
+
+  return layout.map((item, index) => makeBlock(index + 1, item));
 }
 
 const blocks = buildCastleBlocks();
@@ -44,12 +66,12 @@ export const FEATURED_LEVEL_INDEX = {
   slug: "prod-30000",
   category: "prod",
   id: 30000,
-  moveCount: 20,
+  moveCount: 24,
   difficulty: "NORMAL",
   difficultyValue: 0,
   progressionCount: 1,
   firstProgressionLevel: 30000,
-  ballCount: 20,
+  ballCount: 24,
   counts: { platforms: 1, blocks: blocks.length, barriers: 0, stages: 0, shutters: 0, waves: 0, generatedBlocks: 0, shutterBlocks: 0 },
 };
 
@@ -66,7 +88,7 @@ export const FEATURED_LEVEL = {
     platformIndex: 1,
     position: [0, 0, -0.5],
     rotation: [0, 0, 0],
-    size: [5.2, 1, 1],
+    size: [9.4, 1, 1.2],
     motion: {
       rotating: false,
       rotationSpeed: 0,
