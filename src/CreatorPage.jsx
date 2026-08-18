@@ -132,35 +132,20 @@ const CASTLE_COLORS = { body: 2, trim: 5, roof: 7, detail: 1 };
 const CASTLE_PIECES = (() => {
   const pieces = [];
   const add = (name, position, color) => pieces.push({ name, shape: "cube", color, position, size: [1, 1, 1] });
-  const addRow = (name, xs, y, zs, color) => xs.forEach((x) => zs.forEach((z) => add(`${name} ${x},${y},${z}`, [x, y + 0.5, z], color)));
+  const addColumn = (name, x, z, height, roofStart) => {
+    for (let y = 0; y < height; y += 1) {
+      const color = y >= roofStart ? "roof" : y === 0 || y === roofStart - 1 ? "trim" : "body";
+      add(`${name} ${x},${y},${z}`, [x, y + 0.5, z], color);
+    }
+  };
 
-  // Low shared plinth keeps the three towers visually connected.
-  addRow("城堡基座", [-4, -3, -2, -1, 0, 1, 2, 3, 4], 0, [-1, 0], "trim");
-
-  // Central keep: a broad rectangular body and two stepped roof tiers.
-  addRow("中央塔身", [-1, 0, 1], 1, [-1, 0], "body");
-  addRow("中央塔身", [-1, 0, 1], 2, [-1, 0], "body");
-  addRow("中央塔身", [-1, 0, 1], 3, [-1, 0], "body");
-  addRow("中央塔身", [-1, 0, 1], 4, [-1, 0], "body");
-  addRow("中央塔顶檐", [-2, -1, 0, 1, 2], 5, [-1, 0], "trim");
-  addRow("中央塔顶", [-2, -1, 0, 1, 2], 6, [-1, 0], "roof");
-  addRow("中央塔顶", [-1, 0, 1], 7, [-1, 0], "roof");
-  addRow("中央塔顶", [0], 8, [-1, 0], "roof");
-
-  // Side towers are shorter and narrower, preserving a clear front/right/back silhouette.
-  for (const [x, side] of [[-3, "左"], [3, "右"]]) {
-    addRow(`${side}塔身`, [x], 1, [-1, 0], "body");
-    addRow(`${side}塔身`, [x], 2, [-1, 0], "body");
-    addRow(`${side}塔身`, [x], 3, [-1, 0], "body");
-    addRow(`${side}塔檐`, [x - 1, x, x + 1], 4, [-1, 0], "trim");
-    addRow(`${side}塔顶`, [x - 1, x, x + 1], 5, [-1, 0], "roof");
-    addRow(`${side}塔顶`, [x], 6, [-1, 0], "roof");
+  // Every visible column starts on the platform and remains continuous to its
+  // top. No eaves, doors, or roof blocks hang beyond an unsupported column.
+  // This makes the silhouette physically stable while preserving the 3-tower read.
+  for (const z of [-1, 0]) {
+    for (const x of [-1, 0, 1]) addColumn("中央塔", x, z, 7 + (x === 0 ? 2 : 0), 5);
+    for (const [x, side] of [[-3, "左"], [3, "右"]]) addColumn(`${side}塔`, x, z, 6, 4);
   }
-
-  // One-block openings are deliberately sparse; they suggest the front/back
-  // entrances without turning into a collection of tiny decorative parts.
-  add("正门", [0, 1.5, 1], "detail");
-  add("背门", [0, 1.5, -2], "detail");
   return pieces;
 })();
 
