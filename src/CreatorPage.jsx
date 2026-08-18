@@ -122,33 +122,6 @@ const PATTERNS = [
   { key: "pyramid", label: "金字塔", description: "5 层" },
 ];
 
-const CASTLE_MATERIAL_ID = 6;
-const CASTLE_SHAPES = { cube: 0, cylinder: 1, cone: 2 };
-const CASTLE_COLORS = { body: 2, trim: 5, roof: 7, detail: 1 };
-
-// A simple three-view silhouette made from nothing but 1×1×1 plastic cubes.
-// It intentionally reads as a castle at block scale instead of reproducing
-// small doors, windows, trims, or finials as separate micro-pieces.
-const CASTLE_PIECES = (() => {
-  const pieces = [];
-  const add = (name, position, color) => pieces.push({ name, shape: "cube", color, position, size: [1, 1, 1] });
-  const addColumn = (name, x, z, height, roofStart) => {
-    for (let y = 0; y < height; y += 1) {
-      const color = y >= roofStart ? "roof" : y === 0 || y === roofStart - 1 ? "trim" : "body";
-      add(`${name} ${x},${y},${z}`, [x, y + 0.5, z], color);
-    }
-  };
-
-  // Every visible column starts on the platform and remains continuous to its
-  // top. No eaves, doors, or roof blocks hang beyond an unsupported column.
-  // This makes the silhouette physically stable while preserving the 3-tower read.
-  for (const z of [-1, 0]) {
-    for (const x of [-1, 0, 1]) addColumn("中央塔", x, z, 7 + (x === 0 ? 2 : 0), 5);
-    for (const [x, side] of [[-3, "左"], [3, "右"]]) addColumn(`${side}塔`, x, z, 6, 4);
-  }
-  return pieces;
-})();
-
 function patternPoints(pattern, size) {
   const [width, height] = size;
   if (pattern === "single") return [[0, height / 2, 0]];
@@ -449,34 +422,6 @@ export default function CreatorPage() {
     notify(`已生成 ${blocks.length} 个方块`);
   }, [level, palette, materials, shapes, colors, activeStage, commit, notify]);
 
-  const addCastle = useCallback(() => {
-    const start = level.objects.filter((item) => item.type === "block").length;
-    const shapeNames = new Map(shapes.map((item) => [item.id, item.name]));
-    const plasticColors = new Map((catalog?.colors || [])
-      .filter((item) => item.materialId === CASTLE_MATERIAL_ID)
-      .map((item) => [item.colorId, item.name]));
-    const blocks = CASTLE_PIECES.map((piece, index) => {
-      const shapeId = CASTLE_SHAPES[piece.shape];
-      const colorId = CASTLE_COLORS[piece.color];
-      return {
-        uid: `block-custom-${crypto.randomUUID()}`,
-        type: "block",
-        name: `塑料城堡 · ${piece.name}`,
-        ...stageMeta(activeStage.stageIndex),
-        platformIndex: null, waveIndex: null, shutterIndex: null, blockIndex: start + index + 1,
-        materialId: CASTLE_MATERIAL_ID, materialName: "塑料",
-        shapeId, shapeName: shapeNames.get(shapeId) || piece.shape,
-        colorId, colorName: plasticColors.get(colorId) || piece.color,
-        position: [...piece.position], rotation: [0, 0, 0], size: [...piece.size],
-      };
-    });
-    commit({ ...level, objects: [...level.objects, ...blocks] });
-    setSelectedIds([]);
-    setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
-    setToolsOpen(false);
-    notify(`塑料城堡搭建完成，共 ${blocks.length} 个可编辑部件`);
-  }, [level, shapes, catalog, activeStage, commit, notify]);
-
   const addPlatform = useCallback(() => {
     const index = level.objects.filter((item) => item.type === "platform").length + 1;
     const item = makePlatform(activeStage.stageIndex, index);
@@ -617,7 +562,6 @@ export default function CreatorPage() {
         <div className="tool-section pattern-section">
           <div className="section-label">快速搭建</div>
           <div className="pattern-grid">{PATTERNS.map((pattern) => <button key={pattern.key} onClick={() => setBuildPattern(pattern.key)}><Box size={16} /><span>{pattern.label}</span><small>{pattern.description}</small></button>)}</div>
-          <button className="wide-tool-button castle-tool-button" onClick={addCastle}><Sparkles size={16} />搭建塑料城堡 · 三视图</button>
           <button className="wide-tool-button" onClick={addPlatform}><Plus size={15} /><Layers3 size={16} />添加平台</button>
           <button className="wide-tool-button" onClick={addCannon}><Crosshair size={16} />添加固定大炮</button>
         </div>
