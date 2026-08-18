@@ -15,10 +15,33 @@ const PLATFORM_PART_TRANSFORMS = {
   "platform-mid-gold": { position: [0, 0.56626093, 0] },
   "platform-bottom-gold": { position: [0, 0.11257279, 0] },
 };
-const CANNON_PART_TRANSFORMS = {
-  "cannon-base": { position: [0, 1.02, 0.1], quaternion: [0.25267732, 0, 0, 0.96755064] },
-  "cannon-counter": { position: [0, 0.694, 0.62], quaternion: [-0.17364825, 0, 0, 0.9848078] },
-  "cannon-stabilizer": { position: [0, 0.429, -1.725], quaternion: [-0.026131358, 0, 0, 0.9996585], scale: [0.95581, 0.95581, 0.95581] },
+// Rebuilt from the Unity Cannon -> BarrelPivot -> CannonParent hierarchy.
+// The exported meshes do not retain their prefab parents, so keeping these
+// transforms here is what preserves the original pivots and scale.
+const CANNON_ASSEMBLY = {
+  barrelPivot: { position: [0, 1.18, 0] },
+  cannonParent: {
+    position: [0.014846671, -2.363072, 4.046482],
+    quaternion: [0.20715533, 0.0017517635, -0.0010796624, 0.9783059],
+    scale: [0.26560003, 0.2656, 0.26559997],
+  },
+  barrelBody: {
+    position: [0, -2.8, -18.23],
+    quaternion: [0, -0.99218994, 0.1247364, 0],
+    scale: [3.765131, 3.765131, 3.765131],
+  },
+  cannonBase: { position: [0, 1.02, 0.1], quaternion: [0.25267732, 0, 0, 0.96755064] },
+  cannonCounter: { position: [0, 0.694, 0.62], quaternion: [-0.17364825, 0, 0, 0.9848078] },
+  stabilizerPivot: { position: [0, 0.1019928, -0.5100002], quaternion: [0, -1, 0, 0] },
+  stabilizer: {
+    position: [0, 0.429, -1.725],
+    quaternion: [-0.026131358, 0, 0, 0.9996585],
+    scale: [0.95581, 0.95581, 0.95581],
+  },
+  muzzle: {
+    position: [0.0001608003, 0.28171885, 0.3422203],
+    quaternion: [-0.0003518483, -0.9852695, 0.1709969, 0.002027449],
+  },
 };
 const DEFAULT_COLORS = {
   0: "#d8d2c6", 1: "#e57373", 2: "#fae58c", 3: "#64b5f6",
@@ -119,6 +142,13 @@ function applyConfiguredSize(object, size) {
   object.scale.set(...size.map((value, index) => Math.max(0.05, value) / Math.max(nominal[index], 0.0001)));
 }
 
+function applyLocalTransform(object, transform = {}) {
+  if (transform.position) object.position.fromArray(transform.position);
+  if (transform.quaternion) object.quaternion.fromArray(transform.quaternion);
+  if (transform.scale) object.scale.fromArray(transform.scale);
+  return object;
+}
+
 function setSelected(object, selected) {
   object.traverse((node) => {
     const materials = Array.isArray(node.material) ? node.material : node.material ? [node.material] : [];
@@ -190,15 +220,39 @@ function modelVisual(model, spec, item, catalog) {
       });
     }
   } else if (spec.material === "cannon") {
-    const parts = [...visual.children];
-    const base = parts.find((part) => part.userData.assetPart === "cannon-base");
-    for (const part of parts) {
+    const parts = new Map([...visual.children].map((part) => [part.userData.assetPart, part]));
+    const cannonAssembly = new THREE.Group();
+    cannonAssembly.name = "大炮 Unity 装配根节点";
+    const barrelPivot = applyLocalTransform(new THREE.Group(), CANNON_ASSEMBLY.barrelPivot);
+    barrelPivot.name = "炮管旋转枢轴";
+    const cannonParent = applyLocalTransform(new THREE.Group(), CANNON_ASSEMBLY.cannonParent);
+    cannonParent.name = "炮身父节点";
+    const barrelBody = applyLocalTransform(new THREE.Group(), CANNON_ASSEMBLY.barrelBody);
+    barrelBody.name = "炮身节点";
+    const cannonBase = applyLocalTransform(parts.get("cannon-base") || new THREE.Group(), CANNON_ASSEMBLY.cannonBase);
+    cannonBase.name = "炮身模型";
+    const cannonCounter = applyLocalTransform(parts.get("cannon-counter") || new THREE.Group(), CANNON_ASSEMBLY.cannonCounter);
+    cannonCounter.name = "计数器模型";
+    const stabilizerPivot = applyLocalTransform(new THREE.Group(), CANNON_ASSEMBLY.stabilizerPivot);
+    stabilizerPivot.name = "稳定底座枢轴";
+    const stabilizer = applyLocalTransform(parts.get("cannon-stabilizer") || new THREE.Group(), CANNON_ASSEMBLY.stabilizer);
+    stabilizer.name = "稳定底座模型";
+    const muzzle = applyLocalTransform(new THREE.Object3D(), CANNON_ASSEMBLY.muzzle);
+    muzzle.name = "炮口";
+    muzzle.userData.isMuzzle = true;
+
+    cannonBase.add(cannonCounter);
+    barrelBody.add(cannonBase);
+    cannonParent.add(barrelBody);
+    barrelPivot.add(cannonParent, muzzle);
+    stabilizerPivot.add(stabilizer);
+    cannonAssembly.add(barrelPivot, stabilizerPivot);
+    for (const part of parts.values()) visual.remove(part);
+    visual.add(cannonAssembly);
+    visual.userData.muzzleNode = muzzle;
+
+    for (const part of [cannonBase, cannonCounter, stabilizer]) {
       const key = part.userData.assetPart;
-      const transform = CANNON_PART_TRANSFORMS[key];
-      if (key === "cannon-counter" && base) base.add(part);
-      if (transform?.position) part.position.fromArray(transform.position);
-      if (transform?.quaternion) part.quaternion.fromArray(transform.quaternion);
-      if (transform?.scale) part.scale.fromArray(transform.scale);
       let meshIndex = 0;
       part.traverse((node) => {
         if (!node.isMesh) return;
@@ -488,7 +542,20 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     if (!api || !api.physicsSimulation || token <= (api.lastFireToken || 0)) return;
     api.lastFireToken = token;
     const cannon = (level?.objects || []).find((item) => item.type === "cannon");
-    const projectile = spawnAttackBall(api.physicsSimulation, cannon);
+    const cannonObject = cannon ? api.objectsById.get(cannon.uid) : null;
+    const muzzle = cannonObject?.getObjectByName("炮口");
+    let muzzlePose = null;
+    if (muzzle) {
+      muzzle.updateMatrixWorld(true);
+      // Unity's local +Z becomes -Z after the unmodified mesh coordinates are
+      // interpreted in Three.js' right-handed world.
+      const direction = new THREE.Vector3(0, 0, -1).transformDirection(muzzle.matrixWorld);
+      muzzlePose = {
+        position: muzzle.getWorldPosition(new THREE.Vector3()).toArray(),
+        direction: direction.normalize().toArray(),
+      };
+    }
+    const projectile = spawnAttackBall(api.physicsSimulation, cannon, muzzlePose);
     if (!projectile) return;
     const { root, spec } = makeEditableObject(projectile, catalog);
     api.objectGroup.add(root);

@@ -227,20 +227,10 @@ export async function createLevelPhysics(level, catalog) {
       world.createCollider(collider, body);
       continue;
     }
-    if (item.type === "cannon") {
-      const size = normalizedSize(item.size);
-      const body = world.createRigidBody(
-        RAPIER.RigidBodyDesc.fixed().setTranslation(...item.position).setRotation(rotation),
-      );
-      world.createCollider(
-        RAPIER.ColliderDesc.cuboid(0.75 * size[0], 1.05 * size[1], 1.15 * size[2])
-          .setTranslation(0, 1.05 * size[1], -0.35 * size[2])
-          .setFriction(0.7)
-          .setRestitution(0),
-        body,
-      );
-      continue;
-    }
+    // The fixed cannon is a firing fixture rather than level geometry. Keeping
+    // it out of Rapier prevents its visual muzzle from immediately colliding
+    // with the ball spawned at that exact node.
+    if (item.type === "cannon") continue;
     if (item.type === "attackBall") {
       const scale = Math.max(...normalizedSize(item.size));
       const radius = BALL_TUNING.radius * scale * NORMAL_AMMUNITION.visualScale;
@@ -344,15 +334,18 @@ export async function createLevelPhysics(level, catalog) {
   };
 }
 
-export function spawnAttackBall(simulation, cannon) {
+export function spawnAttackBall(simulation, cannon, muzzlePose = null) {
   if (!simulation || !cannon) return null;
   const cannonRotation = new THREE.Euler(...(cannon.rotation || [0, 0, 0]).map(THREE.MathUtils.degToRad));
-  const localDirection = new THREE.Vector3(0, Math.sin(THREE.MathUtils.degToRad(8)), Math.cos(THREE.MathUtils.degToRad(8)));
-  const direction = localDirection.clone().applyEuler(cannonRotation).normalize();
-  const position = new THREE.Vector3(0, 1.1, 0.1)
-    .add(localDirection.clone().multiplyScalar(1.1))
+  const fallbackDirection = new THREE.Vector3(0, Math.sin(THREE.MathUtils.degToRad(8)), Math.cos(THREE.MathUtils.degToRad(8)))
     .applyEuler(cannonRotation)
-    .add(new THREE.Vector3().fromArray(cannon.position || [0, 0, 5]));
+    .normalize();
+  const direction = muzzlePose?.direction
+    ? new THREE.Vector3().fromArray(muzzlePose.direction).normalize()
+    : fallbackDirection;
+  const position = muzzlePose?.position
+    ? new THREE.Vector3().fromArray(muzzlePose.position)
+    : new THREE.Vector3().fromArray(cannon.position || [0, 0, 5]).add(fallbackDirection.clone().multiplyScalar(1.1));
   const randomAngularVelocity = new THREE.Vector3(
     Math.random() * 2 - 1,
     Math.random() * 2 - 1,
