@@ -122,6 +122,55 @@ const PATTERNS = [
   { key: "pyramid", label: "金字塔", description: "5 层" },
 ];
 
+const CASTLE_MATERIAL_ID = 6;
+const CASTLE_SHAPES = { cube: 0, cylinder: 1, cone: 2 };
+const CASTLE_COLORS = { body: 2, trim: 5, roof: 7, detail: 1 };
+
+// A three-view castle assembled only from the editable plastic block catalog.
+// Adjacent structural pieces meet at their faces instead of intersecting, so
+// the physics preview can wake the castle without contact-resolution bursts.
+const CASTLE_PIECES = [
+  { name: "中央塔基座", shape: "cylinder", color: "trim", position: [0, 0.15, -0.25], size: [3.1, 0.3, 3.1] },
+  { name: "中央塔身", shape: "cylinder", color: "body", position: [0, 2.55, -0.25], size: [2.65, 4.5, 2.65] },
+  { name: "中央塔檐", shape: "cylinder", color: "trim", position: [0, 4.95, -0.25], size: [3.15, 0.3, 3.15] },
+  { name: "中央塔顶", shape: "cone", color: "roof", position: [0, 6.2, -0.25], size: [3.05, 2.2, 3.05] },
+  { name: "中央塔顶饰", shape: "cylinder", color: "trim", position: [0, 7.43, -0.25], size: [0.4, 0.26, 0.4] },
+  { name: "中央塔尖", shape: "cone", color: "trim", position: [0, 7.7, -0.25], size: [0.5, 0.28, 0.5] },
+
+  ...[-2.65, 2.65].flatMap((x, towerIndex) => {
+    const side = towerIndex === 0 ? "左塔" : "右塔";
+    return [
+      { name: `${side}基座`, shape: "cylinder", color: "trim", position: [x, 0.15, 0.4], size: [2.05, 0.3, 2.05] },
+      { name: `${side}下塔身`, shape: "cylinder", color: "body", position: [x, 0.98, 0.4], size: [1.72, 1.36, 1.72] },
+      { name: `${side}腰檐`, shape: "cylinder", color: "trim", position: [x, 1.78, 0.4], size: [1.98, 0.24, 1.98] },
+      { name: `${side}上塔身`, shape: "cylinder", color: "body", position: [x, 2.62, 0.4], size: [1.72, 1.44, 1.72] },
+      { name: `${side}塔檐`, shape: "cylinder", color: "trim", position: [x, 3.46, 0.4], size: [2.02, 0.24, 2.02] },
+      { name: `${side}塔顶`, shape: "cone", color: "roof", position: [x, 4.29, 0.4], size: [1.95, 1.42, 1.95] },
+      { name: `${side}顶饰`, shape: "cylinder", color: "trim", position: [x, 5.11, 0.4], size: [0.32, 0.22, 0.32] },
+      { name: `${side}塔尖`, shape: "cone", color: "trim", position: [x, 5.34, 0.4], size: [0.4, 0.24, 0.4] },
+    ];
+  }),
+
+  { name: "正门", shape: "cube", color: "detail", position: [0, 0.94, 1.14], size: [0.9, 1.28, 0.12] },
+  { name: "背门", shape: "cube", color: "detail", position: [0, 0.76, -1.64], size: [0.72, 0.92, 0.12] },
+  { name: "正面中央窗框", shape: "cube", color: "trim", position: [0, 3.48, 1.14], size: [0.72, 0.92, 0.12] },
+  { name: "正面中央窗", shape: "cube", color: "body", position: [0, 3.48, 1.24], size: [0.43, 0.63, 0.08] },
+  { name: "背面中央窗框", shape: "cube", color: "trim", position: [0, 3.48, -1.64], size: [0.72, 0.92, 0.12] },
+  { name: "背面中央窗", shape: "cube", color: "body", position: [0, 3.48, -1.74], size: [0.43, 0.63, 0.08] },
+  { name: "右侧中央窗框", shape: "cube", color: "trim", position: [1.39, 3.48, -0.25], size: [0.12, 0.92, 0.72] },
+  { name: "右侧中央窗", shape: "cube", color: "body", position: [1.49, 3.48, -0.25], size: [0.08, 0.63, 0.43] },
+
+  ...[-2.65, 2.65].flatMap((x, towerIndex) => {
+    const side = towerIndex === 0 ? "左塔" : "右塔";
+    return [
+      { name: `${side}正面窗框`, shape: "cube", color: "trim", position: [x, 2.58, 1.32], size: [0.58, 0.74, 0.12] },
+      { name: `${side}正面窗`, shape: "cube", color: "body", position: [x, 2.58, 1.42], size: [0.32, 0.49, 0.08] },
+      { name: `${side}背面窗框`, shape: "cube", color: "trim", position: [x, 2.58, -0.52], size: [0.58, 0.74, 0.12] },
+      { name: `${side}背面窗`, shape: "cube", color: "body", position: [x, 2.58, -0.62], size: [0.32, 0.49, 0.08] },
+    ];
+  }),
+];
+
 function patternPoints(pattern, size) {
   const [width, height] = size;
   if (pattern === "single") return [[0, height / 2, 0]];
@@ -422,6 +471,34 @@ export default function CreatorPage() {
     notify(`已生成 ${blocks.length} 个方块`);
   }, [level, palette, materials, shapes, colors, activeStage, commit, notify]);
 
+  const addCastle = useCallback(() => {
+    const start = level.objects.filter((item) => item.type === "block").length;
+    const shapeNames = new Map(shapes.map((item) => [item.id, item.name]));
+    const plasticColors = new Map((catalog?.colors || [])
+      .filter((item) => item.materialId === CASTLE_MATERIAL_ID)
+      .map((item) => [item.colorId, item.name]));
+    const blocks = CASTLE_PIECES.map((piece, index) => {
+      const shapeId = CASTLE_SHAPES[piece.shape];
+      const colorId = CASTLE_COLORS[piece.color];
+      return {
+        uid: `block-custom-${crypto.randomUUID()}`,
+        type: "block",
+        name: `塑料城堡 · ${piece.name}`,
+        ...stageMeta(activeStage.stageIndex),
+        platformIndex: null, waveIndex: null, shutterIndex: null, blockIndex: start + index + 1,
+        materialId: CASTLE_MATERIAL_ID, materialName: "塑料",
+        shapeId, shapeName: shapeNames.get(shapeId) || piece.shape,
+        colorId, colorName: plasticColors.get(colorId) || piece.color,
+        position: [...piece.position], rotation: [0, 0, 0], size: [...piece.size],
+      };
+    });
+    commit({ ...level, objects: [...level.objects, ...blocks] });
+    setSelectedIds([]);
+    setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
+    setToolsOpen(false);
+    notify(`塑料城堡搭建完成，共 ${blocks.length} 个可编辑部件`);
+  }, [level, shapes, catalog, activeStage, commit, notify]);
+
   const addPlatform = useCallback(() => {
     const index = level.objects.filter((item) => item.type === "platform").length + 1;
     const item = makePlatform(activeStage.stageIndex, index);
@@ -562,6 +639,7 @@ export default function CreatorPage() {
         <div className="tool-section pattern-section">
           <div className="section-label">快速搭建</div>
           <div className="pattern-grid">{PATTERNS.map((pattern) => <button key={pattern.key} onClick={() => setBuildPattern(pattern.key)}><Box size={16} /><span>{pattern.label}</span><small>{pattern.description}</small></button>)}</div>
+          <button className="wide-tool-button castle-tool-button" onClick={addCastle}><Sparkles size={16} />搭建塑料城堡 · 三视图</button>
           <button className="wide-tool-button" onClick={addPlatform}><Plus size={15} /><Layers3 size={16} />添加平台</button>
           <button className="wide-tool-button" onClick={addCannon}><Crosshair size={16} />添加固定大炮</button>
         </div>
@@ -582,7 +660,7 @@ export default function CreatorPage() {
           <button className={`physics-launch ${physics.enabled ? "active" : ""}`} disabled={physics.enabled} title="让当前关卡方块按重力和碰撞运行" onClick={startPhysics}><Play size={14} />物理</button>
         </div>
         <div className="camera-toolbar">
-          {[["iso", "透视"], ["front", "正视"], ["back", "背视图"], ["side", "侧视"], ["top", "顶视"]].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}
+          {[["iso", "透视"], ["front", "正视图"], ["side", "右侧视图"], ["back", "背视图"], ["top", "顶视"]].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}
         </div>
         {(multiSelect || selectedItems.length > 1) && <div className="batch-toolbar" aria-label="批量选择工具">
           <strong>{selectedItems.length} 已选</strong>
