@@ -8,6 +8,7 @@ import {
 import LevelScene from "./components/LevelScene";
 import CreatorPage from "./CreatorPage";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
+import { FEATURED_LEVEL, FEATURED_LEVEL_INDEX } from "./featuredLevels";
 
 const clone = (value) => structuredClone(value);
 const dataUrl = (path) => `${import.meta.env.BASE_URL}data/${path}`;
@@ -185,9 +186,13 @@ function LibraryApp() {
   useEffect(() => {
     Promise.all([fetch(dataUrl("index.json")).then((response) => response.json()), fetch(dataUrl("catalog.json")).then((response) => response.json())])
       .then(([levelIndex, gameCatalog]) => {
-        setIndex(levelIndex.levels);
+        const levels = [...levelIndex.levels, FEATURED_LEVEL_INDEX];
+        const requestedLevel = new URLSearchParams(window.location.search).get("level");
+        setIndex(levels);
         setCatalog(gameCatalog);
-        setChosen(levelIndex.levels.find((item) => item.category === "prod" && item.id === 1) || levelIndex.levels[0]);
+        setChosen(levels.find((item) => item.slug === requestedLevel)
+          || levels.find((item) => item.category === "prod" && item.id === 1)
+          || levels[0]);
       })
       .catch(() => notify("配置数据载入失败"));
   }, [notify]);
@@ -200,7 +205,10 @@ function LibraryApp() {
     physicsTransformsRef.current = [];
     setLoading(true);
     setSelectedId(null);
-    fetch(dataUrl(`levels/${chosen.slug}.json`), { signal: controller.signal }).then((response) => response.json()).then((data) => {
+    const levelRequest = chosen.slug === FEATURED_LEVEL.slug
+      ? Promise.resolve(structuredClone(FEATURED_LEVEL))
+      : fetch(dataUrl(`levels/${chosen.slug}.json`), { signal: controller.signal }).then((response) => response.json());
+    levelRequest.then((data) => {
       const stored = localStorage.getItem(`knockout:level:${data.key}`);
       let next = data;
       if (stored) {
