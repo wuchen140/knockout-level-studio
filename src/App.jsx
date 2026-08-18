@@ -8,7 +8,7 @@ import {
 import LevelScene from "./components/LevelScene";
 import CreatorPage from "./CreatorPage";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
-import { FEATURED_LEVEL, FEATURED_LEVEL_INDEX } from "./featuredLevels";
+import { FEATURED_LEVEL_BY_SLUG, FEATURED_LEVEL_INDEXES } from "./featuredLevels";
 
 const clone = (value) => structuredClone(value);
 const dataUrl = (path) => `${import.meta.env.BASE_URL}data/${path}`;
@@ -186,7 +186,7 @@ function LibraryApp() {
   useEffect(() => {
     Promise.all([fetch(dataUrl("index.json")).then((response) => response.json()), fetch(dataUrl("catalog.json")).then((response) => response.json())])
       .then(([levelIndex, gameCatalog]) => {
-        const levels = [...levelIndex.levels, FEATURED_LEVEL_INDEX];
+        const levels = [...levelIndex.levels, ...FEATURED_LEVEL_INDEXES];
         const requestedLevel = new URLSearchParams(window.location.search).get("level");
         setIndex(levels);
         setCatalog(gameCatalog);
@@ -205,8 +205,9 @@ function LibraryApp() {
     physicsTransformsRef.current = [];
     setLoading(true);
     setSelectedId(null);
-    const levelRequest = chosen.slug === FEATURED_LEVEL.slug
-      ? Promise.resolve(structuredClone(FEATURED_LEVEL))
+    const featuredLevel = FEATURED_LEVEL_BY_SLUG.get(chosen.slug);
+    const levelRequest = featuredLevel
+      ? Promise.resolve(structuredClone(featuredLevel))
       : fetch(dataUrl(`levels/${chosen.slug}.json`), { signal: controller.signal }).then((response) => response.json());
     levelRequest.then((data) => {
       const stored = localStorage.getItem(`knockout:level:${data.key}`);

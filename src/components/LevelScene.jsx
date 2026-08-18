@@ -648,7 +648,10 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     if (box.isEmpty()) return;
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
-    const distance = Math.max(size.length() * 1.05, 8);
+    const verticalFov = THREE.MathUtils.degToRad(api.camera.fov);
+    const fitHeight = size.y / (2 * Math.tan(verticalFov / 2));
+    const fitWidth = size.x / (2 * Math.tan(verticalFov / 2) * Math.max(api.camera.aspect, 0.1));
+    const distance = Math.max(size.length() * 1.05, Math.max(fitHeight, fitWidth) * 1.28, 8);
     const rootPlatforms = level.objects?.filter((item) => item.type === "platform" && item.area === "根关卡") || [];
     const platforms = rootPlatforms.length ? rootPlatforms : level.objects?.filter((item) => item.type === "platform") || [];
     const heading = platforms.reduce((sum, platform) => {
