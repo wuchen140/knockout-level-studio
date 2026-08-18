@@ -89,6 +89,21 @@ function normalizedVelocity(velocity, speed) {
   return { x: velocity.x * scale, y: velocity.y * scale, z: velocity.z * scale };
 }
 
+export function applyDirectionalImpact(body, direction, strength) {
+  if (!body || !direction) return;
+  const force = Math.max(0, Number(strength) || 0);
+  body.applyImpulse({
+    x: direction.x * force,
+    y: Math.max(direction.y * force, force * 0.2),
+    z: direction.z * force,
+  }, true);
+  body.applyTorqueImpulse({
+    x: -direction.z * force * 0.12,
+    y: force * 0.05,
+    z: direction.x * force * 0.12,
+  }, true);
+}
+
 function blocksTouch(left, right) {
   const leftSize = normalizedSize(left.size);
   const rightSize = normalizedSize(right.size);
@@ -138,24 +153,12 @@ function applyFirstBallCollision(simulation, ballUid, targetUid, now) {
   const previousVelocity = simulation.previousVelocities.get(ballUid) || currentVelocity;
   const launchDirection = normalizedVelocity(
     speedOf(currentVelocity) > 0.01 ? currentVelocity : previousVelocity,
-    BALL_TUNING.firstCollisionSpeed,
+    1,
   );
-  if (launchDirection) body.setLinvel(launchDirection, true);
-  const angularVelocity = body.angvel();
-  body.setAngvel({
-    x: angularVelocity.x * BALL_TUNING.firstCollisionAngularMultiplier,
-    y: angularVelocity.y * BALL_TUNING.firstCollisionAngularMultiplier,
-    z: angularVelocity.z * BALL_TUNING.firstCollisionAngularMultiplier,
-  }, true);
-
-  if (!targetUid || !launchDirection) return;
-  for (const uid of simulation.blockClusters.get(targetUid) || []) {
-    simulation.bodies.get(uid)?.applyImpulse({
-      x: launchDirection.x * BALL_TUNING.firstCollisionShockwaveImpulse,
-      y: launchDirection.y * BALL_TUNING.firstCollisionShockwaveImpulse,
-      z: launchDirection.z * BALL_TUNING.firstCollisionShockwaveImpulse,
-    }, true);
+  if (targetUid && launchDirection) {
+    applyDirectionalImpact(simulation.bodies.get(targetUid), launchDirection, BALL_TUNING.impactForce);
   }
+  profile.expiresAt = now;
 }
 
 function markImpactShatter(simulation, handle1, handle2, now) {
@@ -385,6 +388,7 @@ export function spawnAttackBall(simulation, cannon, muzzlePose = null) {
   const colliderHandle = simulation.world.createCollider(
     RAPIER.ColliderDesc.ball(BALL_TUNING.radius * NORMAL_AMMUNITION.visualScale)
       .setMass(NORMAL_AMMUNITION.mass)
+      .setSensor(true)
       .setFriction(0.35)
       .setRestitution(0.25),
     body,

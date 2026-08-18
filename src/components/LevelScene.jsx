@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { TransformControls } from "three/addons/controls/TransformControls.js";
 import { assetSpecFor, loadGameModel, materialFor } from "../gameAssets.js";
-import { createLevelPhysics, disposeLevelPhysics, physicsTransforms, spawnAttackBall, stepLevelPhysics } from "../physics/levelPhysics.js";
+import { applyDirectionalImpact, createLevelPhysics, disposeLevelPhysics, physicsTransforms, spawnAttackBall, stepLevelPhysics } from "../physics/levelPhysics.js";
 
 const PLATFORM_COLOR = 0x59656a;
 const PLATFORM_PART_TRANSFORMS = {
@@ -412,8 +412,7 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
         if (body) {
           const direction = raycaster.ray.direction;
           const strength = apiRef.current.physicsImpactForce || 10;
-          body.applyImpulse({ x: direction.x * strength, y: Math.max(direction.y * strength, strength * 0.2), z: direction.z * strength }, true);
-          body.applyTorqueImpulse({ x: -direction.z * strength * 0.12, y: strength * 0.05, z: direction.x * strength * 0.12 }, true);
+          applyDirectionalImpact(body, direction, strength);
         }
         return;
       }
