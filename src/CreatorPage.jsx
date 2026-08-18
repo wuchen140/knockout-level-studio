@@ -126,50 +126,43 @@ const CASTLE_MATERIAL_ID = 6;
 const CASTLE_SHAPES = { cube: 0, cylinder: 1, cone: 2 };
 const CASTLE_COLORS = { body: 2, trim: 5, roof: 7, detail: 1 };
 
-// A three-view castle assembled only from the editable plastic block catalog.
-// Adjacent structural pieces meet at their faces instead of intersecting, so
-// the physics preview can wake the castle without contact-resolution bursts.
-const CASTLE_PIECES = [
-  { name: "中央塔基座", shape: "cylinder", color: "trim", position: [0, 0.15, -0.25], size: [3.1, 0.3, 3.1] },
-  { name: "中央塔身", shape: "cylinder", color: "body", position: [0, 2.55, -0.25], size: [2.65, 4.5, 2.65] },
-  { name: "中央塔檐", shape: "cylinder", color: "trim", position: [0, 4.95, -0.25], size: [3.15, 0.3, 3.15] },
-  { name: "中央塔顶", shape: "cone", color: "roof", position: [0, 6.2, -0.25], size: [3.05, 2.2, 3.05] },
-  { name: "中央塔顶饰", shape: "cylinder", color: "trim", position: [0, 7.43, -0.25], size: [0.4, 0.26, 0.4] },
-  { name: "中央塔尖", shape: "cone", color: "trim", position: [0, 7.7, -0.25], size: [0.5, 0.28, 0.5] },
+// A simple three-view silhouette made from nothing but 1×1×1 plastic cubes.
+// It intentionally reads as a castle at block scale instead of reproducing
+// small doors, windows, trims, or finials as separate micro-pieces.
+const CASTLE_PIECES = (() => {
+  const pieces = [];
+  const add = (name, position, color) => pieces.push({ name, shape: "cube", color, position, size: [1, 1, 1] });
+  const addRow = (name, xs, y, zs, color) => xs.forEach((x) => zs.forEach((z) => add(`${name} ${x},${y},${z}`, [x, y + 0.5, z], color)));
 
-  ...[-2.65, 2.65].flatMap((x, towerIndex) => {
-    const side = towerIndex === 0 ? "左塔" : "右塔";
-    return [
-      { name: `${side}基座`, shape: "cylinder", color: "trim", position: [x, 0.15, 0.4], size: [2.05, 0.3, 2.05] },
-      { name: `${side}下塔身`, shape: "cylinder", color: "body", position: [x, 0.98, 0.4], size: [1.72, 1.36, 1.72] },
-      { name: `${side}腰檐`, shape: "cylinder", color: "trim", position: [x, 1.78, 0.4], size: [1.98, 0.24, 1.98] },
-      { name: `${side}上塔身`, shape: "cylinder", color: "body", position: [x, 2.62, 0.4], size: [1.72, 1.44, 1.72] },
-      { name: `${side}塔檐`, shape: "cylinder", color: "trim", position: [x, 3.46, 0.4], size: [2.02, 0.24, 2.02] },
-      { name: `${side}塔顶`, shape: "cone", color: "roof", position: [x, 4.29, 0.4], size: [1.95, 1.42, 1.95] },
-      { name: `${side}顶饰`, shape: "cylinder", color: "trim", position: [x, 5.11, 0.4], size: [0.32, 0.22, 0.32] },
-      { name: `${side}塔尖`, shape: "cone", color: "trim", position: [x, 5.34, 0.4], size: [0.4, 0.24, 0.4] },
-    ];
-  }),
+  // Low shared plinth keeps the three towers visually connected.
+  addRow("城堡基座", [-4, -3, -2, -1, 0, 1, 2, 3, 4], 0, [-1, 0], "trim");
 
-  { name: "正门", shape: "cube", color: "detail", position: [0, 0.94, 1.14], size: [0.9, 1.28, 0.12] },
-  { name: "背门", shape: "cube", color: "detail", position: [0, 0.76, -1.64], size: [0.72, 0.92, 0.12] },
-  { name: "正面中央窗框", shape: "cube", color: "trim", position: [0, 3.48, 1.14], size: [0.72, 0.92, 0.12] },
-  { name: "正面中央窗", shape: "cube", color: "body", position: [0, 3.48, 1.24], size: [0.43, 0.63, 0.08] },
-  { name: "背面中央窗框", shape: "cube", color: "trim", position: [0, 3.48, -1.64], size: [0.72, 0.92, 0.12] },
-  { name: "背面中央窗", shape: "cube", color: "body", position: [0, 3.48, -1.74], size: [0.43, 0.63, 0.08] },
-  { name: "右侧中央窗框", shape: "cube", color: "trim", position: [1.39, 3.48, -0.25], size: [0.12, 0.92, 0.72] },
-  { name: "右侧中央窗", shape: "cube", color: "body", position: [1.49, 3.48, -0.25], size: [0.08, 0.63, 0.43] },
+  // Central keep: a broad rectangular body and two stepped roof tiers.
+  addRow("中央塔身", [-1, 0, 1], 1, [-1, 0], "body");
+  addRow("中央塔身", [-1, 0, 1], 2, [-1, 0], "body");
+  addRow("中央塔身", [-1, 0, 1], 3, [-1, 0], "body");
+  addRow("中央塔身", [-1, 0, 1], 4, [-1, 0], "body");
+  addRow("中央塔顶檐", [-2, -1, 0, 1, 2], 5, [-1, 0], "trim");
+  addRow("中央塔顶", [-2, -1, 0, 1, 2], 6, [-1, 0], "roof");
+  addRow("中央塔顶", [-1, 0, 1], 7, [-1, 0], "roof");
+  addRow("中央塔顶", [0], 8, [-1, 0], "roof");
 
-  ...[-2.65, 2.65].flatMap((x, towerIndex) => {
-    const side = towerIndex === 0 ? "左塔" : "右塔";
-    return [
-      { name: `${side}正面窗框`, shape: "cube", color: "trim", position: [x, 2.58, 1.32], size: [0.58, 0.74, 0.12] },
-      { name: `${side}正面窗`, shape: "cube", color: "body", position: [x, 2.58, 1.42], size: [0.32, 0.49, 0.08] },
-      { name: `${side}背面窗框`, shape: "cube", color: "trim", position: [x, 2.58, -0.52], size: [0.58, 0.74, 0.12] },
-      { name: `${side}背面窗`, shape: "cube", color: "body", position: [x, 2.58, -0.62], size: [0.32, 0.49, 0.08] },
-    ];
-  }),
-];
+  // Side towers are shorter and narrower, preserving a clear front/right/back silhouette.
+  for (const [x, side] of [[-3, "左"], [3, "右"]]) {
+    addRow(`${side}塔身`, [x], 1, [-1, 0], "body");
+    addRow(`${side}塔身`, [x], 2, [-1, 0], "body");
+    addRow(`${side}塔身`, [x], 3, [-1, 0], "body");
+    addRow(`${side}塔檐`, [x - 1, x, x + 1], 4, [-1, 0], "trim");
+    addRow(`${side}塔顶`, [x - 1, x, x + 1], 5, [-1, 0], "roof");
+    addRow(`${side}塔顶`, [x], 6, [-1, 0], "roof");
+  }
+
+  // One-block openings are deliberately sparse; they suggest the front/back
+  // entrances without turning into a collection of tiny decorative parts.
+  add("正门", [0, 1.5, 1], "detail");
+  add("背门", [0, 1.5, -2], "detail");
+  return pieces;
+})();
 
 function patternPoints(pattern, size) {
   const [width, height] = size;
