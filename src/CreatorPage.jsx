@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
-  ArrowLeft, Box, Check, CircleDot, Copy, Crosshair, Download, FileJson, Grid3X3, Layers3,
+  ArrowLeft, Box, Check, Copy, Download, FileJson, Grid3X3, Layers3,
   MousePointer2, Move3D, Pause, Play, Plus, Redo2, Rotate3D, RotateCcw, Save,
   Scaling, Sparkles, Trash2, Undo2, Upload, X,
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
+import { withoutLegacyWeapons } from "./levelData";
 
 const clone = (value) => structuredClone(value);
 const dataUrl = (path) => `${import.meta.env.BASE_URL}data/${path}`;
-const OBJECT_LABELS = { block: "方块", platform: "平台", cannon: "大炮", attackBall: "攻击球" };
+const OBJECT_LABELS = { block: "方块", platform: "平台" };
 
 function historyReducer(state, action) {
   if (action.type === "RESET") return { past: [], present: action.value, future: [] };
@@ -77,21 +78,22 @@ function stagesFor(level) {
 }
 
 function withCounts(level) {
-  const stages = stagesFor(level);
-  const objects = (level.objects || []).map((item) => item.type === "platform"
+  const sanitized = withoutLegacyWeapons(level);
+  const stages = stagesFor(sanitized);
+  const objects = (sanitized.objects || []).map((item) => item.type === "platform"
     && item.uid?.includes("-custom-")
     && Math.abs((item.size?.[1] ?? 1) - 0.5) < 0.001
     ? { ...item, size: [item.size[0], 1, item.size[2]] }
     : item);
   return {
-    ...level,
-    key: `${level.category || "custom"}:${level.id}`,
-    slug: `${level.category || "custom"}-${level.id}`,
-    firstProgressionLevel: level.firstProgressionLevel || level.id,
+    ...sanitized,
+    key: `${sanitized.category || "custom"}:${sanitized.id}`,
+    slug: `${sanitized.category || "custom"}-${sanitized.id}`,
+    firstProgressionLevel: sanitized.firstProgressionLevel || sanitized.id,
     stages,
     objects,
     counts: {
-      ...(level.counts || {}),
+      ...(sanitized.counts || {}),
       platforms: objects.filter((item) => item.type === "platform").length,
       blocks: objects.filter((item) => item.type === "block").length,
       stages: Math.max(0, stages.length - 1),
@@ -183,7 +185,7 @@ function CreatorInspector({ level, selected, selectedItems, catalog, activeStage
       <div className="object-heading">
         <span className={`object-icon ${selected.type}`}><Box size={17} /></span>
         <div><strong>{selected.name}</strong><small>{OBJECT_LABELS[selected.type] || "对象"} · {activeStage.name}</small></div>
-        {selected.type !== "cannon" && <IconButton title="复制对象" onClick={onDuplicate}><Copy size={15} /></IconButton>}
+        <IconButton title="复制对象" onClick={onDuplicate}><Copy size={15} /></IconButton>
         <IconButton title="删除对象" className="danger" onClick={onDelete}><Trash2 size={15} /></IconButton>
       </div>
       {selected.type === "block" && <div className="property-section"><div className="section-label">外观</div>
@@ -191,11 +193,9 @@ function CreatorInspector({ level, selected, selectedItems, catalog, activeStage
         <label className="field-row"><span>形状</span><select value={selected.shapeId} onChange={(event) => { const shapeId = Number(event.target.value); onUpdate({ shapeId, shapeName: shapes.find((item) => item.id === shapeId)?.name || "形状" }); }}>{shapes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
         <div className="field-row color-row"><span>颜色</span><div className="swatches">{colors.map((item) => <button key={item.colorId} className={selected.colorId === item.colorId ? "selected" : ""} title={item.name} style={{ "--swatch": item.hex }} onClick={() => onUpdate({ colorId: item.colorId, colorName: item.name })} />)}</div></div>
       </div>}
-      {selected.type === "cannon" ? <div className="profile-note"><span>固定发射装置</span><p>大炮固定在场景前方中央，不参与关卡 JSON 导出。</p></div> : <>
-        <VectorEditor title="位置" value={selected.position} onCommit={(position) => onUpdate({ position })} />
-        <VectorEditor title="旋转（度）" value={selected.rotation} step={1} onCommit={(rotation) => onUpdate({ rotation })} />
-        <VectorEditor title="尺寸" value={selected.size} min={0.05} onCommit={(size) => onUpdate({ size })} />
-      </>}
+      <VectorEditor title="位置" value={selected.position} onCommit={(position) => onUpdate({ position })} />
+      <VectorEditor title="旋转（度）" value={selected.rotation} step={1} onCommit={(rotation) => onUpdate({ rotation })} />
+      <VectorEditor title="尺寸" value={selected.size} min={0.05} onCommit={(size) => onUpdate({ size })} />
     </div> : <div className="inspector-scroll">
       <div className="property-section"><div className="section-label">关卡信息</div>
         <NumberField label="关卡 ID" value={level.id} min={1} step={1} onCommit={(id) => onLevelUpdate({ id, firstProgressionLevel: id })} />
@@ -220,7 +220,12 @@ export default function CreatorPage() {
   const [history, dispatch] = useReducer(historyReducer, null, () => {
     const stored = localStorage.getItem("knockout:creator:draft");
     if (stored) {
-      try { return { past: [], present: withCounts(JSON.parse(stored)), future: [] }; } catch { localStorage.removeItem("knockout:creator:draft"); }
+      try {
+        const present = withCounts(JSON.parse(stored));
+        const snapshot = JSON.stringify(present);
+        if (snapshot !== stored) localStorage.setItem("knockout:creator:draft", snapshot);
+        return { past: [], present, future: [] };
+      } catch { localStorage.removeItem("knockout:creator:draft"); }
     }
     return { past: [], present: blankLevel(), future: [] };
   });
@@ -238,7 +243,7 @@ export default function CreatorPage() {
   const [palette, setPalette] = useState({ materialId: 0, shapeId: 0, colorId: 1, size: [1, 1, 1] });
   const [savedSnapshot, setSavedSnapshot] = useState(() => localStorage.getItem("knockout:creator:draft") || "");
   const [toast, setToast] = useState("");
-  const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, fireToken: 0, impactForce: 10 });
+  const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, impactForce: 10 });
   const [physicsStatus, setPhysicsStatus] = useState("idle");
   const physicsTransformsRef = useRef([]);
   const importRef = useRef(null);
@@ -273,7 +278,7 @@ export default function CreatorPage() {
   const commit = useCallback((next) => dispatch({ type: "COMMIT", value: withCounts(next) }), []);
 
   const startPhysics = useCallback(() => {
-    if (!stageObjects.some((item) => item.type === "block" || item.type === "attackBall" || item.type === "cannon")) {
+    if (!stageObjects.some((item) => item.type === "block")) {
       notify("当前关卡没有可模拟对象");
       return;
     }
@@ -295,10 +300,6 @@ export default function CreatorPage() {
     physicsTransformsRef.current = [];
     setPhysicsStatus("loading");
     setPhysics((current) => ({ ...current, enabled: true, paused: false, resetToken: current.resetToken + 1 }));
-  }, []);
-
-  const fireCannon = useCallback(() => {
-    setPhysics((current) => ({ ...current, paused: false, fireToken: current.fireToken + 1 }));
   }, []);
 
   const applyPhysics = useCallback(() => {
@@ -340,7 +341,7 @@ export default function CreatorPage() {
     if (!selectedItems.length) return;
     let blockIndex = level.objects.filter((item) => item.type === "block").length;
     let platformIndex = level.objects.filter((item) => item.type === "platform").length;
-    const copies = selectedItems.filter((item) => item.type !== "cannon").map((item) => {
+    const copies = selectedItems.map((item) => {
       const copy = clone(item);
       copy.uid = `${copy.type}-custom-${crypto.randomUUID()}`;
       copy.name = `${copy.name} 副本`;
@@ -359,7 +360,6 @@ export default function CreatorPage() {
     const next = clone(level);
     for (const item of next.objects) {
       if (!ids.has(item.uid)) continue;
-      if (item.type === "cannon") continue;
       if (offset) item.position = item.position.map((value, index) => Number((value + offset[index]).toFixed(4)));
       if (rotation) item.rotation = item.rotation.map((value, index) => Number((value + rotation[index]).toFixed(3)));
       if (scale) item.size = item.size.map((value, index) => Number(Math.max(0.05, value * scale[index]).toFixed(4)));
@@ -430,23 +430,6 @@ export default function CreatorPage() {
     setCameraCommand((current) => ({ ...current, token: current.token + 1 }));
   }, [level, activeStage, commit]);
 
-  const addCannon = useCallback(() => {
-    const existing = stageObjects.find((item) => item.type === "cannon");
-    if (existing) {
-      setSelectedIds([existing.uid]);
-      notify("当前关卡已经有一门固定大炮");
-      return;
-    }
-    const item = {
-      uid: `cannon-custom-${crypto.randomUUID()}`,
-      type: "cannon", name: "固定大炮", ...stageMeta(activeStage.stageIndex),
-      position: [0, 0, 5], rotation: [0, 180, 0], size: [1, 1, 1], fixed: true,
-    };
-    commit({ ...level, objects: [...level.objects, item] });
-    setSelectedIds([item.uid]);
-    setCameraCommand((current) => ({ ...current, token: current.token + 1 }));
-  }, [level, stageObjects, activeStage, commit, notify]);
-
   const addStage = useCallback(() => {
     const indexes = stages.map((stage) => stage.stageIndex).filter((value) => value != null);
     const stageIndex = Math.max(0, ...indexes) + 1;
@@ -467,7 +450,7 @@ export default function CreatorPage() {
 
   const clearStage = useCallback(() => {
     if (!window.confirm(`清空${activeStage.name}中的全部方块？平台会保留。`)) return;
-    commit({ ...level, objects: level.objects.filter((item) => (item.stageIndex ?? null) !== (activeStage.stageIndex ?? null) || item.type === "platform" || item.type === "cannon") });
+    commit({ ...level, objects: level.objects.filter((item) => (item.stageIndex ?? null) !== (activeStage.stageIndex ?? null) || item.type === "platform") });
     setSelectedIds([]);
   }, [level, activeStage, commit]);
 
@@ -563,7 +546,6 @@ export default function CreatorPage() {
           <div className="section-label">快速搭建</div>
           <div className="pattern-grid">{PATTERNS.map((pattern) => <button key={pattern.key} onClick={() => setBuildPattern(pattern.key)}><Box size={16} /><span>{pattern.label}</span><small>{pattern.description}</small></button>)}</div>
           <button className="wide-tool-button" onClick={addPlatform}><Plus size={15} /><Layers3 size={16} />添加平台</button>
-          <button className="wide-tool-button" onClick={addCannon}><Crosshair size={16} />添加固定大炮</button>
         </div>
       </aside>
 
@@ -600,7 +582,6 @@ export default function CreatorPage() {
             <b>{physics.impactForce}</b>
           </label>
           <button disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={() => setPhysics((current) => ({ ...current, paused: !current.paused }))}>{physics.paused ? <Play size={14} /> : <Pause size={14} />}{physics.paused ? "继续" : "暂停"}</button>
-          <button className="apply" disabled={physicsStatus === "loading" || physicsStatus === "error" || !stageObjects.some((item) => item.type === "cannon")} onClick={fireCannon}><CircleDot size={14} />开炮</button>
           <button disabled={physicsStatus === "loading"} onClick={resetPhysics}><RotateCcw size={14} />重置</button>
           <button className="apply" disabled={physicsStatus === "loading" || physicsStatus === "error"} onClick={applyPhysics}><Check size={14} />应用结果</button>
           <button onClick={exitPhysics}><X size={14} />退出</button>

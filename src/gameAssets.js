@@ -21,10 +21,6 @@ const TEXTURE_SETS = {
   column: { map: "column-color", normalMap: "column-normal", metalnessMap: "column-metalness", emissiveMap: "column-emissive", roughness: 0.38, metalness: 0.7 },
   jelly: { map: "jelly-color", emissiveMap: "jelly-emissive", roughness: 0.3, metalness: 0.08 },
   shredder: { map: "shredder-color", emissiveMap: "shredder-emissive", roughnessMap: "shredder-roughness", roughness: 0.42, metalness: 0.7 },
-  "cannon-red": { color: 0x870001, normalMap: "cannon-base-normal", aoMap: "cannon-base-occlusion", roughness: 0.298, metalness: 0.1, emissiveColor: 0x1f0000, emissiveIntensity: 0.35 },
-  "cannon-gold": { color: 0xd99000, normalMap: "cannon-accessory-normal", aoMap: "cannon-base-occlusion", roughness: 0.45, metalness: 0.1, emissiveColor: 0x1a0600, emissiveIntensity: 0.35 },
-  "cannon-beige": { color: 0xdfd5ce, normalMap: "cannon-accessory-normal", aoMap: "cannon-stabilizer-occlusion", roughness: 1, metalness: 0.35, emissiveColor: 0x0d0b08, emissiveIntensity: 0.25 },
-  "attack-ball": { color: 0xffffff, map: "attack-ball-color", roughness: 0.474, metalness: 0.35 },
 };
 
 function nearestLength(value) {
@@ -33,17 +29,6 @@ function nearestLength(value) {
 
 export function assetSpecFor(item) {
   if (!item) return null;
-  if (item.type === "cannon") {
-    return {
-      key: "cannon",
-      material: "cannon",
-      nominalSize: [1, 1, 1],
-      parts: ["cannon-base", "cannon-counter", "cannon-stabilizer"],
-    };
-  }
-  if (item.type === "attackBall") {
-    return { key: "attack-ball", material: "attack-ball", nominalSize: [1, 1, 1] };
-  }
   if (item.type === "platform") {
     return {
       key: "platform",
@@ -176,21 +161,6 @@ export function materialFor(spec, tint, variant = "body") {
     material.emissiveIntensity = isLid ? 0.18 : 0.35;
     material.userData.baseEmissive = material.emissive.getHex();
     material.userData.baseEmissiveIntensity = material.emissiveIntensity;
-    return material;
-  }
-
-  if (spec?.material === "cannon") {
-    const key = variant === "gold" ? "cannon-gold" : variant === "beige" ? "cannon-beige" : "cannon-red";
-    const settings = TEXTURE_SETS[key];
-    const material = new THREE.MeshStandardMaterial({
-      color: settings.color,
-      roughness: settings.roughness,
-      metalness: settings.metalness,
-    });
-    material.emissive.setHex(settings.emissiveColor);
-    material.emissiveIntensity = settings.emissiveIntensity;
-    material.userData.baseEmissive = settings.emissiveColor;
-    material.userData.baseEmissiveIntensity = settings.emissiveIntensity;
     return material;
   }
 

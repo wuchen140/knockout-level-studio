@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { TransformControls } from "three/addons/controls/TransformControls.js";
 import { assetSpecFor, loadGameModel, materialFor } from "../gameAssets.js";
-import { applyDirectionalImpact, createLevelPhysics, disposeLevelPhysics, physicsTransforms, spawnAttackBall, stepLevelPhysics } from "../physics/levelPhysics.js";
+import { applyDirectionalImpact, createLevelPhysics, disposeLevelPhysics, physicsTransforms, stepLevelPhysics } from "../physics/levelPhysics.js";
 
 const PLATFORM_COLOR = 0x59656a;
 const PLATFORM_PART_TRANSFORMS = {
@@ -15,34 +15,6 @@ const PLATFORM_PART_TRANSFORMS = {
   "platform-mid-gold": { position: [0, 0.56626093, 0] },
   "platform-bottom-gold": { position: [0, 0.11257279, 0] },
 };
-// Rebuilt from the Unity Cannon -> BarrelPivot -> CannonParent hierarchy.
-// The exported meshes do not retain their prefab parents, so keeping these
-// transforms here is what preserves the original pivots and scale.
-const CANNON_ASSEMBLY = {
-  barrelPivot: { position: [0, 1.18, 0] },
-  cannonParent: {
-    position: [0.014846671, -2.363072, 4.046482],
-    quaternion: [0.20715533, 0.0017517635, -0.0010796624, 0.9783059],
-    scale: [0.26560003, 0.2656, 0.26559997],
-  },
-  barrelBody: {
-    position: [0, -2.8, -18.23],
-    quaternion: [0, -0.99218994, 0.1247364, 0],
-    scale: [3.765131, 3.765131, 3.765131],
-  },
-  cannonBase: { position: [0, 1.02, 0.1], quaternion: [0.25267732, 0, 0, 0.96755064] },
-  cannonCounter: { position: [0, 0.694, 0.62], quaternion: [-0.17364825, 0, 0, 0.9848078] },
-  stabilizerPivot: { position: [0, 0.1019928, -0.5100002], quaternion: [0, -1, 0, 0] },
-  stabilizer: {
-    position: [0, 0.429, -1.725],
-    quaternion: [-0.026131358, 0, 0, 0.9996585],
-    scale: [0.95581, 0.95581, 0.95581],
-  },
-  muzzle: {
-    position: [0.0001608003, 0.28171885, 0.3422203],
-    quaternion: [-0.0003518483, -0.9852695, 0.1709969, 0.002027449],
-  },
-};
 const DEFAULT_COLORS = {
   0: "#d8d2c6", 1: "#e57373", 2: "#fae58c", 3: "#64b5f6",
   4: "#81c784", 5: "#ffad66", 6: "#f48fb1", 7: "#b39ddb",
@@ -53,13 +25,6 @@ const GAME_GLASS_COLORS = {
 };
 
 function geometryFor(item) {
-  if (item.type === "attackBall") return new THREE.SphereGeometry(0.29, 28, 18);
-  if (item.type === "cannon") {
-    const geometry = new THREE.CylinderGeometry(0.55, 0.72, 2.3, 24);
-    geometry.rotateX(Math.PI / 2);
-    geometry.translate(0, 1.05, -0.35);
-    return geometry;
-  }
   if (item.type === "platform") {
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     // Platform coordinates describe the top surface in the source level data.
@@ -74,8 +39,6 @@ function geometryFor(item) {
 
 function colorFor(item, catalog) {
   if (item.type === "platform") return PLATFORM_COLOR;
-  if (item.type === "cannon") return 0x870001;
-  if (item.type === "attackBall") return 0xffffff;
   if (item.materialId === 4 && GAME_GLASS_COLORS[item.colorId]) return GAME_GLASS_COLORS[item.colorId];
   const match = catalog?.colors?.find((color) => color.materialId === item.materialId && color.colorId === item.colorId)
     || catalog?.colors?.find((color) => color.colorId === item.colorId);
@@ -124,29 +87,12 @@ function stopPhysics(api, level) {
   disposeLevelPhysics(api.physicsSimulation);
   api.physicsSimulation = null;
   api.physicsEnabled = false;
-  clearRuntimeObjects(api);
   restoreConfiguredTransforms(api, level);
-}
-
-function clearRuntimeObjects(api) {
-  for (const object of [...api.objectGroup.children]) {
-    if (!object.userData.runtime) continue;
-    api.objectGroup.remove(object);
-    api.objectsById.delete(object.userData.objectId);
-    disposeGroup(object);
-  }
 }
 
 function applyConfiguredSize(object, size) {
   const nominal = object.userData.nominalSize || [1, 1, 1];
   object.scale.set(...size.map((value, index) => Math.max(0.05, value) / Math.max(nominal[index], 0.0001)));
-}
-
-function applyLocalTransform(object, transform = {}) {
-  if (transform.position) object.position.fromArray(transform.position);
-  if (transform.quaternion) object.quaternion.fromArray(transform.quaternion);
-  if (transform.scale) object.scale.fromArray(transform.scale);
-  return object;
 }
 
 function setSelected(object, selected) {
@@ -165,8 +111,6 @@ function makeEditableObject(item, catalog) {
   const root = new THREE.Group();
   root.name = item.name;
   root.userData.objectId = item.uid;
-  root.userData.locked = item.type === "cannon" || item.type === "attackBall";
-  root.userData.runtime = Boolean(item.runtime);
   root.userData.nominalSize = [1, 1, 1];
   root.position.fromArray(item.position);
   root.rotation.set(...item.rotation.map(THREE.MathUtils.degToRad));
@@ -213,51 +157,6 @@ function modelVisual(model, spec, item, catalog) {
         const variant = key === "platform-pipe" ? "blue"
           : key === "platform-table" && meshIndex > 0 ? "red" : "gold";
         node.userData.ownsGeometry = false;
-        node.material = materialFor(spec, null, variant);
-        node.castShadow = true;
-        node.receiveShadow = true;
-        meshIndex += 1;
-      });
-    }
-  } else if (spec.material === "cannon") {
-    const parts = new Map([...visual.children].map((part) => [part.userData.assetPart, part]));
-    const cannonAssembly = new THREE.Group();
-    cannonAssembly.name = "大炮 Unity 装配根节点";
-    const barrelPivot = applyLocalTransform(new THREE.Group(), CANNON_ASSEMBLY.barrelPivot);
-    barrelPivot.name = "炮管旋转枢轴";
-    const cannonParent = applyLocalTransform(new THREE.Group(), CANNON_ASSEMBLY.cannonParent);
-    cannonParent.name = "炮身父节点";
-    const barrelBody = applyLocalTransform(new THREE.Group(), CANNON_ASSEMBLY.barrelBody);
-    barrelBody.name = "炮身节点";
-    const cannonBase = applyLocalTransform(parts.get("cannon-base") || new THREE.Group(), CANNON_ASSEMBLY.cannonBase);
-    cannonBase.name = "炮身模型";
-    const cannonCounter = applyLocalTransform(parts.get("cannon-counter") || new THREE.Group(), CANNON_ASSEMBLY.cannonCounter);
-    cannonCounter.name = "计数器模型";
-    const stabilizerPivot = applyLocalTransform(new THREE.Group(), CANNON_ASSEMBLY.stabilizerPivot);
-    stabilizerPivot.name = "稳定底座枢轴";
-    const stabilizer = applyLocalTransform(parts.get("cannon-stabilizer") || new THREE.Group(), CANNON_ASSEMBLY.stabilizer);
-    stabilizer.name = "稳定底座模型";
-    const muzzle = applyLocalTransform(new THREE.Object3D(), CANNON_ASSEMBLY.muzzle);
-    muzzle.name = "炮口";
-    muzzle.userData.isMuzzle = true;
-
-    cannonBase.add(cannonCounter);
-    barrelBody.add(cannonBase);
-    cannonParent.add(barrelBody);
-    barrelPivot.add(cannonParent, muzzle);
-    stabilizerPivot.add(stabilizer);
-    cannonAssembly.add(barrelPivot, stabilizerPivot);
-    for (const part of parts.values()) visual.remove(part);
-    visual.add(cannonAssembly);
-    visual.userData.muzzleNode = muzzle;
-
-    for (const part of [cannonBase, cannonCounter, stabilizer]) {
-      const key = part.userData.assetPart;
-      let meshIndex = 0;
-      part.traverse((node) => {
-        if (!node.isMesh) return;
-        node.userData.ownsGeometry = false;
-        const variant = key === "cannon-stabilizer" ? "beige" : meshIndex === 0 ? "red" : "gold";
         node.material = materialFor(spec, null, variant);
         node.castShadow = true;
         node.receiveShadow = true;
@@ -437,15 +336,6 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
       const simulation = apiRef.current?.physicsSimulation;
       if (simulation && !simulation.paused) {
         stepLevelPhysics(simulation, now);
-        for (const uid of simulation.removed) {
-          const object = apiRef.current.objectsById.get(uid);
-          if (object) {
-            apiRef.current.objectGroup.remove(object);
-            apiRef.current.objectsById.delete(uid);
-            disposeGroup(object);
-          }
-        }
-        simulation.removed.clear();
         for (const [uid, body] of simulation.bodies) {
           const object = apiRef.current.objectsById.get(uid);
           if (!object) continue;
@@ -534,39 +424,6 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     physicsUpdateCallbackRef.current?.(physicsTransforms(simulation));
     physicsStatusCallbackRef.current?.(simulation.paused ? "paused" : "running");
   }, [physics?.paused]);
-
-  useEffect(() => {
-    const api = apiRef.current;
-    const token = Number(physics?.fireToken || 0);
-    if (!api || !api.physicsSimulation || token <= (api.lastFireToken || 0)) return;
-    api.lastFireToken = token;
-    const cannon = (level?.objects || []).find((item) => item.type === "cannon");
-    const cannonObject = cannon ? api.objectsById.get(cannon.uid) : null;
-    const muzzle = cannonObject?.getObjectByName("炮口");
-    let muzzlePose = null;
-    if (muzzle) {
-      muzzle.updateMatrixWorld(true);
-      // Unity's local +Z becomes -Z after the unmodified mesh coordinates are
-      // interpreted in Three.js' right-handed world.
-      const direction = new THREE.Vector3(0, 0, -1).transformDirection(muzzle.matrixWorld);
-      muzzlePose = {
-        position: muzzle.getWorldPosition(new THREE.Vector3()).toArray(),
-        direction: direction.normalize().toArray(),
-      };
-    }
-    const projectile = spawnAttackBall(api.physicsSimulation, cannon, muzzlePose);
-    if (!projectile) return;
-    const { root, spec } = makeEditableObject(projectile, catalog);
-    api.objectGroup.add(root);
-    api.objectsById.set(projectile.uid, root);
-    loadGameModel(spec).then((model) => {
-      if (!root.parent) return;
-      disposeGroup(root);
-      root.userData.nominalSize = spec.nominalSize;
-      applyConfiguredSize(root, projectile.size);
-      root.add(modelVisual(model, spec, projectile, catalog));
-    }).catch((error) => console.warn("攻击球模型加载失败", error));
-  }, [physics?.fireToken, level, catalog]);
 
   useEffect(() => {
     const api = apiRef.current;
