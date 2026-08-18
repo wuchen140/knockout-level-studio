@@ -153,12 +153,18 @@ function applyFirstBallCollision(simulation, ballUid, targetUid, now) {
   const previousVelocity = simulation.previousVelocities.get(ballUid) || currentVelocity;
   const launchDirection = normalizedVelocity(
     speedOf(currentVelocity) > 0.01 ? currentVelocity : previousVelocity,
-    1,
+    BALL_TUNING.firstCollisionSpeed,
   );
-  if (targetUid && launchDirection) {
-    applyDirectionalImpact(simulation.bodies.get(targetUid), launchDirection, BALL_TUNING.impactForce);
+  if (launchDirection) body.setLinvel(launchDirection, true);
+  const angularVelocity = body.angvel();
+  body.setAngvel({
+    x: angularVelocity.x * BALL_TUNING.firstCollisionAngularMultiplier,
+    y: angularVelocity.y * BALL_TUNING.firstCollisionAngularMultiplier,
+    z: angularVelocity.z * BALL_TUNING.firstCollisionAngularMultiplier,
+  }, true);
+  if (!targetUid) {
+    profile.expiresAt = now;
   }
-  profile.expiresAt = now;
 }
 
 function markImpactShatter(simulation, handle1, handle2, now) {
@@ -388,7 +394,6 @@ export function spawnAttackBall(simulation, cannon, muzzlePose = null) {
   const colliderHandle = simulation.world.createCollider(
     RAPIER.ColliderDesc.ball(BALL_TUNING.radius * NORMAL_AMMUNITION.visualScale)
       .setMass(NORMAL_AMMUNITION.mass)
-      .setSensor(true)
       .setFriction(0.35)
       .setRestitution(0.25),
     body,
