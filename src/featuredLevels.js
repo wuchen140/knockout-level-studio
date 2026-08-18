@@ -2,7 +2,7 @@ const stageMeta = { area: "根关卡", stageIndex: null };
 
 function makeBlock(index, x, y, z, colorId, colorName) {
   return {
-    uid: `block-custom-1001-${index}`,
+    uid: `block-custom-1-${index}`,
     type: "block",
     name: `城堡方块 ${index}`,
     ...stageMeta,
@@ -23,45 +23,32 @@ function makeBlock(index, x, y, z, colorId, colorName) {
 }
 
 function buildCastleBlocks() {
-  const blocks = [];
-  let index = 0;
-  const addColumn = (x, z, height, roofStart, detailRows = []) => {
-    for (let y = 0; y < height; y += 1) {
-      const detail = detailRows.includes(y);
-      const colorId = detail ? 1 : y === 0 || y === roofStart - 1 ? 5 : y >= roofStart ? 7 : 2;
-      const colorName = detail ? "红" : colorId === 5 ? "橙" : colorId === 7 ? "紫" : "黄";
-      blocks.push(makeBlock(++index, x, y, z, colorId, colorName));
-    }
-  };
-
-  // Two blocks of depth make the back view and right-side view readable. Every
-  // column starts on the platform, so there are no unsupported roof pieces.
-  for (const z of [-1, 0]) {
-    addColumn(-4, z, 1, 1);
-    addColumn(-3, z, 6, 4, z === 0 ? [2] : []);
-    addColumn(-2, z, 5, 4);
-    addColumn(-1, z, 7, 4);
-    addColumn(0, z, 9, 4, z === 0 ? [1, 2] : []);
-    addColumn(1, z, 7, 4);
-    addColumn(2, z, 5, 4);
-    addColumn(3, z, 6, 4, z === 0 ? [2] : []);
-    addColumn(4, z, 1, 1);
-  }
-  return blocks;
+  const layout = [
+    ...[-2, -1, 0, 1, 2].map((x) => ({ x, y: 0, colorId: 5, colorName: "橙" })),
+    { x: -2, y: 1, colorId: 2, colorName: "黄" },
+    { x: 0, y: 1, colorId: 2, colorName: "黄" },
+    { x: 2, y: 1, colorId: 2, colorName: "黄" },
+    { x: -2, y: 2, colorId: 7, colorName: "紫" },
+    { x: 0, y: 2, colorId: 7, colorName: "紫" },
+    { x: 2, y: 2, colorId: 7, colorName: "紫" },
+    { x: 0, y: 3, colorId: 7, colorName: "紫" },
+    { x: 0, y: 4, colorId: 7, colorName: "紫" },
+  ];
+  return layout.map((item, index) => makeBlock(index + 1, item.x, item.y, -0.5, item.colorId, item.colorName));
 }
 
 const blocks = buildCastleBlocks();
 
 export const FEATURED_LEVEL_INDEX = {
-  key: "custom:1001",
-  slug: "custom-1001",
-  category: "custom",
-  id: 1001,
+  key: "featured:1",
+  slug: "featured-1",
+  category: "prod",
+  id: 1,
   moveCount: 20,
   difficulty: "NORMAL",
   difficultyValue: 0,
   progressionCount: 1,
-  firstProgressionLevel: 1001,
+  firstProgressionLevel: 1,
   ballCount: 20,
   counts: { platforms: 1, blocks: blocks.length, barriers: 0, stages: 0, shutters: 0, waves: 0, generatedBlocks: 0, shutterBlocks: 0 },
 };
@@ -71,15 +58,15 @@ export const FEATURED_LEVEL = {
   schemaVersion: 1,
   source: { levels: "新建关卡", game: "游戏配置.xlsx" },
   objects: [{
-    uid: "platform-custom-1001-1",
+    uid: "platform-custom-1-1",
     type: "platform",
     name: "城堡平台",
     ...stageMeta,
     path: "platforms/1",
     platformIndex: 1,
-    position: [0, 0, 0],
+    position: [0, 0, -0.5],
     rotation: [0, 0, 0],
-    size: [10, 1, 4],
+    size: [5.2, 1, 1],
     motion: {
       rotating: false,
       rotationSpeed: 0,

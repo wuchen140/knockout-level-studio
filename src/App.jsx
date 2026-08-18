@@ -186,7 +186,9 @@ function LibraryApp() {
   useEffect(() => {
     Promise.all([fetch(dataUrl("index.json")).then((response) => response.json()), fetch(dataUrl("catalog.json")).then((response) => response.json())])
       .then(([levelIndex, gameCatalog]) => {
-        const levels = [...levelIndex.levels, FEATURED_LEVEL_INDEX];
+        const levels = levelIndex.levels.map((item) => (
+          item.category === "prod" && item.id === 1 ? FEATURED_LEVEL_INDEX : item
+        ));
         const requestedLevel = new URLSearchParams(window.location.search).get("level");
         setIndex(levels);
         setCatalog(gameCatalog);
