@@ -533,5 +533,5 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
   }, [cameraCommand, level?.key]);
 
   const backgroundImage = `url(${import.meta.env.BASE_URL}models/backgrounds/game-scene.webp)`;
-  return <div className="scene-mount" ref={mountRef} data-testid="level-canvas" title={physics?.enabled ? "点击方块施加冲击" : undefined} style={{ backgroundImage }} />;
+  return <div className="scene-mount" ref={mountRef} data-testid="level-canvas" title={physics?.enabled ? "点击方块施加冲击并启用重力" : undefined} style={{ backgroundImage }} />;
 }
