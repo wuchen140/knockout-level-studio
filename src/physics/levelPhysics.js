@@ -304,35 +304,6 @@ export async function createLevelPhysics(level, catalog) {
     body.setAngvel({ x: 0, y: 0, z: 0 }, false);
     body.sleep();
   }
-  // Hidden contact calibration: the Unity levels are authored as a sleeping
-  // stack, but tiny import tolerances can wake a few bodies at different
-  // times when full gravity is enabled. Let the complete dynamic structure
-  // settle briefly at low gravity/high damping, then start the visible preview
-  // from that calibrated contact state.
-  const platformItems = (level.objects || []).filter((item) => item.type === "platform");
-  const maxPlatformTilt = Math.max(0, ...platformItems.map((item) => Math.abs(Number(item.rotation?.[1] || 0))));
-  const needsContactCalibration = platformItems.length > 1 && maxPlatformTilt <= 15;
-  if (needsContactCalibration) {
-    const calibrationGravity = PHYSICS_TUNING.gravity * 0.12;
-    const calibrationSteps = Math.max(2, Math.ceil(PHYSICS_TUNING.prewarmDuration / FIXED_STEP));
-    for (const body of bodies.values()) {
-      body.setLinearDamping(2);
-      body.setAngularDamping(2);
-      body.wakeUp();
-    }
-    world.gravity = { x: 0, y: -calibrationGravity, z: 0 };
-    for (let step = 0; step < calibrationSteps; step += 1) {
-      world.step(eventQueue);
-      eventQueue.drainCollisionEvents(() => {});
-    }
-    for (const body of bodies.values()) {
-      body.setLinvel({ x: 0, y: 0, z: 0 }, false);
-      body.setAngvel({ x: 0, y: 0, z: 0 }, false);
-      body.setLinearDamping(0.12);
-      body.setAngularDamping(0.18);
-      body.sleep();
-    }
-  }
   world.gravity = { x: 0, y: -PHYSICS_TUNING.gravity, z: 0 };
   eventQueue.drainCollisionEvents(() => {});
   return {
