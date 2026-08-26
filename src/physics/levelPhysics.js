@@ -85,6 +85,44 @@ function speedOf(velocity) {
   return Math.hypot(velocity.x, velocity.y, velocity.z);
 }
 
+function platformCollisionSizes(objects) {
+  const platforms = objects.filter((item) => item.type === "platform");
+  const sizes = new Map(platforms.map((platform) => [platform.uid, normalizedSize(platform.size)]));
+  const baseBlocks = objects.filter((item) => item.type === "block" && Number(item.position?.[1] || 0) <= 0.55);
+  for (const block of baseBlocks) {
+    if (!platforms.length) break;
+    const blockPosition = new THREE.Vector3(...block.position);
+    let nearest = platforms[0];
+    let nearestDistance = Infinity;
+    // Compound levels often place each sub-stage with its own yaw. Prefer the
+    // platform whose authored rotation matches the block before falling back
+    // to distance; Euclidean proximity alone can assign a base block to the
+    // neighbouring platform and leave the real support collider too narrow.
+    const matching = platforms.filter((platform) => Math.abs(
+      THREE.MathUtils.euclideanModulo(Number(block.rotation?.[1] || 0) - Number(platform.rotation?.[1] || 0) + 180, 360) - 180,
+    ) < 0.5);
+    const candidates = matching.length ? matching : platforms;
+    for (const platform of candidates) {
+      const distance = blockPosition.distanceTo(new THREE.Vector3(...platform.position));
+      if (distance < nearestDistance) {
+        nearest = platform;
+        nearestDistance = distance;
+      }
+    }
+    const inverse = new THREE.Quaternion().copy(new THREE.Quaternion().setFromEuler(
+      new THREE.Euler(...nearest.rotation.map(THREE.MathUtils.degToRad)),
+    )).invert();
+    const local = blockPosition.sub(new THREE.Vector3(...nearest.position)).applyQuaternion(inverse);
+    const size = sizes.get(nearest.uid);
+    // Include the full authored footprint of base blocks. This is important
+    // for compound/rotated stages where the visible table is narrower than
+    // the Unity support collider used by the original level.
+    size[0] = Math.max(size[0], 2 * (Math.abs(local.x) + Math.max(0.5, Number(block.size?.[0] || 1) / 2)));
+    size[2] = Math.max(size[2], 2 * (Math.abs(local.z) + Math.max(0.5, Number(block.size?.[2] || 1) / 2)));
+  }
+  return sizes;
+}
+
 export function applyDirectionalImpact(body, direction, strength) {
   if (!body || !direction) return;
   const force = Math.max(0, Number(strength) || 0);
@@ -169,11 +207,12 @@ export async function createLevelPhysics(level, catalog) {
   const bodies = new Map();
   const bodyProfiles = new Map();
   const colliderUids = new Map();
+  const platformSizes = platformCollisionSizes(level.objects || []);
 
   for (const item of level.objects || []) {
     const rotation = quaternionFor(item.rotation);
     if (item.type === "platform") {
-      const size = item.size.map((value) => Math.max(0.05, value));
+      const size = platformSizes.get(item.uid) || item.size.map((value) => Math.max(0.05, value));
       const body = world.createRigidBody(
         RAPIER.RigidBodyDesc.fixed()
           .setTranslation(...item.position)
