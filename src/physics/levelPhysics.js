@@ -214,7 +214,6 @@ export async function createLevelPhysics(level, catalog) {
     size: platformSizes.get(item.uid) || normalizedSize(item.size),
   }));
   const bodyHalfHeights = new Map();
-  const bodySizes = new Map();
 
   for (const item of level.objects || []) {
     const rotation = quaternionFor(item.rotation);
@@ -271,7 +270,6 @@ export async function createLevelPhysics(level, catalog) {
     const colliderHandle = world.createCollider(collider, body).handle;
     bodies.set(item.uid, body);
     bodyHalfHeights.set(item.uid, size[1] / 2);
-    bodySizes.set(item.uid, size);
     bodyProfiles.set(item.uid, { ...profile, mass });
     colliderUids.set(colliderHandle, item.uid);
   }
@@ -318,7 +316,6 @@ export async function createLevelPhysics(level, catalog) {
     previousVelocities: new Map(),
     supportPlatforms,
     bodyHalfHeights,
-    bodySizes,
     shattered: new Set(),
     accumulator: 0,
     lastTime: performance.now(),
@@ -368,37 +365,6 @@ export function stepLevelPhysics(simulation, now) {
     }
   }
 
-  // A few imported Unity stacks begin exactly face-to-face. Rapier may leave
-  // the upper sleeping body with no contact island and let it tunnel through
-  // the lower one on the first gravity step. Resolve only clear vertical
-  // stack penetrations here, preserving horizontal motion and side impacts.
-  const entries = [...simulation.bodies].map(([uid, body]) => {
-    const size = simulation.bodySizes?.get(uid) || [1, 1, 1];
-    const q = body.rotation();
-    const xAxis = new THREE.Vector3(1, 0, 0).applyQuaternion(new THREE.Quaternion(q.x, q.y, q.z, q.w));
-    const yAxis = new THREE.Vector3(0, 1, 0).applyQuaternion(new THREE.Quaternion(q.x, q.y, q.z, q.w));
-    const zAxis = new THREE.Vector3(0, 0, 1).applyQuaternion(new THREE.Quaternion(q.x, q.y, q.z, q.w));
-    const halfX = Math.abs(xAxis.x) * size[0] / 2 + Math.abs(yAxis.x) * size[1] / 2 + Math.abs(zAxis.x) * size[2] / 2;
-    const halfY = Math.abs(xAxis.y) * size[0] / 2 + Math.abs(yAxis.y) * size[1] / 2 + Math.abs(zAxis.y) * size[2] / 2;
-    const halfZ = Math.abs(xAxis.z) * size[0] / 2 + Math.abs(yAxis.z) * size[1] / 2 + Math.abs(zAxis.z) * size[2] / 2;
-    const p = body.translation();
-    return { uid, body, p, halfX, halfY, halfZ };
-  });
-  for (let i = 0; i < entries.length; i += 1) {
-    for (let j = i + 1; j < entries.length; j += 1) {
-      const a = entries[i];
-      const b = entries[j];
-      const lower = a.p.y <= b.p.y ? a : b;
-      const upper = lower === a ? b : a;
-      if (Math.abs(a.p.x - b.p.x) > a.halfX + b.halfX - 0.02
-        || Math.abs(a.p.z - b.p.z) > a.halfZ + b.halfZ - 0.02) continue;
-      const requiredY = lower.p.y + lower.halfY + upper.halfY;
-      if (upper.p.y >= requiredY - 0.04 || upper.body.linvel().y > 0.05) continue;
-      upper.body.setTranslation({ x: upper.p.x, y: requiredY, z: upper.p.z }, true);
-      const velocity = upper.body.linvel();
-      upper.body.setLinvel({ x: velocity.x, y: Math.max(0, velocity.y), z: velocity.z }, true);
-    }
-  }
   for (const [uid, body] of simulation.bodies) {
     const position = body.translation();
     if (position.y < PHYSICS_TUNING.fallHeight
