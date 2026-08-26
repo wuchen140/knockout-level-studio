@@ -208,6 +208,12 @@ export async function createLevelPhysics(level, catalog) {
   const bodyProfiles = new Map();
   const colliderUids = new Map();
   const platformSizes = platformCollisionSizes(level.objects || []);
+  const supportPlatforms = (level.objects || []).filter((item) => item.type === "platform").map((item) => ({
+    position: new THREE.Vector3(...item.position),
+    rotation: new THREE.Quaternion().setFromEuler(new THREE.Euler(...item.rotation.map(THREE.MathUtils.degToRad))),
+    size: platformSizes.get(item.uid) || normalizedSize(item.size),
+  }));
+  const bodyHalfHeights = new Map();
 
   for (const item of level.objects || []) {
     const rotation = quaternionFor(item.rotation);
@@ -263,6 +269,7 @@ export async function createLevelPhysics(level, catalog) {
       .setRestitution(0);
     const colliderHandle = world.createCollider(collider, body).handle;
     bodies.set(item.uid, body);
+    bodyHalfHeights.set(item.uid, size[1] / 2);
     bodyProfiles.set(item.uid, { ...profile, mass });
     colliderUids.set(colliderHandle, item.uid);
   }
@@ -307,6 +314,8 @@ export async function createLevelPhysics(level, catalog) {
     groundColliderHandle,
     eventQueue,
     previousVelocities: new Map(),
+    supportPlatforms,
+    bodyHalfHeights,
     shattered: new Set(),
     accumulator: 0,
     lastTime: performance.now(),
@@ -331,6 +340,29 @@ export function stepLevelPhysics(simulation, now) {
     });
     simulation.accumulator -= simulation.fixedStep;
     steps += 1;
+  }
+  // Correct solver penetration at a platform's top face. This is a narrow
+  // collision correction (only while the block is over the platform footprint)
+  // so blocks can still slide off and fall when they genuinely leave an edge.
+  for (const [uid, body] of simulation.bodies) {
+    if (simulation.shattered.has(uid)) continue;
+    const position = body.translation();
+    const halfHeight = simulation.bodyHalfHeights?.get(uid) || 0.5;
+    for (const platform of simulation.supportPlatforms || []) {
+      const local = new THREE.Vector3(position.x, position.y, position.z)
+        .sub(platform.position).applyQuaternion(platform.rotation.clone().invert());
+      const halfWidth = Math.max(0.5, halfHeight);
+      const halfDepth = Math.max(0.5, halfHeight);
+      if (Math.abs(local.x) > platform.size[0] / 2 + halfWidth
+        || Math.abs(local.z) > platform.size[2] / 2 + halfDepth) continue;
+      const minimumCenterY = platform.position.y + halfHeight;
+      if (position.y < minimumCenterY - 0.03) {
+        body.setTranslation({ x: position.x, y: minimumCenterY, z: position.z }, true);
+        const velocity = body.linvel();
+        body.setLinvel({ x: velocity.x, y: Math.max(0, velocity.y), z: velocity.z }, true);
+      }
+      break;
+    }
   }
   for (const [uid, body] of simulation.bodies) {
     const position = body.translation();
