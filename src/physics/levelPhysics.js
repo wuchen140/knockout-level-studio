@@ -37,12 +37,6 @@ function normalizedSize(size = [1, 1, 1]) {
   return size.map((value) => Math.max(0.05, Number(value) || 1));
 }
 
-// Platform meshes are authored with their top face at the level coordinate,
-// while the Unity table collider extends a little farther than the visible
-// rim. Keep a small invisible safety margin so edge blocks cannot slip through
-// the seam when a rotated platform is under load.
-const PLATFORM_COLLISION_MARGIN = 0.18;
-
 function cylinderAxis(size) {
   const [width, height, depth] = size;
   if (width > height && width >= depth) return 0;
@@ -85,49 +79,9 @@ function speedOf(velocity) {
   return Math.hypot(velocity.x, velocity.y, velocity.z);
 }
 
-function platformCollisionSizes(objects) {
-  const platforms = objects.filter((item) => item.type === "platform");
-  const sizes = new Map(platforms.map((platform) => [platform.uid, normalizedSize(platform.size)]));
-  const baseBlocks = objects.filter((item) => item.type === "block" && Number(item.position?.[1] || 0) <= 0.55);
-  for (const block of baseBlocks) {
-    if (!platforms.length) break;
-    const blockPosition = new THREE.Vector3(...block.position);
-    let nearest = platforms[0];
-    let nearestDistance = Infinity;
-    // Compound levels often place each sub-stage with its own yaw. Prefer the
-    // platform whose authored rotation matches the block before falling back
-    // to distance; Euclidean proximity alone can assign a base block to the
-    // neighbouring platform and leave the real support collider too narrow.
-    const matching = platforms.filter((platform) => Math.abs(
-      THREE.MathUtils.euclideanModulo(Number(block.rotation?.[1] || 0) - Number(platform.rotation?.[1] || 0) + 180, 360) - 180,
-    ) < 0.5);
-    const candidates = matching.length ? matching : platforms;
-    for (const platform of candidates) {
-      const distance = blockPosition.distanceTo(new THREE.Vector3(...platform.position));
-      if (distance < nearestDistance) {
-        nearest = platform;
-        nearestDistance = distance;
-      }
-    }
-    const inverse = new THREE.Quaternion().copy(new THREE.Quaternion().setFromEuler(
-      new THREE.Euler(...nearest.rotation.map(THREE.MathUtils.degToRad)),
-    )).invert();
-    const local = blockPosition.sub(new THREE.Vector3(...nearest.position)).applyQuaternion(inverse);
-    const size = sizes.get(nearest.uid);
-    // Include the full authored footprint of base blocks. This is important
-    // for compound/rotated stages where the visible table is narrower than
-    // the Unity support collider used by the original level.
-    size[0] = Math.max(size[0], 2 * (Math.abs(local.x) + Math.max(0.5, Number(block.size?.[0] || 1) / 2)));
-    size[2] = Math.max(size[2], 2 * (Math.abs(local.z) + Math.max(0.5, Number(block.size?.[2] || 1) / 2)));
-  }
-  return sizes;
-}
-
 export function applyDirectionalImpact(body, direction, strength) {
   if (!body || !direction) return;
   const force = Math.max(0, Number(strength) || 0);
-  body.setGravityScale?.(1, true);
-  body.wakeUp?.();
   body.applyImpulse({
     x: direction.x * force,
     y: Math.max(direction.y * force, force * 0.2),
@@ -157,18 +111,6 @@ function markImpactShatter(simulation, handle1, handle2) {
   const speed1 = uid1 ? speedOf(simulation.previousVelocities.get(uid1) || { x: 0, y: 0, z: 0 }) : 0;
   const speed2 = uid2 ? speedOf(simulation.previousVelocities.get(uid2) || { x: 0, y: 0, z: 0 }) : 0;
   const impactSpeed = speed1 + speed2;
-  // Keep gravity enabled across a collision chain. This also covers bodies
-  // that were initially sleeping during the authored-pose prewarm.
-  const active = [uid1, uid2].some((uid) => {
-    const body = uid ? simulation.bodies.get(uid) : null;
-    return body?.gravityScale?.() > 0;
-  });
-  if (active) {
-    for (const uid of [uid1, uid2]) {
-      const body = uid ? simulation.bodies.get(uid) : null;
-      if (body) body.setGravityScale(1, true);
-    }
-  }
   for (const uid of [uid1, uid2]) {
     if (!uid || simulation.shattered.has(uid)) continue;
     const profile = simulation.bodyProfiles.get(uid);
@@ -198,41 +140,21 @@ export async function createLevelPhysics(level, catalog) {
   // before its first visible frame.
   const world = new RAPIER.World({ x: 0, y: 0, z: 0 });
   world.timestep = FIXED_STEP;
-  // Match the Unity profile used by the level data. Higher solver budgets are
-  // important for the tightly packed, rotated stacks in levels such as 327;
-  // the default Rapier budget can leave small contact errors that look like a
-  // block passing through a platform edge.
-  world.integrationParameters.numSolverIterations = PHYSICS_TUNING.sourcePositionSolverIterations;
-  world.integrationParameters.numInternalPgsIterations = PHYSICS_TUNING.sourceVelocitySolverIterations;
   const bodies = new Map();
   const bodyProfiles = new Map();
   const colliderUids = new Map();
-  const platformSizes = platformCollisionSizes(level.objects || []);
-  const supportPlatforms = (level.objects || []).filter((item) => item.type === "platform").map((item) => ({
-    position: new THREE.Vector3(...item.position),
-    rotation: new THREE.Quaternion().setFromEuler(new THREE.Euler(...item.rotation.map(THREE.MathUtils.degToRad))),
-    size: platformSizes.get(item.uid) || normalizedSize(item.size),
-  }));
-  const bodyHalfHeights = new Map();
 
   for (const item of level.objects || []) {
     const rotation = quaternionFor(item.rotation);
     if (item.type === "platform") {
-      const size = platformSizes.get(item.uid) || item.size.map((value) => Math.max(0.05, value));
+      const size = item.size.map((value) => Math.max(0.05, value));
       const body = world.createRigidBody(
         RAPIER.RigidBodyDesc.fixed()
           .setTranslation(...item.position)
           .setRotation(rotation),
       );
-      const collider = RAPIER.ColliderDesc.cuboid(
-        size[0] / 2 + PLATFORM_COLLISION_MARGIN,
-        // Keep the top face at the authored platform height while extending
-        // the invisible underside. Fast stacked blocks can otherwise tunnel
-        // through a thin one-unit table during a solver step.
-        size[1] / 2 + 1,
-        size[2] / 2 + PLATFORM_COLLISION_MARGIN,
-      )
-        .setTranslation(0, -(size[1] / 2 + 1), 0)
+      const collider = RAPIER.ColliderDesc.cuboid(size[0] / 2, size[1] / 2, size[2] / 2)
+        .setTranslation(0, -size[1] / 2, 0)
         .setFriction(0.78)
         .setRestitution(0.02);
       world.createCollider(collider, body);
@@ -251,10 +173,6 @@ export async function createLevelPhysics(level, catalog) {
       RAPIER.RigidBodyDesc.dynamic()
         .setTranslation(...item.position)
         .setRotation(rotation)
-        // Physics preview starts with every block participating in gravity
-        // and collision. The authored pose is still prewarmed and put to
-        // sleep below so the first visible frame does not jump.
-        .setGravityScale(1)
         .setLinearDamping(0.12)
         .setAngularDamping(0.18)
         .setCcdEnabled(true)
@@ -269,7 +187,6 @@ export async function createLevelPhysics(level, catalog) {
       .setRestitution(0);
     const colliderHandle = world.createCollider(collider, body).handle;
     bodies.set(item.uid, body);
-    bodyHalfHeights.set(item.uid, size[1] / 2);
     bodyProfiles.set(item.uid, { ...profile, mass });
     colliderUids.set(colliderHandle, item.uid);
   }
@@ -314,8 +231,6 @@ export async function createLevelPhysics(level, catalog) {
     groundColliderHandle,
     eventQueue,
     previousVelocities: new Map(),
-    supportPlatforms,
-    bodyHalfHeights,
     shattered: new Set(),
     accumulator: 0,
     lastTime: performance.now(),
@@ -341,30 +256,6 @@ export function stepLevelPhysics(simulation, now) {
     simulation.accumulator -= simulation.fixedStep;
     steps += 1;
   }
-  // Correct solver penetration at a platform's top face. This is a narrow
-  // collision correction (only while the block is over the platform footprint)
-  // so blocks can still slide off and fall when they genuinely leave an edge.
-  for (const [uid, body] of simulation.bodies) {
-    if (simulation.shattered.has(uid)) continue;
-    const position = body.translation();
-    const halfHeight = simulation.bodyHalfHeights?.get(uid) || 0.5;
-    for (const platform of simulation.supportPlatforms || []) {
-      const local = new THREE.Vector3(position.x, position.y, position.z)
-        .sub(platform.position).applyQuaternion(platform.rotation.clone().invert());
-      const halfWidth = Math.max(0.5, halfHeight);
-      const halfDepth = Math.max(0.5, halfHeight);
-      if (Math.abs(local.x) > platform.size[0] / 2 + halfWidth
-        || Math.abs(local.z) > platform.size[2] / 2 + halfDepth) continue;
-      const minimumCenterY = platform.position.y + halfHeight;
-      if (position.y < minimumCenterY - 0.03) {
-        body.setTranslation({ x: position.x, y: minimumCenterY, z: position.z }, true);
-        const velocity = body.linvel();
-        body.setLinvel({ x: velocity.x, y: Math.max(0, velocity.y), z: velocity.z }, true);
-      }
-      break;
-    }
-  }
-
   for (const [uid, body] of simulation.bodies) {
     const position = body.translation();
     if (position.y < PHYSICS_TUNING.fallHeight

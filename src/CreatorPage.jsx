@@ -236,7 +236,7 @@ export default function CreatorPage() {
   const [showGrid, setShowGrid] = useState(true);
   const [snapEnabled, setSnapEnabled] = useState(true);
   const [snapSize, setSnapSize] = useState(0.5);
-  const [cameraCommand, setCameraCommand] = useState({ preset: "back", token: 0 });
+  const [cameraCommand, setCameraCommand] = useState({ preset: "front", token: 0 });
   const [toolsOpen, setToolsOpen] = useState(false);
   const [propertiesOpen, setPropertiesOpen] = useState(false);
   const [buildPattern, setBuildPattern] = useState(null);
@@ -437,7 +437,7 @@ export default function CreatorPage() {
     commit({ ...level, stages: [...stages, stage], objects: [...level.objects, makePlatform(stageIndex, level.counts.platforms + 1)] });
     setActiveStageKey(stage.key);
     setSelectedIds([]);
-    setCameraCommand((current) => ({ preset: "back", token: current.token + 1 }));
+    setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
   }, [level, stages, commit]);
 
   const removeStage = useCallback(() => {
@@ -469,7 +469,7 @@ export default function CreatorPage() {
     setActiveStageKey("root");
     setSelectedIds([]);
     setSavedSnapshot("");
-    setCameraCommand((current) => ({ preset: "back", token: current.token + 1 }));
+    setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
   }, [dirty, level.id]);
 
   const importJson = async (event) => {
@@ -533,7 +533,7 @@ export default function CreatorPage() {
         <div className="stage-list">
           {stages.map((stage) => {
             const count = level.objects.filter((item) => (item.stageIndex ?? null) === (stage.stageIndex ?? null) && item.type === "block").length;
-            return <button key={stage.key} className={stage.key === activeStage.key ? "active" : ""} onClick={() => { setActiveStageKey(stage.key); setSelectedIds([]); setCameraCommand((current) => ({ preset: "back", token: current.token + 1 })); }}><span><Layers3 size={15} />{stage.name}</span><b>{count}</b></button>;
+            return <button key={stage.key} className={stage.key === activeStage.key ? "active" : ""} onClick={() => { setActiveStageKey(stage.key); setSelectedIds([]); setCameraCommand((current) => ({ preset: "front", token: current.token + 1 })); }}><span><Layers3 size={15} />{stage.name}</span><b>{count}</b></button>;
           })}
         </div>
         <div className="stage-actions">
@@ -561,7 +561,7 @@ export default function CreatorPage() {
           <button className={`snap-toggle ${snapEnabled ? "active" : ""}`} disabled={physics.enabled} onClick={() => setSnapEnabled((value) => !value)}>吸附</button>
           <select className="snap-select" value={snapSize} disabled={physics.enabled || !snapEnabled} onChange={(event) => setSnapSize(Number(event.target.value))}><option value="0.25">0.25</option><option value="0.5">0.5</option><option value="1">1</option></select>
           <span />
-          <button className={`physics-launch ${physics.enabled ? "active" : ""}`} disabled={physics.enabled} title="启动物理预览，点击方块施加冲击" onClick={startPhysics}><Play size={14} />物理</button>
+          <button className={`physics-launch ${physics.enabled ? "active" : ""}`} disabled={physics.enabled} title="让当前关卡方块按重力和碰撞运行" onClick={startPhysics}><Play size={14} />物理</button>
         </div>
         <div className="camera-toolbar">
           {[["iso", "透视"], ["front", "正视图"], ["side", "右侧视图"], ["back", "背视图"], ["top", "顶视"]].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}

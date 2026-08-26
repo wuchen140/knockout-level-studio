@@ -164,7 +164,7 @@ function LibraryApp() {
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState("translate");
   const [showGrid, setShowGrid] = useState(false);
-  const [cameraCommand, setCameraCommand] = useState({ preset: "back", token: 0 });
+  const [cameraCommand, setCameraCommand] = useState({ preset: "front", token: 0 });
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [toast, setToast] = useState("");
@@ -218,7 +218,7 @@ function LibraryApp() {
       if (stored && snapshot !== stored) localStorage.setItem(`knockout:level:${data.key}`, snapshot);
       dispatch({ type: "RESET", value: next });
       setSavedSnapshot(stored ? snapshot : JSON.stringify(next));
-      setCameraCommand((current) => ({ preset: "back", token: current.token + 1 }));
+      setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
       setLoading(false);
     }).catch((error) => { if (error.name !== "AbortError") notify("关卡载入失败"); });
     return () => controller.abort();
@@ -396,7 +396,7 @@ function LibraryApp() {
           <span />
           <IconButton title="显示网格" active={showGrid} onClick={() => setShowGrid((value) => !value)}><Grid3X3 size={18} /></IconButton>
           <span />
-          <button className={`physics-launch ${physics.enabled ? "active" : ""}`} disabled={physics.enabled || loading || !level} title="启动物理预览，点击方块施加冲击" onClick={startPhysics}><Play size={14} />物理</button>
+          <button className={`physics-launch ${physics.enabled ? "active" : ""}`} disabled={physics.enabled || loading || !level} title="让当前关卡方块按重力和碰撞运行" onClick={startPhysics}><Play size={14} />物理</button>
         </div>
         <div className="camera-toolbar">
           {[ ["iso", "透视"], ["front", "正视"], ["back", "背视图"], ["side", "侧视"], ["top", "顶视"] ].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}
