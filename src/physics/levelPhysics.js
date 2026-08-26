@@ -37,6 +37,12 @@ function normalizedSize(size = [1, 1, 1]) {
   return size.map((value) => Math.max(0.05, Number(value) || 1));
 }
 
+// Platform meshes are authored with their top face at the level coordinate,
+// while the Unity table collider extends a little farther than the visible
+// rim. Keep a small invisible safety margin so edge blocks cannot slip through
+// the seam when a rotated platform is under load.
+const PLATFORM_COLLISION_MARGIN = 0.18;
+
 function cylinderAxis(size) {
   const [width, height, depth] = size;
   if (width > height && width >= depth) return 0;
@@ -167,7 +173,11 @@ export async function createLevelPhysics(level, catalog) {
           .setTranslation(...item.position)
           .setRotation(rotation),
       );
-      const collider = RAPIER.ColliderDesc.cuboid(size[0] / 2, size[1] / 2, size[2] / 2)
+      const collider = RAPIER.ColliderDesc.cuboid(
+        size[0] / 2 + PLATFORM_COLLISION_MARGIN,
+        size[1] / 2,
+        size[2] / 2 + PLATFORM_COLLISION_MARGIN,
+      )
         .setTranslation(0, -size[1] / 2, 0)
         .setFriction(0.78)
         .setRestitution(0.02);
