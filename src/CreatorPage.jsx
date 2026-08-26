@@ -236,7 +236,7 @@ export default function CreatorPage() {
   const [showGrid, setShowGrid] = useState(true);
   const [snapEnabled, setSnapEnabled] = useState(true);
   const [snapSize, setSnapSize] = useState(0.5);
-  const [cameraCommand, setCameraCommand] = useState({ preset: "front", token: 0 });
+  const [cameraCommand, setCameraCommand] = useState({ preset: "back", token: 0 });
   const [toolsOpen, setToolsOpen] = useState(false);
   const [propertiesOpen, setPropertiesOpen] = useState(false);
   const [buildPattern, setBuildPattern] = useState(null);
@@ -437,7 +437,7 @@ export default function CreatorPage() {
     commit({ ...level, stages: [...stages, stage], objects: [...level.objects, makePlatform(stageIndex, level.counts.platforms + 1)] });
     setActiveStageKey(stage.key);
     setSelectedIds([]);
-    setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
+    setCameraCommand((current) => ({ preset: "back", token: current.token + 1 }));
   }, [level, stages, commit]);
 
   const removeStage = useCallback(() => {
@@ -469,7 +469,7 @@ export default function CreatorPage() {
     setActiveStageKey("root");
     setSelectedIds([]);
     setSavedSnapshot("");
-    setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
+    setCameraCommand((current) => ({ preset: "back", token: current.token + 1 }));
   }, [dirty, level.id]);
 
   const importJson = async (event) => {
@@ -533,7 +533,7 @@ export default function CreatorPage() {
         <div className="stage-list">
           {stages.map((stage) => {
             const count = level.objects.filter((item) => (item.stageIndex ?? null) === (stage.stageIndex ?? null) && item.type === "block").length;
-            return <button key={stage.key} className={stage.key === activeStage.key ? "active" : ""} onClick={() => { setActiveStageKey(stage.key); setSelectedIds([]); setCameraCommand((current) => ({ preset: "front", token: current.token + 1 })); }}><span><Layers3 size={15} />{stage.name}</span><b>{count}</b></button>;
+            return <button key={stage.key} className={stage.key === activeStage.key ? "active" : ""} onClick={() => { setActiveStageKey(stage.key); setSelectedIds([]); setCameraCommand((current) => ({ preset: "back", token: current.token + 1 })); }}><span><Layers3 size={15} />{stage.name}</span><b>{count}</b></button>;
           })}
         </div>
         <div className="stage-actions">

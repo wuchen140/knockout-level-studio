@@ -164,7 +164,7 @@ function LibraryApp() {
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState("translate");
   const [showGrid, setShowGrid] = useState(false);
-  const [cameraCommand, setCameraCommand] = useState({ preset: "front", token: 0 });
+  const [cameraCommand, setCameraCommand] = useState({ preset: "back", token: 0 });
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [toast, setToast] = useState("");
@@ -218,7 +218,7 @@ function LibraryApp() {
       if (stored && snapshot !== stored) localStorage.setItem(`knockout:level:${data.key}`, snapshot);
       dispatch({ type: "RESET", value: next });
       setSavedSnapshot(stored ? snapshot : JSON.stringify(next));
-      setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
+      setCameraCommand((current) => ({ preset: "back", token: current.token + 1 }));
       setLoading(false);
     }).catch((error) => { if (error.name !== "AbortError") notify("关卡载入失败"); });
     return () => controller.abort();
