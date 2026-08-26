@@ -208,21 +208,6 @@ export async function createLevelPhysics(level, catalog) {
   const bodyProfiles = new Map();
   const colliderUids = new Map();
   const platformSizes = platformCollisionSizes(level.objects || []);
-  const platforms = (level.objects || []).filter((item) => item.type === "platform");
-  const platformGroups = new Map(platforms.map((platform, index) => [platform.uid, 1 << Math.min(index, 15)]));
-  const groupForItem = (item) => {
-    if (!platforms.length) return 1;
-    const matching = platforms.find((platform) => Math.abs(
-      THREE.MathUtils.euclideanModulo(Number(item.rotation?.[1] || 0) - Number(platform.rotation?.[1] || 0) + 180, 360) - 180,
-    ) < 0.5);
-    if (matching) return platformGroups.get(matching.uid) || 1;
-    const point = new THREE.Vector3(...(item.position || [0, 0, 0]));
-    const nearest = platforms.reduce((best, platform) => {
-      const distance = point.distanceTo(new THREE.Vector3(...platform.position));
-      return distance < best.distance ? { platform, distance } : best;
-    }, { platform: platforms[0], distance: Infinity }).platform;
-    return platformGroups.get(nearest.uid) || 1;
-  };
 
   for (const item of level.objects || []) {
     const rotation = quaternionFor(item.rotation);
@@ -241,9 +226,7 @@ export async function createLevelPhysics(level, catalog) {
         .setTranslation(0, -size[1] / 2, 0)
         .setFriction(0.78)
         .setRestitution(0.02);
-      const platformCollider = world.createCollider(collider, body);
-      const group = platformGroups.get(item.uid) || 1;
-      platformCollider.setCollisionGroups(group | (group << 16));
+      world.createCollider(collider, body);
       continue;
     }
     if (item.type !== "block") continue;
@@ -276,8 +259,6 @@ export async function createLevelPhysics(level, catalog) {
       // block materials therefore behave as non-bouncy contacts in the preview.
       .setRestitution(0);
     const colliderHandle = world.createCollider(collider, body).handle;
-    const group = groupForItem(item);
-    body.collider(0).setCollisionGroups(group | (group << 16));
     bodies.set(item.uid, body);
     bodyProfiles.set(item.uid, { ...profile, mass });
     colliderUids.set(colliderHandle, item.uid);
@@ -295,8 +276,6 @@ export async function createLevelPhysics(level, catalog) {
       .setRestitution(0),
     groundBody,
   ).handle;
-  const groundCollider = world.getCollider?.(groundColliderHandle);
-  groundCollider?.setCollisionGroups(0xffff | (0xffff << 16));
 
   const eventQueue = new RAPIER.EventQueue(true);
   for (const [uid, body] of bodies) {
