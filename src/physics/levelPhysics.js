@@ -113,11 +113,8 @@ function markImpactShatter(simulation, handle1, handle2) {
   const speed1 = uid1 ? speedOf(simulation.previousVelocities.get(uid1) || { x: 0, y: 0, z: 0 }) : 0;
   const speed2 = uid2 ? speedOf(simulation.previousVelocities.get(uid2) || { x: 0, y: 0, z: 0 }) : 0;
   const impactSpeed = speed1 + speed2;
-  // Bodies start as a visually stable authored structure. Once a player
-  // activates one body (or it collides with an already active body), allow
-  // gravity to participate for the whole connected collision chain. This
-  // prevents tiny startup penetrations from waking an entire level and
-  // pushing supported blocks off their platform before any interaction.
+  // Keep gravity enabled across a collision chain. This also covers bodies
+  // that were initially sleeping during the authored-pose prewarm.
   const active = [uid1, uid2].some((uid) => {
     const body = uid ? simulation.bodies.get(uid) : null;
     return body?.gravityScale?.() > 0;
@@ -190,10 +187,10 @@ export async function createLevelPhysics(level, catalog) {
       RAPIER.RigidBodyDesc.dynamic()
         .setTranslation(...item.position)
         .setRotation(rotation)
-        // Keep the authored structure locked until an explicit click/impact
-        // activates a body. Gravity is enabled by applyDirectionalImpact and
-        // then propagated through subsequent dynamic contacts.
-        .setGravityScale(0)
+        // Physics preview starts with every block participating in gravity
+        // and collision. The authored pose is still prewarmed and put to
+        // sleep below so the first visible frame does not jump.
+        .setGravityScale(1)
         .setLinearDamping(0.12)
         .setAngularDamping(0.18)
         .setCcdEnabled(true)
