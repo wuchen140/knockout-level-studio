@@ -220,10 +220,13 @@ export async function createLevelPhysics(level, catalog) {
       );
       const collider = RAPIER.ColliderDesc.cuboid(
         size[0] / 2 + PLATFORM_COLLISION_MARGIN,
-        size[1] / 2,
+        // Keep the top face at the authored platform height while extending
+        // the invisible underside. Fast stacked blocks can otherwise tunnel
+        // through a thin one-unit table during a solver step.
+        size[1] / 2 + 1,
         size[2] / 2 + PLATFORM_COLLISION_MARGIN,
       )
-        .setTranslation(0, -size[1] / 2, 0)
+        .setTranslation(0, -(size[1] / 2 + 1), 0)
         .setFriction(0.78)
         .setRestitution(0.02);
       world.createCollider(collider, body);
