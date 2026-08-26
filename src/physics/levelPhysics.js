@@ -160,6 +160,12 @@ export async function createLevelPhysics(level, catalog) {
   // before its first visible frame.
   const world = new RAPIER.World({ x: 0, y: 0, z: 0 });
   world.timestep = FIXED_STEP;
+  // Match the Unity profile used by the level data. Higher solver budgets are
+  // important for the tightly packed, rotated stacks in levels such as 327;
+  // the default Rapier budget can leave small contact errors that look like a
+  // block passing through a platform edge.
+  world.integrationParameters.numSolverIterations = PHYSICS_TUNING.sourcePositionSolverIterations;
+  world.integrationParameters.numInternalPgsIterations = PHYSICS_TUNING.sourceVelocitySolverIterations;
   const bodies = new Map();
   const bodyProfiles = new Map();
   const colliderUids = new Map();
