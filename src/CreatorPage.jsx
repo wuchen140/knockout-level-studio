@@ -561,7 +561,7 @@ export default function CreatorPage() {
           <button className={`snap-toggle ${snapEnabled ? "active" : ""}`} disabled={physics.enabled} onClick={() => setSnapEnabled((value) => !value)}>吸附</button>
           <select className="snap-select" value={snapSize} disabled={physics.enabled || !snapEnabled} onChange={(event) => setSnapSize(Number(event.target.value))}><option value="0.25">0.25</option><option value="0.5">0.5</option><option value="1">1</option></select>
           <span />
-          <button className={`physics-launch ${physics.enabled ? "active" : ""}`} disabled={physics.enabled} title="让当前关卡方块按重力和碰撞运行" onClick={startPhysics}><Play size={14} />物理</button>
+          <button className={`physics-launch ${physics.enabled ? "active" : ""}`} disabled={physics.enabled} title="启动物理预览，点击方块施加冲击" onClick={startPhysics}><Play size={14} />物理</button>
         </div>
         <div className="camera-toolbar">
           {[["iso", "透视"], ["front", "正视图"], ["side", "右侧视图"], ["back", "背视图"], ["top", "顶视"]].map(([preset, label]) => <button key={preset} onClick={() => setCameraCommand((current) => ({ preset, token: current.token + 1 }))}>{label}</button>)}
