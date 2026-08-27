@@ -107,12 +107,36 @@ function setSelected(object, selected) {
   object.traverse((node) => {
     const materials = Array.isArray(node.material) ? node.material : node.material ? [node.material] : [];
     for (const material of materials) {
+      if (material.userData.baseColor != null && material.color) {
+        material.color.setHex(material.userData.baseColor);
+        if (selected) material.color.lerp(new THREE.Color(0x74d8cc), 0.32);
+      }
       const base = material.userData.baseEmissive ?? 0x000000;
       material.emissive?.setHex(base);
       if (selected) material.emissive?.lerp(new THREE.Color(0x2d7771), 0.72);
-      material.emissiveIntensity = selected ? 1.05 : (material.userData.baseEmissiveIntensity ?? 0);
+      if (material.emissive) {
+        material.emissiveIntensity = selected ? 1.05 : (material.userData.baseEmissiveIntensity ?? 0);
+      }
     }
   });
+}
+
+function royalSmashMaterial(source, renderMode) {
+  if (renderMode !== "matcap" || !source?.map) return source?.clone();
+  const material = new THREE.MeshMatcapMaterial({
+    color: source.color?.clone() || new THREE.Color(0xffffff),
+    matcap: source.map,
+    transparent: source.transparent,
+    opacity: source.opacity,
+    alphaTest: source.alphaTest,
+    side: source.side,
+    depthTest: source.depthTest,
+    depthWrite: source.depthWrite,
+    vertexColors: source.vertexColors,
+  });
+  material.name = `${source.name || "Royal Smash"} MatCap`;
+  material.userData = { ...source.userData, baseColor: material.color.getHex() };
+  return material;
 }
 
 function makeEditableObject(item, catalog) {
@@ -158,8 +182,8 @@ function modelVisual(model, spec, item, catalog) {
       if (!node.isMesh) return;
       node.userData.ownsGeometry = false;
       node.material = Array.isArray(node.material)
-        ? node.material.map((material) => material.clone())
-        : node.material?.clone();
+        ? node.material.map((material) => royalSmashMaterial(material, spec.renderMode))
+        : royalSmashMaterial(node.material, spec.renderMode);
       const materials = Array.isArray(node.material) ? node.material : node.material ? [node.material] : [];
       for (const material of materials) {
         material.userData.baseEmissive = material.emissive?.getHex() ?? 0x000000;

@@ -48,6 +48,9 @@ export function assetSpecFor(item) {
     return {
       key: `royal-smash-${item.catalogId}`,
       material: "royal-smash",
+      // ColorBox materials store their appearance in a view-normal MatCap.
+      // Treating it as a UV base-color texture produces the black patches.
+      renderMode: item.materialId === 9 ? "matcap" : "pbr",
       nominalSize: item.modelSize || item.size || [1, 1, 1],
       url: item.modelPath,
     };
