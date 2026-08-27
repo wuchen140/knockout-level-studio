@@ -50,7 +50,11 @@ export function assetSpecFor(item) {
       material: "royal-smash",
       // ColorBox materials store their appearance in a view-normal MatCap.
       // Treating it as a UV base-color texture produces the black patches.
-      renderMode: item.materialId === 9 ? "matcap" : "pbr",
+      renderMode: item.materialId === 9 ? "matcap" : item.materialId === 2 ? "jamjar" : "pbr",
+      matcapPath: item.materialId === 2
+        ? `royal-smash/shader-textures/jamjar-${String(item.colorName || "yellow").toLowerCase()}-matcap.png`
+        : null,
+      matcapMaskPath: item.materialId === 2 ? "royal-smash/shader-textures/jamjar-mask.png" : null,
       nominalSize: item.modelSize || item.size || [1, 1, 1],
       url: item.modelPath,
     };
@@ -151,6 +155,19 @@ export function loadGameModel(spec) {
     }));
   }
   return modelCache.get(spec.key);
+}
+
+export function loadModelTexture(path, { color = false, flipY = true } = {}) {
+  if (!path) return null;
+  const key = `model:${path}:${color ? "srgb" : "linear"}:${flipY ? "flip" : "raw"}`;
+  if (!textureCache.has(key)) {
+    const loaded = textureLoader.load(assetUrl(path));
+    loaded.flipY = flipY;
+    loaded.colorSpace = color ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+    loaded.anisotropy = 4;
+    textureCache.set(key, loaded);
+  }
+  return textureCache.get(key);
 }
 
 export function materialFor(spec, tint, variant = "body") {

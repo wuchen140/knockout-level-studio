@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { TransformControls } from "three/addons/controls/TransformControls.js";
-import { assetSpecFor, loadGameModel, materialFor } from "../gameAssets.js";
+import { assetSpecFor, loadGameModel, loadModelTexture, materialFor } from "../gameAssets.js";
 import { applyDirectionalImpact, createLevelPhysics, disposeLevelPhysics, physicsTransforms, stepLevelPhysics } from "../physics/levelPhysics.js";
 
 const PLATFORM_COLOR = 0x59656a;
@@ -136,8 +136,36 @@ function orientedRoyalGeometry(source) {
   return royalGeometryCache.get(source);
 }
 
-function royalSmashMaterial(source, renderMode) {
+function royalSmashMaterial(source, spec) {
   if (!source) return undefined;
+  const renderMode = spec.renderMode;
+  if (renderMode === "jamjar" && source.map) {
+    const material = source.clone();
+    const matcap = loadModelTexture(spec.matcapPath, { color: true, flipY: true });
+    const mask = loadModelTexture(spec.matcapMaskPath, { color: false, flipY: false });
+    material.onBeforeCompile = (shader) => {
+      shader.uniforms.royalMatcap = { value: matcap };
+      shader.uniforms.royalMatcapMask = { value: mask };
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          "#include <map_pars_fragment>",
+          "#include <map_pars_fragment>\nuniform sampler2D royalMatcap;\nuniform sampler2D royalMatcapMask;",
+        )
+        .replace(
+          "#include <normal_fragment_maps>",
+          `#include <normal_fragment_maps>
+          vec3 royalViewDir = normalize( vViewPosition );
+          vec3 royalX = normalize( vec3( royalViewDir.z, 0.0, -royalViewDir.x ) );
+          vec3 royalY = cross( royalViewDir, royalX );
+          vec2 royalMatcapUv = vec2( dot( royalX, normal ), dot( royalY, normal ) ) * 0.495 + 0.5;
+          vec3 royalMatcapColor = texture2D( royalMatcap, royalMatcapUv ).rgb;
+          float royalMatcapAmount = texture2D( royalMatcapMask, vMapUv ).r;
+          diffuseColor.rgb = mix( diffuseColor.rgb, royalMatcapColor, royalMatcapAmount );`,
+        );
+    };
+    material.customProgramCacheKey = () => `royal-smash-jamjar-${spec.matcapPath}`;
+    return material;
+  }
   if (renderMode !== "matcap" || !source.map) return source.clone();
   const material = new THREE.MeshMatcapMaterial({
     color: source.color?.clone() || new THREE.Color(0xffffff),
@@ -206,8 +234,8 @@ function modelVisual(model, spec, item, catalog) {
       node.userData.ownsGeometry = false;
       node.geometry = orientedRoyalGeometry(node.geometry);
       node.material = Array.isArray(node.material)
-        ? node.material.map((material) => royalSmashMaterial(material, spec.renderMode))
-        : royalSmashMaterial(node.material, spec.renderMode);
+        ? node.material.map((material) => royalSmashMaterial(material, spec))
+        : royalSmashMaterial(node.material, spec);
       const materials = Array.isArray(node.material) ? node.material : node.material ? [node.material] : [];
       for (const material of materials) {
         material.userData.baseEmissive = material.emissive?.getHex() ?? 0x000000;
