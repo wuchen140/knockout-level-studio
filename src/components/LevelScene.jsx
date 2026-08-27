@@ -23,6 +23,7 @@ const GAME_GLASS_COLORS = {
   1: "#e5394f", 2: "#f4cf32", 3: "#2854df", 4: "#35b95c",
   5: "#f2a13e", 6: "#df3db7", 7: "#8b2bd3",
 };
+const matcapTextureCache = new WeakMap();
 
 function geometryFor(item) {
   if (item.type === "platform") {
@@ -123,9 +124,18 @@ function setSelected(object, selected) {
 
 function royalSmashMaterial(source, renderMode) {
   if (renderMode !== "matcap" || !source?.map) return source?.clone();
+  let matcap = matcapTextureCache.get(source.map);
+  if (!matcap) {
+    matcap = source.map.clone();
+    // GLTFLoader keeps textures unflipped for glTF UVs. MatCap uses
+    // view-normal coordinates, matching TextureLoader's flipped convention.
+    matcap.flipY = true;
+    matcap.needsUpdate = true;
+    matcapTextureCache.set(source.map, matcap);
+  }
   const material = new THREE.MeshMatcapMaterial({
     color: source.color?.clone() || new THREE.Color(0xffffff),
-    matcap: source.map,
+    matcap,
     transparent: source.transparent,
     opacity: source.opacity,
     alphaTest: source.alphaTest,
