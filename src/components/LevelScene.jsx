@@ -23,7 +23,7 @@ const GAME_GLASS_COLORS = {
   1: "#e5394f", 2: "#f4cf32", 3: "#2854df", 4: "#35b95c",
   5: "#f2a13e", 6: "#df3db7", 7: "#8b2bd3",
 };
-const royalTextureCache = new WeakMap();
+const royalGeometryCache = new WeakMap();
 
 function geometryFor(item) {
   if (item.type === "platform") {
@@ -122,29 +122,26 @@ function setSelected(object, selected) {
   });
 }
 
-function orientedRoyalTexture(source) {
-  if (!source) return null;
-  if (!royalTextureCache.has(source)) {
-    const texture = source.clone();
-    // The source meshes keep Unity's bottom-left UV convention. GLTFLoader
-    // assumes glTF's top-left convention, so Royal Smash textures need Y flip.
-    texture.flipY = true;
-    texture.needsUpdate = true;
-    royalTextureCache.set(source, texture);
+function orientedRoyalGeometry(source) {
+  if (!source) return source;
+  if (!royalGeometryCache.has(source)) {
+    const geometry = source.clone();
+    const uv = geometry.getAttribute("uv");
+    if (uv) {
+      for (let index = 0; index < uv.count; index += 1) uv.setY(index, 1 - uv.getY(index));
+      uv.needsUpdate = true;
+    }
+    royalGeometryCache.set(source, geometry);
   }
-  return royalTextureCache.get(source);
+  return royalGeometryCache.get(source);
 }
 
 function royalSmashMaterial(source, renderMode) {
   if (!source) return undefined;
-  if (renderMode !== "matcap" || !source.map) {
-    const material = source.clone();
-    if (source.map) material.map = orientedRoyalTexture(source.map);
-    return material;
-  }
+  if (renderMode !== "matcap" || !source.map) return source.clone();
   const material = new THREE.MeshMatcapMaterial({
     color: source.color?.clone() || new THREE.Color(0xffffff),
-    matcap: orientedRoyalTexture(source.map),
+    matcap: source.map,
     transparent: source.transparent,
     opacity: source.opacity,
     alphaTest: source.alphaTest,
@@ -153,6 +150,13 @@ function royalSmashMaterial(source, renderMode) {
     depthWrite: source.depthWrite,
     vertexColors: source.vertexColors,
   });
+  material.onBeforeCompile = (shader) => {
+    shader.fragmentShader = shader.fragmentShader.replace(
+      "vec4 matcapColor = texture2D( matcap, uv );",
+      "vec4 matcapColor = texture2D( matcap, vec2( uv.x, 1.0 - uv.y ) );",
+    );
+  };
+  material.customProgramCacheKey = () => "royal-smash-matcap-y-flip-v1";
   material.name = `${source.name || "Royal Smash"} MatCap`;
   material.userData = { ...source.userData, baseColor: material.color.getHex() };
   return material;
@@ -200,6 +204,7 @@ function modelVisual(model, spec, item, catalog) {
     visual.traverse((node) => {
       if (!node.isMesh) return;
       node.userData.ownsGeometry = false;
+      node.geometry = orientedRoyalGeometry(node.geometry);
       node.material = Array.isArray(node.material)
         ? node.material.map((material) => royalSmashMaterial(material, spec.renderMode))
         : royalSmashMaterial(node.material, spec.renderMode);
