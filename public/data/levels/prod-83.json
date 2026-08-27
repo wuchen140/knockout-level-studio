@@ -1,1 +1,1604 @@
-{"schemaVersion":1,"source":{"levels":"关卡配置.xlsx","game":"游戏配置.xlsx"},"key":"prod:83","slug":"prod-83","category":"prod","id":83,"moveCount":22,"difficulty":"NORMAL","difficultyValue":0,"progressionCount":1,"firstProgressionLevel":83,"ballCount":22,"counts":{"platforms":3,"blocks":176,"barriers":0,"stages":0,"shutters":0,"waves":0,"generatedBlocks":0,"shutterBlocks":0},"objects":[{"uid":"platform-platforms/1","type":"platform","name":"平台 1","area":"根关卡","path":"platforms/1","stageIndex":null,"platformIndex":1,"position":[-3.0,0.0,12.0],"rotation":[0.0,-30.0,0.0],"size":[6.0,1.0,2.0],"motion":{"rotating":false,"rotationSpeed":0,"horizontal":false,"horizontalMin":0,"horizontalMax":0,"horizontalDirection":"Positive","horizontalSpeed":0,"vertical":false,"verticalMin":0,"verticalMax":0,"verticalDirection":"Positive","verticalSpeed":0}},{"uid":"platform-platforms/2","type":"platform","name":"平台 2","area":"根关卡","path":"platforms/2","stageIndex":null,"platformIndex":2,"position":[3.0,0.0,12.0],"rotation":[-0.0,30.0,-0.0],"size":[6.0,1.0,2.0],"motion":{"rotating":false,"rotationSpeed":0,"horizontal":false,"horizontalMin":0,"horizontalMax":0,"horizontalDirection":"Positive","horizontalSpeed":0,"vertical":false,"verticalMin":0,"verticalMax":0,"verticalDirection":"Positive","verticalSpeed":0}},{"uid":"platform-platforms/3","type":"platform","name":"平台 3","area":"根关卡","path":"platforms/3","stageIndex":null,"platformIndex":3,"position":[0.0,0.0,5.0],"rotation":[-0.0,0.0,-0.0],"size":[4.0,1.0,2.0],"motion":{"rotating":false,"rotationSpeed":0,"horizontal":false,"horizontalMin":0,"horizontalMax":0,"horizontalDirection":"Positive","horizontalSpeed":0,"vertical":false,"verticalMin":0,"verticalMax":0,"verticalDirection":"Positive","verticalSpeed":0}},{"uid":"block-根关卡-None-None-None-None-1","type":"block","name":"方块 1","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":1,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-1.084936,5.5,13.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-2","type":"block","name":"方块 2","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":2,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-3.683013,0.5,12.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-3","type":"block","name":"方块 3","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":3,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-0.584937,0.5,12.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-4","type":"block","name":"方块 4","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":4,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-4.049038,5.5,10.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-5","type":"block","name":"方块 5","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":5,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[-1.950962,1.5,13.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-6","type":"block","name":"方块 6","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":6,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[-4.549038,3.5,11.683012008666992],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-7","type":"block","name":"方块 7","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":7,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-0.584937,3.5,12.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-8","type":"block","name":"方块 8","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":8,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":3,"colorName":"蓝","position":[-0.584937,6.5,12.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-9","type":"block","name":"方块 9","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":9,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-1.450962,4.5,12.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-10","type":"block","name":"方块 10","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":10,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":3,"colorName":"蓝","position":[-1.084936,6.5,13.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-11","type":"block","name":"方块 11","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":11,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-0.584937,2.5,12.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-12","type":"block","name":"方块 12","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":12,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-3.183013,4.5,11.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-13","type":"block","name":"方块 13","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":13,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[-4.049038,1.5,10.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-14","type":"block","name":"方块 14","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":14,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-1.450962,0.5,12.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-15","type":"block","name":"方块 15","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":15,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-4.915063,3.5,10.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-16","type":"block","name":"方块 16","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":16,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":4,"colorName":"绿","position":[-5.415063,6.5,11.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-17","type":"block","name":"方块 17","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":17,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-3.183013,0.5,11.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-18","type":"block","name":"方块 18","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":18,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-2.316987,0.5,11.816987991333008],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-19","type":"block","name":"方块 19","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":19,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-4.549038,5.5,11.683012008666992],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-20","type":"block","name":"方块 20","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":20,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-1.950962,5.5,13.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-21","type":"block","name":"方块 21","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":21,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[-3.433013,2.5,11.75],"rotation":[90.0,-0.0,30.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-22","type":"block","name":"方块 22","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":22,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-2.816987,4.5,12.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-23","type":"block","name":"方块 23","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":23,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-1.084936,3.5,13.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-24","type":"block","name":"方块 24","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":24,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-4.915063,4.5,10.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-25","type":"block","name":"方块 25","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":25,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-0.584937,4.5,12.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-26","type":"block","name":"方块 26","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":26,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-1.084936,1.5,13.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-27","type":"block","name":"方块 27","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":27,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-3.683013,4.5,12.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-28","type":"block","name":"方块 28","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":28,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-0.584937,5.5,12.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-29","type":"block","name":"方块 29","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":29,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-2.816987,5.5,12.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-30","type":"block","name":"方块 30","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":30,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-1.450962,3.5,12.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-31","type":"block","name":"方块 31","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":31,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-4.549038,4.5,11.683012008666992],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-32","type":"block","name":"方块 32","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":32,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-1.084936,2.5,13.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-33","type":"block","name":"方块 33","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":33,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-4.549038,0.5,11.683012008666992],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-34","type":"block","name":"方块 34","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":34,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[-4.549038,1.5,11.683012008666992],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-35","type":"block","name":"方块 35","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":35,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-4.915063,2.5,10.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-36","type":"block","name":"方块 36","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":36,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[-2.316987,1.5,11.816987991333008],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-37","type":"block","name":"方块 37","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":37,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-4.915063,0.5,10.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-38","type":"block","name":"方块 38","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":38,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[-4.049038,2.5,10.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-39","type":"block","name":"方块 39","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":39,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[-1.450962,1.5,12.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-40","type":"block","name":"方块 40","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":40,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-4.915063,5.5,10.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-41","type":"block","name":"方块 41","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":41,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[-4.549038,2.5,11.683012008666992],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-42","type":"block","name":"方块 42","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":42,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[-2.566987,2.5,12.25],"rotation":[90.0,-0.0,30.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-43","type":"block","name":"方块 43","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":43,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-1.450962,2.5,12.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-44","type":"block","name":"方块 44","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":44,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-1.084936,4.5,13.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-45","type":"block","name":"方块 45","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":45,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-5.415063,4.5,11.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-46","type":"block","name":"方块 46","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":46,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-3.683013,5.5,12.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-47","type":"block","name":"方块 47","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":47,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-1.950962,4.5,13.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-48","type":"block","name":"方块 48","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":48,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-1.950962,2.5,13.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-49","type":"block","name":"方块 49","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":49,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-4.049038,4.5,10.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-50","type":"block","name":"方块 50","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":50,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-4.915063,1.5,10.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-51","type":"block","name":"方块 51","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":51,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-2.316987,4.5,11.816987991333008],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-52","type":"block","name":"方块 52","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":52,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-1.450962,5.5,12.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-53","type":"block","name":"方块 53","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":53,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[-3.433013,3.5,11.75],"rotation":[90.0,-0.0,30.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-54","type":"block","name":"方块 54","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":54,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":4,"colorName":"绿","position":[-4.915063,6.5,10.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-55","type":"block","name":"方块 55","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":55,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-3.183013,5.5,11.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-56","type":"block","name":"方块 56","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":56,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[-2.816987,1.5,12.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-57","type":"block","name":"方块 57","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":57,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-1.084936,0.5,13.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-58","type":"block","name":"方块 58","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":58,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-1.950962,0.5,13.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-59","type":"block","name":"方块 59","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":59,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[-3.683013,1.5,12.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-60","type":"block","name":"方块 60","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":60,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-2.316987,5.5,11.816987991333008],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-61","type":"block","name":"方块 61","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":61,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-5.415063,1.5,11.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-62","type":"block","name":"方块 62","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":62,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-4.049038,0.5,10.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-63","type":"block","name":"方块 63","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":63,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[-2.566987,3.5,12.25],"rotation":[90.0,-0.0,30.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-64","type":"block","name":"方块 64","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":64,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[-3.183013,1.5,11.316987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-65","type":"block","name":"方块 65","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":65,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-5.415063,2.5,11.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-66","type":"block","name":"方块 66","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":66,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-5.415063,3.5,11.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-67","type":"block","name":"方块 67","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":67,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-5.415063,5.5,11.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-68","type":"block","name":"方块 68","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":68,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[-1.950962,3.5,13.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-69","type":"block","name":"方块 69","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":69,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[-0.584937,1.5,12.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-70","type":"block","name":"方块 70","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":70,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[-4.049038,3.5,10.816987037658691],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-71","type":"block","name":"方块 71","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":71,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-2.816987,0.5,12.683012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-72","type":"block","name":"方块 72","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":72,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[-5.415063,0.5,11.183012962341309],"rotation":[0.0,-30.0,0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-73","type":"block","name":"方块 73","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":73,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[5.415063381195068,5.5,11.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-74","type":"block","name":"方块 74","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":74,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[2.8169872760772705,0.5,12.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-75","type":"block","name":"方块 75","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":75,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[4.915063381195068,0.5,10.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-76","type":"block","name":"方块 76","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":76,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[1.4509618282318115,5.5,12.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-77","type":"block","name":"方块 77","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":77,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[4.549037933349609,1.5,11.683012008666992],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-78","type":"block","name":"方块 78","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":78,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[1.9509618282318115,3.5,13.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-79","type":"block","name":"方块 79","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":79,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[4.915063381195068,3.5,10.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-80","type":"block","name":"方块 80","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":80,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":3,"colorName":"蓝","position":[4.915063381195068,6.5,10.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-81","type":"block","name":"方块 81","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":81,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[4.049037933349609,4.5,10.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-82","type":"block","name":"方块 82","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":82,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":3,"colorName":"蓝","position":[5.415063381195068,6.5,11.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-83","type":"block","name":"方块 83","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":83,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[4.915063381195068,2.5,10.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-84","type":"block","name":"方块 84","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":84,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[2.3169872760772705,4.5,11.816987991333008],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-85","type":"block","name":"方块 85","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":85,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[4.049037933349609,0.5,10.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-86","type":"block","name":"方块 86","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":86,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[1.4509618282318115,1.5,12.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-87","type":"block","name":"方块 87","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":87,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[0.5849366188049316,3.5,12.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-88","type":"block","name":"方块 88","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":88,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":4,"colorName":"绿","position":[1.084936499595642,6.5,13.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-89","type":"block","name":"方块 89","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":89,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[2.3169872760772705,0.5,11.816987991333008],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-90","type":"block","name":"方块 90","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":90,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[3.1830127239227295,0.5,11.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-91","type":"block","name":"方块 91","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":91,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[1.9509618282318115,5.5,13.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-92","type":"block","name":"方块 92","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":92,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[4.549037933349609,5.5,11.683012008666992],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-93","type":"block","name":"方块 93","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":93,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[2.5669872760772705,2.5,12.25],"rotation":[90.0,-0.0,-30.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-94","type":"block","name":"方块 94","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":94,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[3.6830127239227295,4.5,12.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-95","type":"block","name":"方块 95","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":95,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[5.415063381195068,3.5,11.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-96","type":"block","name":"方块 96","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":96,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[0.5849366188049316,4.5,12.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-97","type":"block","name":"方块 97","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":97,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[4.915063381195068,4.5,10.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-98","type":"block","name":"方块 98","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":98,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[5.415063381195068,1.5,11.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-99","type":"block","name":"方块 99","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":99,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[2.8169872760772705,4.5,12.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-100","type":"block","name":"方块 100","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":100,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[4.915063381195068,5.5,10.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-101","type":"block","name":"方块 101","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":101,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[3.6830127239227295,5.5,12.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-102","type":"block","name":"方块 102","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":102,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[1.9509618282318115,4.5,13.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-103","type":"block","name":"方块 103","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":103,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[4.049037933349609,3.5,10.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-104","type":"block","name":"方块 104","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":104,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[5.415063381195068,2.5,11.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-105","type":"block","name":"方块 105","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":105,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[1.9509618282318115,0.5,13.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-106","type":"block","name":"方块 106","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":106,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[1.9509618282318115,1.5,13.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-107","type":"block","name":"方块 107","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":107,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[0.5849366188049316,2.5,12.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-108","type":"block","name":"方块 108","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":108,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[3.1830127239227295,1.5,11.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-109","type":"block","name":"方块 109","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":109,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[1.4509618282318115,2.5,12.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-110","type":"block","name":"方块 110","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":110,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[0.5849366188049316,0.5,12.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-111","type":"block","name":"方块 111","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":111,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[4.049037933349609,1.5,10.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-112","type":"block","name":"方块 112","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":112,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[0.5849366188049316,5.5,12.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-113","type":"block","name":"方块 113","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":113,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[1.9509618282318115,2.5,13.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-114","type":"block","name":"方块 114","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":114,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[4.049037933349609,2.5,10.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-115","type":"block","name":"方块 115","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":115,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[3.4330127239227295,2.5,11.75],"rotation":[90.0,-0.0,-30.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-116","type":"block","name":"方块 116","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":116,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[5.415063381195068,4.5,11.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-117","type":"block","name":"方块 117","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":117,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[1.084936499595642,4.5,13.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-118","type":"block","name":"方块 118","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":118,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[2.8169872760772705,5.5,12.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-119","type":"block","name":"方块 119","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":119,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[4.549037933349609,4.5,11.683012008666992],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-120","type":"block","name":"方块 120","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":120,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[4.549037933349609,2.5,11.683012008666992],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-121","type":"block","name":"方块 121","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":121,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[1.4509618282318115,4.5,12.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-122","type":"block","name":"方块 122","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":122,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[0.5849366188049316,1.5,12.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-123","type":"block","name":"方块 123","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":123,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[3.1830127239227295,4.5,11.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-124","type":"block","name":"方块 124","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":124,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[2.5669872760772705,3.5,12.25],"rotation":[90.0,-0.0,-30.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-125","type":"block","name":"方块 125","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":125,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":4,"colorName":"绿","position":[0.5849366188049316,6.5,12.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-126","type":"block","name":"方块 126","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":126,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[4.049037933349609,5.5,10.816987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-127","type":"block","name":"方块 127","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":127,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[2.3169872760772705,5.5,11.816987991333008],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-128","type":"block","name":"方块 128","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":128,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[3.6830127239227295,1.5,12.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-129","type":"block","name":"方块 129","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":129,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[5.415063381195068,0.5,11.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-130","type":"block","name":"方块 130","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":130,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[4.549037933349609,0.5,11.683012008666992],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-131","type":"block","name":"方块 131","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":131,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[2.8169872760772705,1.5,12.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-132","type":"block","name":"方块 132","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":132,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[3.1830127239227295,5.5,11.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-133","type":"block","name":"方块 133","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":133,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[1.084936499595642,1.5,13.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-134","type":"block","name":"方块 134","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":134,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[1.4509618282318115,0.5,12.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-135","type":"block","name":"方块 135","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":135,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[3.4330127239227295,3.5,11.75],"rotation":[90.0,-0.0,-30.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-136","type":"block","name":"方块 136","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":136,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[2.3169872760772705,1.5,11.816987991333008],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-137","type":"block","name":"方块 137","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":137,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[1.084936499595642,2.5,13.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-138","type":"block","name":"方块 138","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":138,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[1.084936499595642,3.5,13.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-139","type":"block","name":"方块 139","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":139,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[4.549037933349609,3.5,11.683012008666992],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-140","type":"block","name":"方块 140","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":140,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":4,"colorName":"绿","position":[1.084936499595642,5.5,13.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-141","type":"block","name":"方块 141","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":141,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":2,"colorName":"黄","position":[4.915063381195068,1.5,10.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-142","type":"block","name":"方块 142","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":142,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":5,"colorName":"橙","position":[1.4509618282318115,3.5,12.316987037658691],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-143","type":"block","name":"方块 143","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":143,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[3.6830127239227295,0.5,12.183012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-144","type":"block","name":"方块 144","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":144,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":1,"colorName":"红","position":[1.084936499595642,0.5,13.683012962341309],"rotation":[-0.0,30.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-145","type":"block","name":"方块 145","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":145,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-1.5,0.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-146","type":"block","name":"方块 146","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":146,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-1.5,3.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-147","type":"block","name":"方块 147","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":147,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[-0.5,1.5,5.0],"rotation":[90.0,0.0,-0.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-148","type":"block","name":"方块 148","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":148,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-0.5,3.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-149","type":"block","name":"方块 149","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":149,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":3,"colorName":"蓝","position":[1.5,4.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-150","type":"block","name":"方块 150","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":150,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[1.5,0.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-151","type":"block","name":"方块 151","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":151,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":3,"colorName":"蓝","position":[1.5,4.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-152","type":"block","name":"方块 152","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":152,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-1.5,2.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-153","type":"block","name":"方块 153","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":153,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[1.5,2.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-154","type":"block","name":"方块 154","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":154,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[1.5,1.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-155","type":"block","name":"方块 155","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":155,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[1.5,1.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-156","type":"block","name":"方块 156","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":156,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[0.5,3.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-157","type":"block","name":"方块 157","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":157,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[1.5,2.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-158","type":"block","name":"方块 158","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":158,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[-0.5,2.5,5.0],"rotation":[90.0,0.0,-0.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-159","type":"block","name":"方块 159","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":159,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-1.5,3.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-160","type":"block","name":"方块 160","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":160,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":6,"colorName":"粉","position":[-1.5,4.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-161","type":"block","name":"方块 161","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":161,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[0.5,3.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-162","type":"block","name":"方块 162","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":162,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-1.5,1.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-163","type":"block","name":"方块 163","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":163,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[0.5,2.5,5.0],"rotation":[90.0,0.0,-0.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-164","type":"block","name":"方块 164","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":164,"materialId":6,"materialName":"塑料","shapeId":2,"shapeName":"圆锥","colorId":6,"colorName":"粉","position":[-1.5,4.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-165","type":"block","name":"方块 165","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":165,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-1.5,1.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-166","type":"block","name":"方块 166","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":166,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":7,"colorName":"紫","position":[1.5,0.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-167","type":"block","name":"方块 167","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":167,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-0.5,0.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-168","type":"block","name":"方块 168","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":168,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[0.5,0.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-169","type":"block","name":"方块 169","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":169,"materialId":0,"materialName":"木头","shapeId":1,"shapeName":"圆柱","colorId":0,"colorName":"无","position":[0.5,1.5,5.0],"rotation":[90.0,0.0,-0.0],"size":[1.0,2.0,1.0]},{"uid":"block-根关卡-None-None-None-None-170","type":"block","name":"方块 170","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":170,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":6,"colorName":"粉","position":[-1.5,2.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-171","type":"block","name":"方块 171","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":171,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[1.5,3.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-172","type":"block","name":"方块 172","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":172,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-1.5,0.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-173","type":"block","name":"方块 173","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":173,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[1.5,3.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-174","type":"block","name":"方块 174","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":174,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-0.5,0.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-175","type":"block","name":"方块 175","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":175,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[0.5,0.5,4.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]},{"uid":"block-根关卡-None-None-None-None-176","type":"block","name":"方块 176","area":"根关卡","stageIndex":null,"platformIndex":null,"waveIndex":null,"shutterIndex":null,"blockIndex":176,"materialId":6,"materialName":"塑料","shapeId":1,"shapeName":"圆柱","colorId":3,"colorName":"蓝","position":[-0.5,3.5,5.5],"rotation":[-0.0,0.0,-0.0],"size":[1.0,1.0,1.0]}]}
+{
+  "levelId": 83,
+  "category": "mainline",
+  "categoryName": "主线关卡（RS 1）",
+  "settings": {
+    "version": 1,
+    "moveCount": 19,
+    "difficulty": 0,
+    "backgroundIndex": -1,
+    "stabilizeOnSpawn": false,
+    "physicsQuality": 0
+  },
+  "statistics": {
+    "entityCount": 65,
+    "entityTypeCount": 8,
+    "platformCount": 1,
+    "itemCount": 64,
+    "destructibleItemCount": 64,
+    "specialObstacleCount": 0,
+    "customEntityCount": 1
+  },
+  "items": [
+    {
+      "sequence": 1,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 2.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 2,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 3.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 3,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 4.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 4,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 5.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 5,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 6.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 6,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 7.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 7,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 8.44368458,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 8,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 0,
+        "y": 9.44368458,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 9,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -1,
+        "y": 2.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 10,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -1,
+        "y": 3.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 11,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -1,
+        "y": 4.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 12,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -1,
+        "y": 5.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 13,
+      "catalogId": 4018,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -1,
+        "y": 7,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 14,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": -1,
+        "y": 8.50720692,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 15,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 1,
+        "y": 2.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 16,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 1,
+        "y": 3.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 17,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 1,
+        "y": 4.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 18,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 1,
+        "y": 5.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 19,
+      "catalogId": 4018,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 1,
+        "y": 7,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 20,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 1,
+        "y": 8.50720692,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 21,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 2.5,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 22,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 3.5,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 23,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 4.5,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 24,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 5.5,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 25,
+      "catalogId": 4018,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 0,
+        "y": 7,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 26,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 0,
+        "y": 8.50720692,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 27,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 2.5,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 28,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 3.5,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 29,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 4.5,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 30,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 5.5,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 31,
+      "catalogId": 4018,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 0,
+        "y": 7,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 32,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 0,
+        "y": 8.50720692,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 33,
+      "catalogId": 4013,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -2,
+        "y": 2.5,
+        "z": -2.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 34,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -2,
+        "y": 3.5,
+        "z": -2.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 35,
+      "catalogId": 4013,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 2,
+        "y": 2.5,
+        "z": -1.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 36,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 2,
+        "y": 3.5,
+        "z": -1.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 37,
+      "catalogId": 4013,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -0.5,
+        "y": 2.5,
+        "z": -4
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 38,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -0.5,
+        "y": 3.5,
+        "z": -4
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 39,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 4.50720692,
+        "z": -4
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 40,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 0,
+        "y": 5.5,
+        "z": -4
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 41,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 0,
+        "y": 5.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 42,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 2,
+        "y": 5.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 43,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": -2,
+        "y": 5.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 44,
+      "catalogId": 4013,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 0.5,
+        "y": 2.5,
+        "z": -4
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 45,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0.5,
+        "y": 3.5,
+        "z": -4
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 46,
+      "catalogId": 4013,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 2,
+        "y": 2.5,
+        "z": -2.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 47,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 2,
+        "y": 3.5,
+        "z": -2.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 48,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 2,
+        "y": 4.50720692,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 49,
+      "catalogId": 4013,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 0.5,
+        "y": 2.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 50,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0.5,
+        "y": 3.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 51,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0,
+        "y": 4.50720692,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 52,
+      "catalogId": 4013,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -0.5,
+        "y": 2.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 53,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -0.5,
+        "y": 3.5,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 54,
+      "catalogId": 4013,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -2,
+        "y": 2.5,
+        "z": -1.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 55,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -2,
+        "y": 3.5,
+        "z": -1.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 56,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -2,
+        "y": 4.50720692,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 57,
+      "catalogId": 4028,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -1.00000012,
+        "y": 3.5,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 3,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 58,
+      "catalogId": 4022,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -1,
+        "y": 6,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 59,
+      "catalogId": 4028,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 1,
+        "y": 3.5,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 3,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 60,
+      "catalogId": 4022,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 1,
+        "y": 6,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 61,
+      "catalogId": 4028,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -1,
+        "y": 3.5,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 3,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 62,
+      "catalogId": 4022,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -1,
+        "y": 6,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 63,
+      "catalogId": 4028,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 1,
+        "y": 3.5,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 3,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 64,
+      "catalogId": 4022,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 1,
+        "y": 6,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
+    }
+  ],
+  "platforms": [
+    {
+      "sequence": 1,
+      "id": "Table_Round",
+      "shape": "round",
+      "position": {
+        "x": 0,
+        "y": 2,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "width": 5,
+        "depth": 5
+      },
+      "movement": {
+        "axis": "Y",
+        "min": 0,
+        "max": 2,
+        "speed": 1,
+        "initialDirection": 1,
+        "easeTime": 0.5,
+        "startupDelay": 0.1
+      },
+      "rotationMotion": {
+        "axis": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "speed": 30
+      }
+    }
+  ],
+  "obstacles": {
+    "bouncers": [],
+    "blockers": [],
+    "hammers": []
+  }
+}

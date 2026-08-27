@@ -8,12 +8,12 @@ import {
 import LevelScene from "./components/LevelScene";
 import CreatorPage from "./CreatorPage";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
-import { FEATURED_LEVEL_BY_SLUG, FEATURED_LEVEL_INDEXES } from "./featuredLevels";
 import { withoutLegacyWeapons } from "./levelData";
+import { normalizeRoyalSmashLevel } from "./royalSmashLevel";
 
 const clone = (value) => structuredClone(value);
 const dataUrl = (path) => `${import.meta.env.BASE_URL}data/${path}`;
-const OBJECT_LABELS = { block: "方块", platform: "平台" };
+const OBJECT_LABELS = { block: "物品", platform: "平台", bouncer: "弹力柱", blocker: "旋转挡板", hammer: "摆锤" };
 
 function historyReducer(state, action) {
   if (action.type === "RESET") return { past: [], present: action.value, future: [] };
@@ -38,10 +38,10 @@ function LevelSidebar({ levels, selectedKey, onChoose, onClose }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [difficulty, setDifficulty] = useState("all");
-  const categories = useMemo(() => [...new Set(levels.map((item) => item.category))], [levels]);
+  const categories = useMemo(() => [...new Map(levels.map((item) => [item.category, item.categoryName || item.category])).entries()], [levels]);
   const filtered = useMemo(() => levels.filter((level) => {
     const needle = query.trim().toLowerCase();
-    const matchesQuery = !needle || String(level.id).includes(needle) || level.category.toLowerCase().includes(needle);
+    const matchesQuery = !needle || String(level.id).includes(needle) || level.category.toLowerCase().includes(needle) || (level.categoryName || "").toLowerCase().includes(needle);
     return matchesQuery && (category === "all" || level.category === category) && (difficulty === "all" || level.difficulty === difficulty);
   }), [levels, query, category, difficulty]);
 
@@ -56,14 +56,14 @@ function LevelSidebar({ levels, selectedKey, onChoose, onClose }) {
       {query && <button onClick={() => setQuery("")} aria-label="清空搜索"><X size={13} /></button>}
     </label>
     <div className="filter-row">
-      <label className="select-wrap"><select value={category} onChange={(event) => setCategory(event.target.value)}><option value="all">全部分类</option>{categories.map((item) => <option key={item}>{item}</option>)}</select><ChevronDown size={13} /></label>
+      <label className="select-wrap"><select value={category} onChange={(event) => setCategory(event.target.value)}><option value="all">全部分类</option>{categories.map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select><ChevronDown size={13} /></label>
       <label className="select-wrap"><select value={difficulty} onChange={(event) => setDifficulty(event.target.value)}><option value="all">全部难度</option><option value="NORMAL">普通</option><option value="HARD">困难</option><option value="SUPER_HARD">超难</option></select><ChevronDown size={13} /></label>
     </div>
     <div className="level-list">
       {filtered.map((level) => <button key={level.key} className={`level-row ${selectedKey === level.key ? "selected" : ""}`} onClick={() => onChoose(level)}>
         <span className={`difficulty-dot diff-${level.difficulty.toLowerCase().replace("_", "-")}`} />
-        <span className="level-main"><strong>关卡 {level.id}</strong><small>{level.category}</small></span>
-        <span className="level-counts"><b>{level.counts.blocks}</b><small>方块</small></span>
+        <span className="level-main"><strong>关卡 {level.id}</strong><small>{level.categoryName || level.category}</small></span>
+        <span className="level-counts"><b>{level.counts.blocks}</b><small>物品</small></span>
         {selectedKey === level.key && <Check size={15} />}
       </button>)}
       {!filtered.length && <div className="empty-state"><Search size={24} /><span>没有匹配的关卡</span></div>}
@@ -98,7 +98,7 @@ function Inspector({ level, selected, catalog, onUpdate, onDelete, onDuplicate, 
   }, [catalog]);
   const shapeOptions = useMemo(() => {
     const map = new Map();
-    for (const profile of catalog?.profiles || []) map.set(profile.shapeId, profile.shape);
+    for (const profile of catalog?.profiles || []) if (!map.has(profile.shapeId)) map.set(profile.shapeId, profile.shape);
     return [...map].map(([id, name]) => ({ id, name }));
   }, [catalog]);
   const colorOptions = useMemo(() => {
@@ -106,7 +106,8 @@ function Inspector({ level, selected, catalog, onUpdate, onDelete, onDuplicate, 
     for (const color of catalog?.colors || []) if (!map.has(color.colorId)) map.set(color.colorId, color);
     return [...map.values()].sort((a, b) => a.colorId - b.colorId);
   }, [catalog]);
-  const profile = selected?.type === "block" ? catalog?.profiles?.find((item) => item.materialId === selected.materialId && item.shapeId === selected.shapeId && item.size.every((value, index) => Math.abs(value - selected.size[index]) < 0.01)) : null;
+  const profile = selected?.type === "block" ? catalog?.profiles?.find((item) => (item.catalogId ?? item.id) === selected.catalogId)
+    || catalog?.profiles?.find((item) => item.materialId === selected.materialId && item.shapeId === selected.shapeId && item.size.every((value, index) => Math.abs(value - selected.size[index]) < 0.01)) : null;
 
   return <aside className="sidebar sidebar-right">
     <div className="sidebar-title">
@@ -121,6 +122,7 @@ function Inspector({ level, selected, catalog, onUpdate, onDelete, onDuplicate, 
         <IconButton title="删除对象" className="danger" onClick={onDelete}><Trash2 size={15} /></IconButton>
       </div>
       {selected.type === "block" && <>
+        <div className="property-section"><div className="section-label">物品标识</div><div className="field-row"><span>图鉴 ID</span><b>{selected.catalogId ?? "自定义"}</b></div></div>
         <div className="property-section"><div className="section-label">外观</div>
           <label className="field-row"><span>材质</span><select value={selected.materialId} onChange={(event) => { const materialId = Number(event.target.value); const item = materialOptions.find((option) => option.id === materialId); onUpdate({ materialId, materialName: item?.name || `材质 ${materialId}` }); }}>{materialOptions.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label>
           <label className="field-row"><span>形状</span><select value={selected.shapeId} onChange={(event) => { const shapeId = Number(event.target.value); const item = shapeOptions.find((option) => option.id === shapeId); onUpdate({ shapeId, shapeName: item?.name || `形状 ${shapeId}` }); }}>{shapeOptions.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label>
@@ -140,14 +142,13 @@ function Inspector({ level, selected, catalog, onUpdate, onDelete, onDuplicate, 
     </div> : <div className="inspector-scroll">
       <div className="property-section"><div className="section-label">基础设置</div>
         <NumberField label="移动次数" value={level.moveCount} step={1} min={1} onCommit={(moveCount) => onLevelUpdate({ moveCount })} />
-        <NumberField label="球数" value={level.ballCount} step={1} min={1} onCommit={(ballCount) => onLevelUpdate({ ballCount })} />
         <label className="field-row"><span>难度</span><select value={level.difficulty} onChange={(event) => { const map = { NORMAL: 0, HARD: 1, SUPER_HARD: 2 }; onLevelUpdate({ difficulty: event.target.value, difficultyValue: map[event.target.value] }); }}><option value="NORMAL">普通</option><option value="HARD">困难</option><option value="SUPER_HARD">超难</option></select></label>
       </div>
       <div className="stats-grid">
-        <div><Box size={16} /><b>{level.objects.filter((item) => item.type === "block").length}</b><span>方块</span></div>
+        <div><Box size={16} /><b>{level.objects.filter((item) => item.type === "block").length}</b><span>物品</span></div>
         <div><Layers3 size={16} /><b>{level.objects.filter((item) => item.type === "platform").length}</b><span>平台</span></div>
         <div><Move3D size={16} /><b>{level.moveCount}</b><span>移动</span></div>
-        <div><BoxSelect size={16} /><b>{level.ballCount}</b><span>球数</span></div>
+        <div><BoxSelect size={16} /><b>{level.objects.filter((item) => !["block", "platform"].includes(item.type)).length}</b><span>障碍</span></div>
       </div>
       <div className="selection-hint"><BoxSelect size={22} /><span>在画布中选择对象以编辑详细属性</span></div>
     </div>}
@@ -185,44 +186,42 @@ function LibraryApp() {
   useEffect(() => {
     Promise.all([fetch(dataUrl("index.json")).then((response) => response.json()), fetch(dataUrl("catalog.json")).then((response) => response.json())])
       .then(([levelIndex, gameCatalog]) => {
-        const levels = [...levelIndex.levels, ...FEATURED_LEVEL_INDEXES];
+        const levels = levelIndex.levels;
         const requestedLevel = new URLSearchParams(window.location.search).get("level");
         setIndex(levels);
         setCatalog(gameCatalog);
         setChosen(levels.find((item) => item.slug === requestedLevel)
-          || levels.find((item) => item.category === "prod" && item.id === 1)
+          || levels.find((item) => item.category === "mainline" && item.id === 1)
           || levels[0]);
       })
       .catch(() => notify("配置数据载入失败"));
   }, [notify]);
 
   useEffect(() => {
-    if (!chosen) return;
+    if (!chosen || !catalog) return;
     const controller = new AbortController();
     setPhysics((current) => ({ ...current, enabled: false, paused: false }));
     setPhysicsStatus("idle");
     physicsTransformsRef.current = [];
     setLoading(true);
     setSelectedId(null);
-    const featuredLevel = FEATURED_LEVEL_BY_SLUG.get(chosen.slug);
-    const levelRequest = featuredLevel
-      ? Promise.resolve(structuredClone(featuredLevel))
-      : fetch(dataUrl(`levels/${chosen.slug}.json`), { signal: controller.signal }).then((response) => response.json());
+    const levelRequest = fetch(dataUrl(`levels/${chosen.slug}.json`), { signal: controller.signal }).then((response) => response.json());
     levelRequest.then((data) => {
-      const stored = localStorage.getItem(`knockout:level:${data.key}`);
-      let next = withoutLegacyWeapons(data);
+      const normalized = normalizeRoyalSmashLevel(data, catalog);
+      const stored = localStorage.getItem(`knockout:level:${normalized.key}`);
+      let next = withoutLegacyWeapons(normalized);
       if (stored) {
-        try { next = withoutLegacyWeapons(JSON.parse(stored)); } catch { localStorage.removeItem(`knockout:level:${data.key}`); }
+        try { next = withoutLegacyWeapons(JSON.parse(stored)); } catch { localStorage.removeItem(`knockout:level:${normalized.key}`); }
       }
       const snapshot = JSON.stringify(next);
-      if (stored && snapshot !== stored) localStorage.setItem(`knockout:level:${data.key}`, snapshot);
+      if (stored && snapshot !== stored) localStorage.setItem(`knockout:level:${normalized.key}`, snapshot);
       dispatch({ type: "RESET", value: next });
       setSavedSnapshot(stored ? snapshot : JSON.stringify(next));
       setCameraCommand((current) => ({ preset: "front", token: current.token + 1 }));
       setLoading(false);
     }).catch((error) => { if (error.name !== "AbortError") notify("关卡载入失败"); });
     return () => controller.abort();
-  }, [chosen, notify]);
+  }, [chosen, catalog, notify]);
 
   const commit = useCallback((next) => dispatch({ type: "COMMIT", value: next }), []);
   const startPhysics = useCallback(() => {
@@ -292,12 +291,12 @@ function LibraryApp() {
     const count = next.objects.filter((item) => item.type === type).length + 1;
     let item;
     if (type === "block") item = {
-      uid, type, name: `方块 ${count}`, area: "根关卡", stageIndex: null, platformIndex: null,
-      waveIndex: null, shutterIndex: null, blockIndex: count, materialId: 0, materialName: "木头",
-      shapeId: 0, shapeName: "方块", colorId: 0, colorName: "无", position: [0, 1, 0], rotation: [0, 0, 0], size: [1, 1, 1],
+      uid, type, name: `物品 ${count}`, dataFamily: "royal-smash", area: "根关卡", stageIndex: null, platformIndex: null,
+      waveIndex: null, shutterIndex: null, blockIndex: count, catalogId: null, materialId: 1, materialName: "罐头",
+      shapeId: 0, shapeName: "方块", colorId: 0, colorName: "材质原色", position: [0, 1, 0], rotation: [0, 0, 0], size: [1, 1, 1],
     };
     else if (type === "platform") item = {
-      uid, type, name: `平台 ${count}`, area: "根关卡", path: `platforms/${count}`, stageIndex: null,
+      uid, type, name: `平台 ${count}`, dataFamily: "royal-smash", platformShape: "rect", area: "根关卡", path: `platforms/${count}`, stageIndex: null,
       platformIndex: count, position: [0, 0, 0], rotation: [0, 0, 0], size: [4, 1, 3],
       motion: { rotating: false, rotationSpeed: 0, horizontal: false, horizontalMin: 0, horizontalMax: 0, horizontalDirection: "Positive", horizontalSpeed: 0, vertical: false, verticalMin: 0, verticalMax: 0, verticalDirection: "Positive", verticalSpeed: 0 },
     };
@@ -366,7 +365,7 @@ function LibraryApp() {
       <div className="brand-mark"><span><Box size={18} /></span><div><strong>KnockOut</strong><small>LEVEL STUDIO</small></div></div>
       <div className="topbar-divider" />
       <IconButton title="打开关卡库" className="sidebar-toggle" onClick={() => setLeftOpen(true)}><Menu size={18} /></IconButton>
-      <div className="current-level"><span>{level ? `关卡 ${level.id}` : "载入中"}</span><small>{level?.category || "配置数据"}</small>{dirty && <i title="有未保存修改" />}</div>
+      <div className="current-level"><span>{level ? `关卡 ${level.id}` : "载入中"}</span><small>{level?.categoryName || level?.category || "配置数据"}</small>{dirty && <i title="有未保存修改" />}</div>
       <div className="topbar-spacer" />
       <a className="command-button creator-link" href={`${import.meta.env.BASE_URL}?view=creator`}><Sparkles size={16} /><span>新建关卡</span></a>
       <div className="history-tools">

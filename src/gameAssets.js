@@ -29,6 +29,7 @@ function nearestLength(value) {
 
 export function assetSpecFor(item) {
   if (!item) return null;
+  if (item.dataFamily === "royal-smash") return null;
   if (item.type === "platform") {
     return {
       key: "platform",

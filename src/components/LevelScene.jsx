@@ -26,12 +26,17 @@ const GAME_GLASS_COLORS = {
 
 function geometryFor(item) {
   if (item.type === "platform") {
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const geometry = item.platformShape === "round"
+      ? new THREE.CylinderGeometry(0.5, 0.5, 1, 48)
+      : new THREE.BoxGeometry(1, 1, 1);
     // Platform coordinates describe the top surface in the source level data.
     // Keep the mesh origin at that coordinate so blocks sit on, rather than in, it.
     geometry.translate(0, -0.5, 0);
     return geometry;
   }
+  if (item.type === "bouncer") return new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
+  if (item.type === "blocker") return new THREE.BoxGeometry(1, 1, 1);
+  if (item.type === "hammer") return new THREE.CapsuleGeometry(0.35, 0.8, 8, 20);
   if (item.shapeId === 1) return new THREE.CylinderGeometry(0.5, 0.5, 1, 28);
   if (item.shapeId === 2) return new THREE.ConeGeometry(0.58, 1, 28);
   return new THREE.BoxGeometry(1, 1, 1);
@@ -39,6 +44,9 @@ function geometryFor(item) {
 
 function colorFor(item, catalog) {
   if (item.type === "platform") return PLATFORM_COLOR;
+  if (item.type === "bouncer") return "#38bdf8";
+  if (item.type === "blocker") return "#ef4444";
+  if (item.type === "hammer") return "#f59e0b";
   if (item.materialId === 4 && GAME_GLASS_COLORS[item.colorId]) return GAME_GLASS_COLORS[item.colorId];
   const match = catalog?.colors?.find((color) => color.materialId === item.materialId && color.colorId === item.colorId)
     || catalog?.colors?.find((color) => color.colorId === item.colorId);
@@ -119,7 +127,9 @@ function makeEditableObject(item, catalog) {
   const spec = assetSpecFor(item);
   const fallbackMaterial = item.type === "platform"
     ? new THREE.MeshStandardMaterial({ color: PLATFORM_COLOR, roughness: 0.72, metalness: 0.05 })
-    : materialFor(spec, colorFor(item, catalog));
+    : spec
+      ? materialFor(spec, colorFor(item, catalog))
+      : new THREE.MeshStandardMaterial({ color: colorFor(item, catalog), roughness: 0.5, metalness: item.materialId === 1 ? 0.55 : 0.06 });
   fallbackMaterial.userData.baseEmissive ??= 0x000000;
   const fallback = new THREE.Mesh(geometryFor(item), fallbackMaterial);
   fallback.userData.fallback = true;

@@ -124,6 +124,10 @@ function sameSize(left, right) {
 
 export function profileFor(item, catalog) {
   const profiles = catalog?.profiles || [];
+  if (item.catalogId != null) {
+    const catalogProfile = profiles.find((profile) => (profile.catalogId ?? profile.id) === item.catalogId);
+    if (catalogProfile) return catalogProfile;
+  }
   const exact = profiles.find((profile) => profile.materialId === item.materialId && profile.shapeId === item.shapeId && sameSize(profile.size, item.size));
   if (exact) return exact;
   const candidates = profiles.filter((profile) => profile.materialId === item.materialId && profile.shapeId === item.shapeId);
