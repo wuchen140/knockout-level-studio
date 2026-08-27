@@ -116,7 +116,7 @@ for (const file of fs.readdirSync(levelOutput)) {
 
 fs.mkdirSync(modelOutput, { recursive: true });
 for (const file of fs.readdirSync(modelOutput)) {
-  if (file.endsWith(".glb")) fs.unlinkSync(path.join(modelOutput, file));
+  if (/^\d{4}\.glb$/.test(file)) fs.unlinkSync(path.join(modelOutput, file));
 }
 let modelBytes = 0;
 for (let catalogId = 4001; catalogId <= 4126; catalogId += 1) {

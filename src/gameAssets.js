@@ -30,6 +30,20 @@ function nearestLength(value) {
 export function assetSpecFor(item) {
   if (!item) return null;
   if (item.dataFamily === "royal-smash") {
+    if (item.type === "platform") {
+      const shape = item.platformShape === "round" ? "round" : "rect";
+      return {
+        key: `royal-smash-platform-${shape}`,
+        material: "royal-smash-platform",
+        nominalSize: [1, 0.5, 1],
+        parts: ["platform-surface", "platform-pole-upper", "platform-pole-base"],
+        urls: [
+          `royal-smash/platform-${shape}-surface.glb`,
+          "royal-smash/platform-pole-upper.glb",
+          "royal-smash/platform-pole-base.glb",
+        ],
+      };
+    }
     if (item.type !== "block" || !item.catalogId || !item.modelPath) return null;
     return {
       key: `royal-smash-${item.catalogId}`,
@@ -119,7 +133,7 @@ function texture(name, color = false) {
 export function loadGameModel(spec) {
   if (!spec) return Promise.resolve(null);
   const modelKeys = spec.parts || [spec.key];
-  const modelUrls = spec.url ? [spec.url] : modelKeys.map((key) => `game/${key}.glb`);
+  const modelUrls = spec.urls || (spec.url ? [spec.url] : modelKeys.map((key) => `game/${key}.glb`));
   if (!modelCache.has(spec.key)) {
     modelCache.set(spec.key, Promise.all(modelUrls.map((url) => new Promise((resolve, reject) => {
       gltfLoader.load(assetUrl(url), (gltf) => resolve(gltf.scene), undefined, reject);

@@ -1,0 +1,57 @@
+{
+  "source": "Royal Smash game resources",
+  "platforms": {
+    "round": {
+      "prefab": "Table_Round",
+      "source": "75b78589ac8cd4af8b865a0e8b979894",
+      "surface": {
+        "name": "platform-round-surface",
+        "material": "TableRound",
+        "texture": "Table_Round_v02"
+      }
+    },
+    "rect": {
+      "prefab": "Table_Rect",
+      "source": "d2998e4c483174a2da3549a685a73a8e",
+      "surface": {
+        "name": "platform-rect-surface",
+        "material": "TableSquare",
+        "texture": "Table_Square_v02"
+      }
+    }
+  },
+  "poleUpper": {
+    "name": "platform-pole-upper",
+    "vertices": 52,
+    "triangles": 48,
+    "bounds": [
+      [
+        -0.35976302623762957,
+        -1.999001070857048,
+        -0.3597629666328637
+      ],
+      [
+        0.359763026237346,
+        -0.320998951792717,
+        0.35976296663308815
+      ]
+    ]
+  },
+  "poleBase": {
+    "name": "platform-pole-base",
+    "vertices": 2225,
+    "triangles": 3542,
+    "bounds": [
+      [
+        -0.9702786803245703,
+        -2.9564183950424194,
+        -0.9702786803245518
+      ],
+      [
+        0.9702786803245654,
+        -1.9485259056091309,
+        0.9702786803245571
+      ]
+    ]
+  }
+}

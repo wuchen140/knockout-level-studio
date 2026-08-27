@@ -142,7 +142,18 @@ function makeEditableObject(item, catalog) {
 function modelVisual(model, spec, item, catalog) {
   const visual = model.scene.clone(true);
   visual.name = `${item.name} 游戏模型`;
-  if (spec.material === "royal-smash") {
+  if (spec.material === "royal-smash" || spec.material === "royal-smash-platform") {
+    if (spec.material === "royal-smash-platform") {
+      const inverseWidth = 1 / Math.max(item.size?.[0] || 1, 0.05);
+      const inverseDepth = 1 / Math.max(item.size?.[2] || 1, 0.05);
+      for (const part of visual.children) {
+        if (part.userData.assetPart !== "platform-surface") {
+          // The game scales the generated table surface with the level while
+          // keeping its central support column at the prefab's original size.
+          part.scale.set(inverseWidth, 1, inverseDepth);
+        }
+      }
+    }
     visual.traverse((node) => {
       if (!node.isMesh) return;
       node.userData.ownsGeometry = false;
