@@ -29,7 +29,15 @@ function nearestLength(value) {
 
 export function assetSpecFor(item) {
   if (!item) return null;
-  if (item.dataFamily === "royal-smash") return null;
+  if (item.dataFamily === "royal-smash") {
+    if (item.type !== "block" || !item.catalogId || !item.modelPath) return null;
+    return {
+      key: `royal-smash-${item.catalogId}`,
+      material: "royal-smash",
+      nominalSize: item.modelSize || item.size || [1, 1, 1],
+      url: item.modelPath,
+    };
+  }
   if (item.type === "platform") {
     return {
       key: "platform",
@@ -111,9 +119,10 @@ function texture(name, color = false) {
 export function loadGameModel(spec) {
   if (!spec) return Promise.resolve(null);
   const modelKeys = spec.parts || [spec.key];
+  const modelUrls = spec.url ? [spec.url] : modelKeys.map((key) => `game/${key}.glb`);
   if (!modelCache.has(spec.key)) {
-    modelCache.set(spec.key, Promise.all(modelKeys.map((key) => new Promise((resolve, reject) => {
-      gltfLoader.load(assetUrl(`game/${key}.glb`), (gltf) => resolve(gltf.scene), undefined, reject);
+    modelCache.set(spec.key, Promise.all(modelUrls.map((url) => new Promise((resolve, reject) => {
+      gltfLoader.load(assetUrl(url), (gltf) => resolve(gltf.scene), undefined, reject);
     }))).then((scenes) => {
       const scene = new THREE.Group();
       scenes.forEach((part, index) => {

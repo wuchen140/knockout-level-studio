@@ -142,7 +142,22 @@ function makeEditableObject(item, catalog) {
 function modelVisual(model, spec, item, catalog) {
   const visual = model.scene.clone(true);
   visual.name = `${item.name} 游戏模型`;
-  if (spec.material === "platform") {
+  if (spec.material === "royal-smash") {
+    visual.traverse((node) => {
+      if (!node.isMesh) return;
+      node.userData.ownsGeometry = false;
+      node.material = Array.isArray(node.material)
+        ? node.material.map((material) => material.clone())
+        : node.material?.clone();
+      const materials = Array.isArray(node.material) ? node.material : node.material ? [node.material] : [];
+      for (const material of materials) {
+        material.userData.baseEmissive = material.emissive?.getHex() ?? 0x000000;
+        material.userData.baseEmissiveIntensity = material.emissiveIntensity ?? 0;
+      }
+      node.castShadow = true;
+      node.receiveShadow = true;
+    });
+  } else if (spec.material === "platform") {
     visual.position.y = -1.9;
     visual.rotation.y = Math.PI;
     const inverseSize = item.size.map((value) => 1 / Math.max(value, 0.05));

@@ -100,9 +100,12 @@ export function normalizeRoyalSmashLevel(data, catalog) {
       shapeName: profile?.shape || SHAPE_NAMES[shapeId],
       colorId: profile?.colorId ?? 0,
       colorName: profile?.colorName === "-1" ? "材质原色" : profile?.colorName || "材质原色",
+      modelPath: profile?.modelPath || null,
+      modelSize: profile?.modelSize || vector(item.size, 1),
+      sourceSize: vector(item.size, 1),
       position: vector(item.position),
       rotation: eulerDegrees(item.rotation),
-      size: vector(item.size, 1),
+      size: profile?.modelSize || vector(item.size, 1),
     });
   }
 
