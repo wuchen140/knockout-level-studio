@@ -23,7 +23,7 @@ const GAME_GLASS_COLORS = {
   1: "#e5394f", 2: "#f4cf32", 3: "#2854df", 4: "#35b95c",
   5: "#f2a13e", 6: "#df3db7", 7: "#8b2bd3",
 };
-const matcapTextureCache = new WeakMap();
+const royalTextureCache = new WeakMap();
 
 function geometryFor(item) {
   if (item.type === "platform") {
@@ -122,20 +122,29 @@ function setSelected(object, selected) {
   });
 }
 
+function orientedRoyalTexture(source) {
+  if (!source) return null;
+  if (!royalTextureCache.has(source)) {
+    const texture = source.clone();
+    // The source meshes keep Unity's bottom-left UV convention. GLTFLoader
+    // assumes glTF's top-left convention, so Royal Smash textures need Y flip.
+    texture.flipY = true;
+    texture.needsUpdate = true;
+    royalTextureCache.set(source, texture);
+  }
+  return royalTextureCache.get(source);
+}
+
 function royalSmashMaterial(source, renderMode) {
-  if (renderMode !== "matcap" || !source?.map) return source?.clone();
-  let matcap = matcapTextureCache.get(source.map);
-  if (!matcap) {
-    matcap = source.map.clone();
-    // GLTFLoader keeps textures unflipped for glTF UVs. MatCap uses
-    // view-normal coordinates, matching TextureLoader's flipped convention.
-    matcap.flipY = true;
-    matcap.needsUpdate = true;
-    matcapTextureCache.set(source.map, matcap);
+  if (!source) return undefined;
+  if (renderMode !== "matcap" || !source.map) {
+    const material = source.clone();
+    if (source.map) material.map = orientedRoyalTexture(source.map);
+    return material;
   }
   const material = new THREE.MeshMatcapMaterial({
     color: source.color?.clone() || new THREE.Color(0xffffff),
-    matcap,
+    matcap: orientedRoyalTexture(source.map),
     transparent: source.transparent,
     opacity: source.opacity,
     alphaTest: source.alphaTest,
