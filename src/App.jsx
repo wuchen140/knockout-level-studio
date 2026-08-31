@@ -218,6 +218,10 @@ function LibraryApp() {
       dispatch({ type: "RESET", value: next });
       setSavedSnapshot(stored ? snapshot : JSON.stringify(next));
       setCameraCommand((current) => ({ preset: "back", token: current.token + 1 }));
+      // The library preview is a physics-first view: start gravity and
+      // collision simulation as soon as the level is ready, without requiring
+      // the user to click the physics control first.
+      setPhysics((current) => ({ ...current, enabled: next.objects.some((item) => item.type === "block"), paused: false, resetToken: current.resetToken + 1 }));
       setLoading(false);
     }).catch((error) => { if (error.name !== "AbortError") notify("关卡载入失败"); });
     return () => controller.abort();

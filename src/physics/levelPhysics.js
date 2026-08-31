@@ -223,7 +223,10 @@ export async function createLevelPhysics(level, catalog) {
     body.setRotation(quaternionFor(item.rotation), false);
     body.setLinvel({ x: 0, y: 0, z: 0 }, false);
     body.setAngvel({ x: 0, y: 0, z: 0 }, false);
-    body.sleep();
+    // Keep the authored pose for the first rendered frame, then let gravity
+    // and contacts take effect immediately. Calling sleep() here made the
+    // preview wait for a manual click to wake the first body.
+    body.wakeUp();
   }
   world.gravity = { x: 0, y: -PHYSICS_TUNING.gravity, z: 0 };
   eventQueue.drainCollisionEvents(() => {});
