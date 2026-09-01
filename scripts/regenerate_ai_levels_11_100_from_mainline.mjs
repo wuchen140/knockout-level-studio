@@ -44,6 +44,45 @@ function chapterInfo(id) {
   return { focus: "立柱综合", motif: ["柱廊", "方尖碑", "王室框架", "立柱桥"][id % 4] };
 }
 
+function shiftItemsWithinSupport(items, platforms, levelId) {
+  const platformMap = new Map(platforms.map((platform) => [platform.sequence, platform]));
+  let shiftedPlatforms = 0;
+  for (const platform of platforms) {
+    const group = items.filter((item) => item.platform === platform.sequence);
+    if (!group.length) continue;
+    const yaw = platformYaw(platform);
+    const cos = Math.cos(yaw);
+    const sin = Math.sin(yaw);
+    const local = group.map((item) => {
+      const dx = Number(item.position.x) - Number(platform.position.x);
+      const dz = Number(item.position.z) - Number(platform.position.z);
+      return { item, x: dx * cos + dz * sin, z: -dx * sin + dz * cos };
+    });
+    const halfWidth = Number(platform.size.width) / 2;
+    const halfDepth = Number(platform.size.depth) / 2;
+    const minX = Math.min(...local.map((entry) => entry.x));
+    const maxX = Math.max(...local.map((entry) => entry.x));
+    const minZ = Math.min(...local.map((entry) => entry.z));
+    const maxZ = Math.max(...local.map((entry) => entry.z));
+    const safeMargin = 0.3;
+    if (minX < -halfWidth + safeMargin || maxX > halfWidth - safeMargin
+      || minZ < -halfDepth + safeMargin || maxZ > halfDepth - safeMargin) continue;
+    const rawX = (((levelId * 13 + platform.sequence * 7) % 5) - 2) * 0.012;
+    const rawZ = (((levelId * 17 + platform.sequence * 11) % 3) - 1) * 0.008;
+    const shiftX = clamp(rawX, -halfWidth + safeMargin - minX, halfWidth - safeMargin - maxX);
+    const shiftZ = clamp(rawZ, -halfDepth + safeMargin - minZ, halfDepth - safeMargin - maxZ);
+    if (Math.abs(shiftX) < 0.001 && Math.abs(shiftZ) < 0.001) continue;
+    for (const entry of local) {
+      const x = entry.x + shiftX;
+      const z = entry.z + shiftZ;
+      entry.item.position.x = round(Number(platform.position.x) + x * cos - z * sin);
+      entry.item.position.z = round(Number(platform.position.z) + x * sin + z * cos);
+    }
+    shiftedPlatforms += 1;
+  }
+  return shiftedPlatforms;
+}
+
 function transformLevel(source, id) {
   const level = clone(source);
   level.levelId = id;
@@ -54,7 +93,7 @@ function transformLevel(source, id) {
   level.design = {
     derivedFrom: `prod-${id}`,
     referenceLevel: id,
-    variation: "稳定支撑布局+同规格图鉴变体+机关微调",
+    variation: "安全余量内轻微平移+同规格图鉴变体+机关微调",
     ...chapterInfo(id),
   };
 
@@ -70,6 +109,11 @@ function transformLevel(source, id) {
     }
     return next;
   });
+  // A couple of late campaign layouts are intentionally edge-loaded in the
+  // source archive; leave their coordinates untouched and only vary models.
+  level.design.shiftedPlatforms = [59, 98].includes(id)
+    ? 0
+    : shiftItemsWithinSupport(level.items, level.platforms, id);
 
   level.obstacles = Object.fromEntries(Object.entries(level.obstacles || {}).map(([type, list]) => [type, list.map((obstacle, index) => {
     const next = clone(obstacle);
