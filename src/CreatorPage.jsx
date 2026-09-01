@@ -52,6 +52,42 @@ function profileFor(catalog, { materialId, shapeId, size = [1, 1, 1], colorId } 
   })[0] || null;
 }
 
+function upgradeRoyalSmashModels(level, catalog) {
+  if (!level?.objects?.length || !catalog) return level;
+  let changed = false;
+  const objects = level.objects.map((item) => {
+    if (item.type === "platform" && item.dataFamily !== "royal-smash") {
+      changed = true;
+      return { ...item, dataFamily: "royal-smash", platformShape: item.platformShape || "rect" };
+    }
+    if (item.type !== "block" || (item.dataFamily === "royal-smash" && item.modelPath)) return item;
+    const legacyMaterialMap = { 0: 8, 1: 3, 2: 9, 3: 5, 4: 4, 6: 4, 7: 7, 8: 8, 9: 10 };
+    const profile = profileFor(catalog, {
+      ...item,
+      materialId: catalog.profiles.some((candidate) => candidate.materialId === item.materialId)
+        ? item.materialId
+        : legacyMaterialMap[item.materialId] ?? 1,
+    });
+    if (!profile) return item;
+    changed = true;
+    return {
+      ...item,
+      dataFamily: "royal-smash",
+      catalogId: profile.catalogId ?? profile.id,
+      modelPath: profile.modelPath,
+      modelSize: profile.modelSize,
+      sourceShapeId: profile.sourceShapeId,
+      materialId: profile.materialId,
+      materialName: profile.material,
+      shapeId: profile.shapeId,
+      shapeName: profile.shape,
+      colorId: profile.colorId,
+      colorName: profile.colorName === "-1" ? "材质原色" : profile.colorName,
+    };
+  });
+  return changed ? { ...level, objects } : level;
+}
+
 function makePlatform(stageIndex, index = 1) {
   return {
     uid: `platform-custom-${crypto.randomUUID()}`,
@@ -324,6 +360,10 @@ export default function CreatorPage() {
     return () => { cancelled = true; };
   }, [notify]);
   useEffect(() => {
+    const upgraded = upgradeRoyalSmashModels(history.present, catalog);
+    if (upgraded !== history.present) dispatch({ type: "RESET", value: withCounts(upgraded) });
+  }, [catalog, history.present]);
+  useEffect(() => {
     const liveIds = new Set(level.objects.map((item) => item.uid));
     setSelectedIds((current) => {
       const valid = current.filter((uid) => liveIds.has(uid));
@@ -562,7 +602,7 @@ export default function CreatorPage() {
     event.target.value = "";
     if (!file) return;
     try {
-      const data = withCounts(JSON.parse(await file.text()));
+      const data = withCounts(upgradeRoyalSmashModels(JSON.parse(await file.text()), catalog));
       if (!Array.isArray(data.objects)) throw new Error("invalid");
       dispatch({ type: "RESET", value: data });
       setActiveStageKey(data.stages[0].key);
