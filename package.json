@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "data": "python3 scripts/export_web_data.py",
+    "data:ai": "node scripts/generate_ai_levels_1_10.mjs",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"

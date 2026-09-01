@@ -41,7 +41,7 @@ function LevelSidebar({ levels, selectedKey, onChoose, onClose }) {
   const categories = useMemo(() => [...new Map(levels.map((item) => [item.category, item.categoryName || item.category])).entries()], [levels]);
   const filtered = useMemo(() => levels.filter((level) => {
     const needle = query.trim().toLowerCase();
-    const matchesQuery = !needle || String(level.id).includes(needle) || level.category.toLowerCase().includes(needle) || (level.categoryName || "").toLowerCase().includes(needle);
+    const matchesQuery = !needle || String(level.id).includes(needle) || (level.name || "").toLowerCase().includes(needle) || level.category.toLowerCase().includes(needle) || (level.categoryName || "").toLowerCase().includes(needle);
     return matchesQuery && (category === "all" || level.category === category) && (difficulty === "all" || level.difficulty === difficulty);
   }), [levels, query, category, difficulty]);
 
@@ -62,7 +62,7 @@ function LevelSidebar({ levels, selectedKey, onChoose, onClose }) {
     <div className="level-list">
       {filtered.map((level) => <button key={level.key} className={`level-row ${selectedKey === level.key ? "selected" : ""}`} onClick={() => onChoose(level)}>
         <span className={`difficulty-dot diff-${level.difficulty.toLowerCase().replace("_", "-")}`} />
-        <span className="level-main"><strong>关卡 {level.id}</strong><small>{level.categoryName || level.category}</small></span>
+        <span className="level-main"><strong>{level.name || `关卡 ${level.id}`}</strong><small>{level.categoryName || level.category}</small></span>
         <span className="level-counts"><b>{level.counts.blocks}</b><small>物品</small></span>
         {selectedKey === level.key && <Check size={15} />}
       </button>)}
@@ -369,7 +369,7 @@ function LibraryApp() {
       <div className="brand-mark"><span><Box size={18} /></span><div><strong>KnockOut</strong><small>LEVEL STUDIO</small></div></div>
       <div className="topbar-divider" />
       <IconButton title="打开关卡库" className="sidebar-toggle" onClick={() => setLeftOpen(true)}><Menu size={18} /></IconButton>
-      <div className="current-level"><span>{level ? `关卡 ${level.id}` : "载入中"}</span><small>{level?.categoryName || level?.category || "配置数据"}</small>{dirty && <i title="有未保存修改" />}</div>
+      <div className="current-level"><span>{level ? (level.name || `关卡 ${level.id}`) : "载入中"}</span><small>{level?.categoryName || level?.category || "配置数据"}</small>{dirty && <i title="有未保存修改" />}</div>
       <div className="topbar-spacer" />
       <a className="command-button creator-link" href={`${import.meta.env.BASE_URL}?view=creator`}><Sparkles size={16} /><span>新建关卡</span></a>
       <div className="history-tools">
@@ -390,7 +390,7 @@ function LibraryApp() {
     <main className="workspace">
       <div className={`panel-wrap left-wrap ${leftOpen ? "open" : ""}`}><LevelSidebar levels={index} selectedKey={chosen?.key} onChoose={(item) => { setChosen(item); setLeftOpen(false); }} onClose={() => setLeftOpen(false)} /></div>
       <section className="viewport">
-        {loading && <div className="loading-overlay"><span /><p>正在构建关卡 {chosen?.id}</p></div>}
+        {loading && <div className="loading-overlay"><span /><p>正在构建 {chosen?.name || `关卡 ${chosen?.id}`}</p></div>}
         <LevelScene level={level} catalog={catalog} selectedId={selectedId} onSelect={(uid) => { setSelectedId(uid); if (uid) setRightOpen(true); }} onTransform={updateTransform} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} physics={physics} onPhysicsUpdate={(transforms) => { physicsTransformsRef.current = transforms; }} onPhysicsStatus={setPhysicsStatus} />
         <div className="scene-toolbar" aria-label="场景工具">
           <IconButton title="移动" disabled={physics.enabled} active={mode === "translate"} onClick={() => setMode("translate")}><Move3D size={18} /></IconButton>

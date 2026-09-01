@@ -3,6 +3,8 @@ import * as THREE from "three";
 const SHAPE_IDS = { 1: 0, 2: 1, 3: 2, 4: 1 };
 const SHAPE_NAMES = { 0: "方块", 1: "圆柱", 2: "圆锥" };
 const DIFFICULTIES = ["NORMAL", "HARD", "SUPER_HARD"];
+const CATEGORY_NAMES = { mainline: "主线关卡", loop: "循环关卡", ai: "AI关卡" };
+const SLUG_PREFIXES = { mainline: "prod", loop: "loop", ai: "ai" };
 
 function vector(value, fallback = 0) {
   return [Number(value?.x ?? fallback), Number(value?.y ?? fallback), Number(value?.z ?? fallback)];
@@ -56,7 +58,7 @@ export function normalizeRoyalSmashLevel(data, catalog) {
   if (!Array.isArray(data?.items) || !Array.isArray(data?.platforms)) throw new Error("invalid level data");
 
   const profiles = new Map((catalog?.profiles || []).map((profile) => [profile.catalogId ?? profile.id, profile]));
-  const categoryName = data.category === "mainline" ? "主线关卡" : "循环关卡";
+  const categoryName = data.categoryName || CATEGORY_NAMES[data.category] || data.category;
   const objects = [];
 
   for (const platform of data.platforms) {
@@ -135,9 +137,10 @@ export function normalizeRoyalSmashLevel(data, catalog) {
     dataFamily: "royal-smash",
     source: { format: "Royal Smash 标准关卡 JSON", categoryName: data.categoryName },
     key: `${data.category}:${data.levelId}`,
-    slug: data.category === "mainline" ? `prod-${data.levelId}` : `loop-${data.levelId}`,
+    slug: data.slug || `${SLUG_PREFIXES[data.category] || data.category}-${data.levelId}`,
     category: data.category,
     categoryName,
+    name: data.name || (data.category === "ai" ? `AI-${data.levelId}` : `关卡 ${data.levelId}`),
     id: data.levelId,
     moveCount: Number(data.settings?.moveCount) || 0,
     difficulty: DIFFICULTIES[difficultyValue] || "NORMAL",
