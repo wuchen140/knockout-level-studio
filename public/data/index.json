@@ -3,10 +3,11 @@
   "family": "royal-smash",
   "levels": [
     {
-      "key": "mainline:1",
-      "slug": "prod-1",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:1",
+      "slug": "ai-1",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-1",
       "id": 1,
       "moveCount": 30,
       "difficulty": "NORMAL",
@@ -22,10 +23,11 @@
       }
     },
     {
-      "key": "mainline:2",
-      "slug": "prod-2",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:2",
+      "slug": "ai-2",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-2",
       "id": 2,
       "moveCount": 29,
       "difficulty": "NORMAL",
@@ -41,12 +43,13 @@
       }
     },
     {
-      "key": "mainline:3",
-      "slug": "prod-3",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:3",
+      "slug": "ai-3",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-3",
       "id": 3,
-      "moveCount": 27,
+      "moveCount": 28,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -60,12 +63,13 @@
       }
     },
     {
-      "key": "mainline:4",
-      "slug": "prod-4",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:4",
+      "slug": "ai-4",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-4",
       "id": 4,
-      "moveCount": 24,
+      "moveCount": 27,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -79,12 +83,13 @@
       }
     },
     {
-      "key": "mainline:5",
-      "slug": "prod-5",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:5",
+      "slug": "ai-5",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-5",
       "id": 5,
-      "moveCount": 25,
+      "moveCount": 26,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -98,12 +103,13 @@
       }
     },
     {
-      "key": "mainline:6",
-      "slug": "prod-6",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:6",
+      "slug": "ai-6",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-6",
       "id": 6,
-      "moveCount": 24,
+      "moveCount": 25,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -117,12 +123,13 @@
       }
     },
     {
-      "key": "mainline:7",
-      "slug": "prod-7",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:7",
+      "slug": "ai-7",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-7",
       "id": 7,
-      "moveCount": 24,
+      "moveCount": 25,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -136,12 +143,13 @@
       }
     },
     {
-      "key": "mainline:8",
-      "slug": "prod-8",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:8",
+      "slug": "ai-8",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-8",
       "id": 8,
-      "moveCount": 21,
+      "moveCount": 23,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -155,12 +163,13 @@
       }
     },
     {
-      "key": "mainline:9",
-      "slug": "prod-9",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:9",
+      "slug": "ai-9",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-9",
       "id": 9,
-      "moveCount": 28,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -174,12 +183,13 @@
       }
     },
     {
-      "key": "mainline:10",
-      "slug": "prod-10",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:10",
+      "slug": "ai-10",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-10",
       "id": 10,
-      "moveCount": 19,
+      "moveCount": 22,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -193,17 +203,58 @@
       }
     },
     {
-      "key": "mainline:11",
-      "slug": "prod-11",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:11",
+      "slug": "ai-11",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-11",
       "id": 11,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 33,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:12",
+      "slug": "ai-12",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-12",
+      "id": 12,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 27,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:13",
+      "slug": "ai-13",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-13",
+      "id": 13,
       "moveCount": 21,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 60,
+        "blocks": 24,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -212,183 +263,13 @@
       }
     },
     {
-      "key": "mainline:12",
-      "slug": "prod-12",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 12,
-      "moveCount": 25,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 28,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:13",
-      "slug": "prod-13",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 13,
-      "moveCount": 20,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 40,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:14",
-      "slug": "prod-14",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:14",
+      "slug": "ai-14",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-14",
       "id": 14,
-      "moveCount": 22,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 2,
-        "blocks": 68,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:15",
-      "slug": "prod-15",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 15,
-      "moveCount": 26,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 88,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:16",
-      "slug": "prod-16",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 16,
-      "moveCount": 26,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 25,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:17",
-      "slug": "prod-17",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 17,
-      "moveCount": 25,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 45,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:18",
-      "slug": "prod-18",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 18,
-      "moveCount": 22,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 2,
-        "blocks": 44,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:19",
-      "slug": "prod-19",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 19,
-      "moveCount": 18,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 48,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:20",
-      "slug": "prod-20",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 20,
-      "moveCount": 18,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 144,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:21",
-      "slug": "prod-21",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 21,
-      "moveCount": 29,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -402,17 +283,18 @@
       }
     },
     {
-      "key": "mainline:22",
-      "slug": "prod-22",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 22,
-      "moveCount": 35,
+      "key": "ai:15",
+      "slug": "ai-15",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-15",
+      "id": 15,
+      "moveCount": 23,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 26,
+        "blocks": 24,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -421,74 +303,18 @@
       }
     },
     {
-      "key": "mainline:23",
-      "slug": "prod-23",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 23,
-      "moveCount": 21,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 56,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:24",
-      "slug": "prod-24",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 24,
-      "moveCount": 26,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 171,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:25",
-      "slug": "prod-25",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 25,
-      "moveCount": 25,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 62,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:26",
-      "slug": "prod-26",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 26,
+      "key": "ai:16",
+      "slug": "ai-16",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-16",
+      "id": 16,
       "moveCount": 22,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 81,
+        "blocks": 24,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -497,544 +323,13 @@
       }
     },
     {
-      "key": "mainline:27",
-      "slug": "prod-27",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 27,
-      "moveCount": 27,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 3,
-        "blocks": 180,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:28",
-      "slug": "prod-28",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 28,
+      "key": "ai:17",
+      "slug": "ai-17",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-17",
+      "id": 17,
       "moveCount": 21,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 153,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:29",
-      "slug": "prod-29",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 29,
-      "moveCount": 27,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 146,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:30",
-      "slug": "prod-30",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 30,
-      "moveCount": 23,
-      "difficulty": "SUPER_HARD",
-      "difficultyValue": 2,
-      "counts": {
-        "platforms": 1,
-        "blocks": 162,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:31",
-      "slug": "prod-31",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 31,
-      "moveCount": 37,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 108,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:32",
-      "slug": "prod-32",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 32,
-      "moveCount": 30,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 132,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:33",
-      "slug": "prod-33",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 33,
-      "moveCount": 28,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 2,
-        "blocks": 144,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:34",
-      "slug": "prod-34",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 34,
-      "moveCount": 23,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 59,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:35",
-      "slug": "prod-35",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 35,
-      "moveCount": 24,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 3,
-        "blocks": 72,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:36",
-      "slug": "prod-36",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 36,
-      "moveCount": 23,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 64,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:37",
-      "slug": "prod-37",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 37,
-      "moveCount": 21,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 139,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:38",
-      "slug": "prod-38",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 38,
-      "moveCount": 23,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 40,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:39",
-      "slug": "prod-39",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 39,
-      "moveCount": 24,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 100,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:40",
-      "slug": "prod-40",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 40,
-      "moveCount": 24,
-      "difficulty": "SUPER_HARD",
-      "difficultyValue": 2,
-      "counts": {
-        "platforms": 1,
-        "blocks": 189,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:41",
-      "slug": "prod-41",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 41,
-      "moveCount": 30,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 18,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:42",
-      "slug": "prod-42",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 42,
-      "moveCount": 21,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 47,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:43",
-      "slug": "prod-43",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 43,
-      "moveCount": 23,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 145,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:44",
-      "slug": "prod-44",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 44,
-      "moveCount": 20,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 52,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:45",
-      "slug": "prod-45",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 45,
-      "moveCount": 23,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 87,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:46",
-      "slug": "prod-46",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 46,
-      "moveCount": 23,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 2,
-        "blocks": 123,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:47",
-      "slug": "prod-47",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 47,
-      "moveCount": 21,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 84,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:48",
-      "slug": "prod-48",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 48,
-      "moveCount": 22,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 3,
-        "blocks": 105,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:49",
-      "slug": "prod-49",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 49,
-      "moveCount": 21,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 2,
-        "blocks": 136,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:50",
-      "slug": "prod-50",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 50,
-      "moveCount": 21,
-      "difficulty": "SUPER_HARD",
-      "difficultyValue": 2,
-      "counts": {
-        "platforms": 1,
-        "blocks": 83,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:51",
-      "slug": "prod-51",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 51,
-      "moveCount": 27,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 60,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:52",
-      "slug": "prod-52",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 52,
-      "moveCount": 20,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 2,
-        "blocks": 74,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:53",
-      "slug": "prod-53",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 53,
-      "moveCount": 19,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 2,
-        "blocks": 90,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:54",
-      "slug": "prod-54",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 54,
-      "moveCount": 18,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 2,
-        "blocks": 26,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:55",
-      "slug": "prod-55",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 55,
-      "moveCount": 22,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -1048,16 +343,797 @@
       }
     },
     {
-      "key": "mainline:56",
-      "slug": "prod-56",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 56,
+      "key": "ai:18",
+      "slug": "ai-18",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-18",
+      "id": 18,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 46,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:19",
+      "slug": "ai-19",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-19",
+      "id": 19,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:20",
+      "slug": "ai-20",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-20",
+      "id": 20,
+      "moveCount": 25,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:21",
+      "slug": "ai-21",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-21",
+      "id": 21,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:22",
+      "slug": "ai-22",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-22",
+      "id": 22,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 29,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:23",
+      "slug": "ai-23",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-23",
+      "id": 23,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:24",
+      "slug": "ai-24",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-24",
+      "id": 24,
+      "moveCount": 21,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:25",
+      "slug": "ai-25",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-25",
+      "id": 25,
+      "moveCount": 25,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:26",
+      "slug": "ai-26",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-26",
+      "id": 26,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:27",
+      "slug": "ai-27",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-27",
+      "id": 27,
+      "moveCount": 23,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 2,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:28",
+      "slug": "ai-28",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-28",
+      "id": 28,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 54,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:29",
+      "slug": "ai-29",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-29",
+      "id": 29,
       "moveCount": 21,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
+        "blocks": 40,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:30",
+      "slug": "ai-30",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-30",
+      "id": 30,
+      "moveCount": 29,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 1,
+        "blocks": 42,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:31",
+      "slug": "ai-31",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-31",
+      "id": 31,
+      "moveCount": 28,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:32",
+      "slug": "ai-32",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-32",
+      "id": 32,
+      "moveCount": 27,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:33",
+      "slug": "ai-33",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-33",
+      "id": 33,
+      "moveCount": 26,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:34",
+      "slug": "ai-34",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-34",
+      "id": 34,
+      "moveCount": 29,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:35",
+      "slug": "ai-35",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-35",
+      "id": 35,
+      "moveCount": 28,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:36",
+      "slug": "ai-36",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-36",
+      "id": 36,
+      "moveCount": 27,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 29,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:37",
+      "slug": "ai-37",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-37",
+      "id": 37,
+      "moveCount": 26,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 2,
+        "blocks": 35,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:38",
+      "slug": "ai-38",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-38",
+      "id": 38,
+      "moveCount": 29,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 42,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:39",
+      "slug": "ai-39",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-39",
+      "id": 39,
+      "moveCount": 28,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 46,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:40",
+      "slug": "ai-40",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-40",
+      "id": 40,
+      "moveCount": 27,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 1,
+        "blocks": 42,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:41",
+      "slug": "ai-41",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-41",
+      "id": 41,
+      "moveCount": 26,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:42",
+      "slug": "ai-42",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-42",
+      "id": 42,
+      "moveCount": 25,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:43",
+      "slug": "ai-43",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-43",
+      "id": 43,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 27,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:44",
+      "slug": "ai-44",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-44",
+      "id": 44,
+      "moveCount": 23,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:45",
+      "slug": "ai-45",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-45",
+      "id": 45,
+      "moveCount": 27,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 29,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:46",
+      "slug": "ai-46",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-46",
+      "id": 46,
+      "moveCount": 26,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:47",
+      "slug": "ai-47",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-47",
+      "id": 47,
+      "moveCount": 25,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:48",
+      "slug": "ai-48",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-48",
+      "id": 48,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 46,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:49",
+      "slug": "ai-49",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-49",
+      "id": 49,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 46,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:50",
+      "slug": "ai-50",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-50",
+      "id": 50,
+      "moveCount": 25,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 1,
+        "blocks": 42,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:51",
+      "slug": "ai-51",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-51",
+      "id": 51,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 29,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:52",
+      "slug": "ai-52",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-52",
+      "id": 52,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:53",
+      "slug": "ai-53",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-53",
+      "id": 53,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:54",
+      "slug": "ai-54",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-54",
+      "id": 54,
+      "moveCount": 25,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:55",
+      "slug": "ai-55",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-55",
+      "id": 55,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:56",
+      "slug": "ai-56",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-56",
+      "id": 56,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:57",
+      "slug": "ai-57",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-57",
+      "id": 57,
+      "moveCount": 22,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 2,
         "blocks": 41,
         "obstacles": 0,
         "bouncers": 0,
@@ -1067,36 +1143,18 @@
       }
     },
     {
-      "key": "mainline:57",
-      "slug": "prod-57",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 57,
-      "moveCount": 21,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 113,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:58",
-      "slug": "prod-58",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:58",
+      "slug": "ai-58",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-58",
       "id": 58,
-      "moveCount": 21,
+      "moveCount": 25,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 47,
+        "blocks": 40,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1105,17 +1163,18 @@
       }
     },
     {
-      "key": "mainline:59",
-      "slug": "prod-59",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:59",
+      "slug": "ai-59",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-59",
       "id": 59,
-      "moveCount": 19,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
-        "platforms": 2,
-        "blocks": 120,
+        "platforms": 1,
+        "blocks": 58,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1124,17 +1183,18 @@
       }
     },
     {
-      "key": "mainline:60",
-      "slug": "prod-60",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:60",
+      "slug": "ai-60",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-60",
       "id": 60,
-      "moveCount": 20,
+      "moveCount": 23,
       "difficulty": "SUPER_HARD",
       "difficultyValue": 2,
       "counts": {
         "platforms": 2,
-        "blocks": 178,
+        "blocks": 42,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1143,340 +1203,18 @@
       }
     },
     {
-      "key": "mainline:61",
-      "slug": "prod-61",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:61",
+      "slug": "ai-61",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-61",
       "id": 61,
-      "moveCount": 20,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 126,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:62",
-      "slug": "prod-62",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 62,
-      "moveCount": 18,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 73,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:63",
-      "slug": "prod-63",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 63,
-      "moveCount": 20,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 3,
-        "blocks": 143,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:64",
-      "slug": "prod-64",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 64,
-      "moveCount": 18,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 2,
-        "blocks": 69,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:65",
-      "slug": "prod-65",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 65,
-      "moveCount": 17,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 3,
-        "blocks": 96,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:66",
-      "slug": "prod-66",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 66,
-      "moveCount": 21,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 125,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:67",
-      "slug": "prod-67",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 67,
-      "moveCount": 20,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 105,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:68",
-      "slug": "prod-68",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 68,
-      "moveCount": 24,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 2,
-        "blocks": 192,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:69",
-      "slug": "prod-69",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 69,
-      "moveCount": 19,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 264,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:70",
-      "slug": "prod-70",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 70,
-      "moveCount": 21,
-      "difficulty": "SUPER_HARD",
-      "difficultyValue": 2,
-      "counts": {
-        "platforms": 1,
-        "blocks": 67,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:71",
-      "slug": "prod-71",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 71,
-      "moveCount": 29,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 53,
-        "obstacles": 1,
-        "bouncers": 0,
-        "blockers": 1,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:72",
-      "slug": "prod-72",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 72,
-      "moveCount": 23,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 36,
-        "obstacles": 2,
-        "bouncers": 0,
-        "blockers": 2,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:73",
-      "slug": "prod-73",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 73,
-      "moveCount": 18,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 59,
-        "obstacles": 2,
-        "bouncers": 0,
-        "blockers": 2,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:74",
-      "slug": "prod-74",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 74,
-      "moveCount": 23,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 96,
-        "obstacles": 1,
-        "bouncers": 0,
-        "blockers": 1,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:75",
-      "slug": "prod-75",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 75,
-      "moveCount": 20,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 2,
-        "blocks": 108,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:76",
-      "slug": "prod-76",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 76,
-      "moveCount": 18,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 96,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:77",
-      "slug": "prod-77",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 77,
       "moveCount": 22,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 104,
-        "obstacles": 2,
-        "bouncers": 0,
-        "blockers": 2,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:78",
-      "slug": "prod-78",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 78,
-      "moveCount": 20,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 135,
+        "blocks": 24,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1485,50 +1223,13 @@
       }
     },
     {
-      "key": "mainline:79",
-      "slug": "prod-79",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 79,
-      "moveCount": 18,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 106,
-        "obstacles": 1,
-        "bouncers": 0,
-        "blockers": 1,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:80",
-      "slug": "prod-80",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 80,
-      "moveCount": 24,
-      "difficulty": "SUPER_HARD",
-      "difficultyValue": 2,
-      "counts": {
-        "platforms": 3,
-        "blocks": 100,
-        "obstacles": 1,
-        "bouncers": 0,
-        "blockers": 1,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:81",
-      "slug": "prod-81",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 81,
-      "moveCount": 20,
+      "key": "ai:62",
+      "slug": "ai-62",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-62",
+      "id": 62,
+      "moveCount": 21,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -1542,17 +1243,18 @@
       }
     },
     {
-      "key": "mainline:82",
-      "slug": "prod-82",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 82,
-      "moveCount": 19,
+      "key": "ai:63",
+      "slug": "ai-63",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-63",
+      "id": 63,
+      "moveCount": 20,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 48,
+        "blocks": 24,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1561,36 +1263,18 @@
       }
     },
     {
-      "key": "mainline:83",
-      "slug": "prod-83",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 83,
-      "moveCount": 19,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 64,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:84",
-      "slug": "prod-84",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 84,
-      "moveCount": 18,
+      "key": "ai:64",
+      "slug": "ai-64",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-64",
+      "id": 64,
+      "moveCount": 23,
       "difficulty": "HARD",
       "difficultyValue": 1,
       "counts": {
-        "platforms": 2,
-        "blocks": 74,
+        "platforms": 1,
+        "blocks": 32,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1599,17 +1283,138 @@
       }
     },
     {
-      "key": "mainline:85",
-      "slug": "prod-85",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 85,
+      "key": "ai:65",
+      "slug": "ai-65",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-65",
+      "id": 65,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:66",
+      "slug": "ai-66",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-66",
+      "id": 66,
+      "moveCount": 21,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 31,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:67",
+      "slug": "ai-67",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-67",
+      "id": 67,
+      "moveCount": 20,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:68",
+      "slug": "ai-68",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-68",
+      "id": 68,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 44,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:69",
+      "slug": "ai-69",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-69",
+      "id": 69,
       "moveCount": 22,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
         "blocks": 48,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:70",
+      "slug": "ai-70",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-70",
+      "id": 70,
+      "moveCount": 26,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 1,
+        "blocks": 42,
+        "obstacles": 2,
+        "bouncers": 0,
+        "blockers": 2,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:71",
+      "slug": "ai-71",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-71",
+      "id": 71,
+      "moveCount": 25,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 27,
         "obstacles": 1,
         "bouncers": 0,
         "blockers": 1,
@@ -1618,93 +1423,178 @@
       }
     },
     {
-      "key": "mainline:86",
-      "slug": "prod-86",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 86,
-      "moveCount": 20,
+      "key": "ai:72",
+      "slug": "ai-72",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-72",
+      "id": 72,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 77,
-        "obstacles": 0,
+        "blocks": 24,
+        "obstacles": 1,
         "bouncers": 0,
-        "blockers": 0,
+        "blockers": 1,
         "hammers": 0,
         "stages": 1
       }
     },
     {
-      "key": "mainline:87",
-      "slug": "prod-87",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 87,
-      "moveCount": 20,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 81,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:88",
-      "slug": "prod-88",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 88,
+      "key": "ai:73",
+      "slug": "ai-73",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-73",
+      "id": 73,
       "moveCount": 23,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 98,
-        "obstacles": 0,
+        "blocks": 29,
+        "obstacles": 1,
         "bouncers": 0,
-        "blockers": 0,
+        "blockers": 1,
         "hammers": 0,
         "stages": 1
       }
     },
     {
-      "key": "mainline:89",
-      "slug": "prod-89",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 89,
+      "key": "ai:74",
+      "slug": "ai-74",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-74",
+      "id": 74,
+      "moveCount": 22,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 2,
+        "bouncers": 0,
+        "blockers": 2,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:75",
+      "slug": "ai-75",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-75",
+      "id": 75,
       "moveCount": 26,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 51,
-        "obstacles": 0,
+        "blocks": 24,
+        "obstacles": 1,
         "bouncers": 0,
-        "blockers": 0,
+        "blockers": 1,
         "hammers": 0,
         "stages": 1
       }
     },
     {
-      "key": "mainline:90",
-      "slug": "prod-90",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 90,
-      "moveCount": 26,
+      "key": "ai:76",
+      "slug": "ai-76",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-76",
+      "id": 76,
+      "moveCount": 25,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 1,
+        "bouncers": 0,
+        "blockers": 1,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:77",
+      "slug": "ai-77",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-77",
+      "id": 77,
+      "moveCount": 24,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 2,
+        "bouncers": 0,
+        "blockers": 2,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:78",
+      "slug": "ai-78",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-78",
+      "id": 78,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 1,
+        "bouncers": 0,
+        "blockers": 1,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:79",
+      "slug": "ai-79",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-79",
+      "id": 79,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 54,
+        "obstacles": 1,
+        "bouncers": 0,
+        "blockers": 1,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:80",
+      "slug": "ai-80",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-80",
+      "id": 80,
+      "moveCount": 25,
       "difficulty": "SUPER_HARD",
       "difficultyValue": 2,
       "counts": {
-        "platforms": 4,
-        "blocks": 161,
+        "platforms": 2,
+        "blocks": 45,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1713,17 +1603,18 @@
       }
     },
     {
-      "key": "mainline:91",
-      "slug": "prod-91",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 91,
-      "moveCount": 28,
+      "key": "ai:81",
+      "slug": "ai-81",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-81",
+      "id": 81,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 36,
+        "blocks": 24,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1732,17 +1623,218 @@
       }
     },
     {
-      "key": "mainline:92",
-      "slug": "prod-92",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:82",
+      "slug": "ai-82",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-82",
+      "id": 82,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:83",
+      "slug": "ai-83",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-83",
+      "id": 83,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:84",
+      "slug": "ai-84",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-84",
+      "id": 84,
+      "moveCount": 25,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:85",
+      "slug": "ai-85",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-85",
+      "id": 85,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:86",
+      "slug": "ai-86",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-86",
+      "id": 86,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 27,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:87",
+      "slug": "ai-87",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-87",
+      "id": 87,
+      "moveCount": 22,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 2,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:88",
+      "slug": "ai-88",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-88",
+      "id": 88,
+      "moveCount": 25,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 58,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:89",
+      "slug": "ai-89",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-89",
+      "id": 89,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 46,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:90",
+      "slug": "ai-90",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-90",
+      "id": 90,
+      "moveCount": 27,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 3,
+        "blocks": 42,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:91",
+      "slug": "ai-91",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-91",
+      "id": 91,
+      "moveCount": 26,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:92",
+      "slug": "ai-92",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-92",
       "id": 92,
       "moveCount": 25,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 96,
+        "blocks": 24,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1751,17 +1843,18 @@
       }
     },
     {
-      "key": "mainline:93",
-      "slug": "prod-93",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:93",
+      "slug": "ai-93",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-93",
       "id": 93,
-      "moveCount": 18,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 91,
+        "blocks": 27,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1770,17 +1863,78 @@
       }
     },
     {
-      "key": "mainline:94",
-      "slug": "prod-94",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:94",
+      "slug": "ai-94",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-94",
       "id": 94,
-      "moveCount": 20,
+      "moveCount": 23,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 32,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:95",
+      "slug": "ai-95",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-95",
+      "id": 95,
+      "moveCount": 27,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 29,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:96",
+      "slug": "ai-96",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-96",
+      "id": 96,
+      "moveCount": 26,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 24,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "ai:97",
+      "slug": "ai-97",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-97",
+      "id": 97,
+      "moveCount": 25,
       "difficulty": "HARD",
       "difficultyValue": 1,
       "counts": {
         "platforms": 3,
-        "blocks": 265,
+        "blocks": 32,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1789,74 +1943,18 @@
       }
     },
     {
-      "key": "mainline:95",
-      "slug": "prod-95",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 95,
-      "moveCount": 33,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 100,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:96",
-      "slug": "prod-96",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 96,
-      "moveCount": 18,
-      "difficulty": "NORMAL",
-      "difficultyValue": 0,
-      "counts": {
-        "platforms": 1,
-        "blocks": 47,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:97",
-      "slug": "prod-97",
-      "category": "mainline",
-      "categoryName": "主线关卡",
-      "id": 97,
-      "moveCount": 19,
-      "difficulty": "HARD",
-      "difficultyValue": 1,
-      "counts": {
-        "platforms": 1,
-        "blocks": 113,
-        "obstacles": 0,
-        "bouncers": 0,
-        "blockers": 0,
-        "hammers": 0,
-        "stages": 1
-      }
-    },
-    {
-      "key": "mainline:98",
-      "slug": "prod-98",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:98",
+      "slug": "ai-98",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-98",
       "id": 98,
-      "moveCount": 18,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
-        "blocks": 105,
+        "blocks": 46,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1865,17 +1963,18 @@
       }
     },
     {
-      "key": "mainline:99",
-      "slug": "prod-99",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:99",
+      "slug": "ai-99",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-99",
       "id": 99,
       "moveCount": 23,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
-        "platforms": 3,
-        "blocks": 79,
+        "platforms": 1,
+        "blocks": 46,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -1884,17 +1983,18 @@
       }
     },
     {
-      "key": "mainline:100",
-      "slug": "prod-100",
-      "category": "mainline",
-      "categoryName": "主线关卡",
+      "key": "ai:100",
+      "slug": "ai-100",
+      "category": "ai",
+      "categoryName": "AI关卡",
+      "name": "AI-100",
       "id": 100,
-      "moveCount": 23,
+      "moveCount": 27,
       "difficulty": "SUPER_HARD",
       "difficultyValue": 2,
       "counts": {
-        "platforms": 4,
-        "blocks": 166,
+        "platforms": 3,
+        "blocks": 42,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
@@ -3803,11 +3903,10 @@
       }
     },
     {
-      "key": "ai:1",
-      "slug": "ai-1",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-1",
+      "key": "mainline:1",
+      "slug": "prod-1",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 1,
       "moveCount": 30,
       "difficulty": "NORMAL",
@@ -3823,11 +3922,10 @@
       }
     },
     {
-      "key": "ai:2",
-      "slug": "ai-2",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-2",
+      "key": "mainline:2",
+      "slug": "prod-2",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 2,
       "moveCount": 29,
       "difficulty": "NORMAL",
@@ -3843,13 +3941,12 @@
       }
     },
     {
-      "key": "ai:3",
-      "slug": "ai-3",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-3",
+      "key": "mainline:3",
+      "slug": "prod-3",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 3,
-      "moveCount": 28,
+      "moveCount": 27,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -3863,13 +3960,12 @@
       }
     },
     {
-      "key": "ai:4",
-      "slug": "ai-4",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-4",
+      "key": "mainline:4",
+      "slug": "prod-4",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 4,
-      "moveCount": 27,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -3883,13 +3979,12 @@
       }
     },
     {
-      "key": "ai:5",
-      "slug": "ai-5",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-5",
+      "key": "mainline:5",
+      "slug": "prod-5",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 5,
-      "moveCount": 26,
+      "moveCount": 25,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -3903,13 +3998,12 @@
       }
     },
     {
-      "key": "ai:6",
-      "slug": "ai-6",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-6",
+      "key": "mainline:6",
+      "slug": "prod-6",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 6,
-      "moveCount": 25,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -3923,13 +4017,12 @@
       }
     },
     {
-      "key": "ai:7",
-      "slug": "ai-7",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-7",
+      "key": "mainline:7",
+      "slug": "prod-7",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 7,
-      "moveCount": 25,
+      "moveCount": 24,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -3943,13 +4036,12 @@
       }
     },
     {
-      "key": "ai:8",
-      "slug": "ai-8",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-8",
+      "key": "mainline:8",
+      "slug": "prod-8",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 8,
-      "moveCount": 23,
+      "moveCount": 21,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -3963,13 +4055,12 @@
       }
     },
     {
-      "key": "ai:9",
-      "slug": "ai-9",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-9",
+      "key": "mainline:9",
+      "slug": "prod-9",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 9,
-      "moveCount": 24,
+      "moveCount": 28,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
@@ -3983,18 +4074,1727 @@
       }
     },
     {
-      "key": "ai:10",
-      "slug": "ai-10",
-      "category": "ai",
-      "categoryName": "AI关卡",
-      "name": "AI-10",
+      "key": "mainline:10",
+      "slug": "prod-10",
+      "category": "mainline",
+      "categoryName": "主线关卡",
       "id": 10,
-      "moveCount": 22,
+      "moveCount": 19,
       "difficulty": "NORMAL",
       "difficultyValue": 0,
       "counts": {
         "platforms": 1,
         "blocks": 54,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:11",
+      "slug": "prod-11",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 11,
+      "moveCount": 21,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 60,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:12",
+      "slug": "prod-12",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 12,
+      "moveCount": 25,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 28,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:13",
+      "slug": "prod-13",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 13,
+      "moveCount": 20,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 40,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:14",
+      "slug": "prod-14",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 14,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 68,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:15",
+      "slug": "prod-15",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 15,
+      "moveCount": 26,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 88,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:16",
+      "slug": "prod-16",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 16,
+      "moveCount": 26,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 25,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:17",
+      "slug": "prod-17",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 17,
+      "moveCount": 25,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 45,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:18",
+      "slug": "prod-18",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 18,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 44,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:19",
+      "slug": "prod-19",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 19,
+      "moveCount": 18,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 48,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:20",
+      "slug": "prod-20",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 20,
+      "moveCount": 18,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 144,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:21",
+      "slug": "prod-21",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 21,
+      "moveCount": 29,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 29,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:22",
+      "slug": "prod-22",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 22,
+      "moveCount": 35,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 26,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:23",
+      "slug": "prod-23",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 23,
+      "moveCount": 21,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 56,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:24",
+      "slug": "prod-24",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 24,
+      "moveCount": 26,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 171,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:25",
+      "slug": "prod-25",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 25,
+      "moveCount": 25,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 62,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:26",
+      "slug": "prod-26",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 26,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 81,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:27",
+      "slug": "prod-27",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 27,
+      "moveCount": 27,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 3,
+        "blocks": 180,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:28",
+      "slug": "prod-28",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 28,
+      "moveCount": 21,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 153,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:29",
+      "slug": "prod-29",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 29,
+      "moveCount": 27,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 146,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:30",
+      "slug": "prod-30",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 30,
+      "moveCount": 23,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 1,
+        "blocks": 162,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:31",
+      "slug": "prod-31",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 31,
+      "moveCount": 37,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 108,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:32",
+      "slug": "prod-32",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 32,
+      "moveCount": 30,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 132,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:33",
+      "slug": "prod-33",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 33,
+      "moveCount": 28,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 144,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:34",
+      "slug": "prod-34",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 34,
+      "moveCount": 23,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 59,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:35",
+      "slug": "prod-35",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 35,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 3,
+        "blocks": 72,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:36",
+      "slug": "prod-36",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 36,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 64,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:37",
+      "slug": "prod-37",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 37,
+      "moveCount": 21,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 139,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:38",
+      "slug": "prod-38",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 38,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 40,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:39",
+      "slug": "prod-39",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 39,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 100,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:40",
+      "slug": "prod-40",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 40,
+      "moveCount": 24,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 1,
+        "blocks": 189,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:41",
+      "slug": "prod-41",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 41,
+      "moveCount": 30,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 18,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:42",
+      "slug": "prod-42",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 42,
+      "moveCount": 21,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 47,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:43",
+      "slug": "prod-43",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 43,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 145,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:44",
+      "slug": "prod-44",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 44,
+      "moveCount": 20,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 52,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:45",
+      "slug": "prod-45",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 45,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 87,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:46",
+      "slug": "prod-46",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 46,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 123,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:47",
+      "slug": "prod-47",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 47,
+      "moveCount": 21,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 84,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:48",
+      "slug": "prod-48",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 48,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 3,
+        "blocks": 105,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:49",
+      "slug": "prod-49",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 49,
+      "moveCount": 21,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 136,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:50",
+      "slug": "prod-50",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 50,
+      "moveCount": 21,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 1,
+        "blocks": 83,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:51",
+      "slug": "prod-51",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 51,
+      "moveCount": 27,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 60,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:52",
+      "slug": "prod-52",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 52,
+      "moveCount": 20,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 74,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:53",
+      "slug": "prod-53",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 53,
+      "moveCount": 19,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 90,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:54",
+      "slug": "prod-54",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 54,
+      "moveCount": 18,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 2,
+        "blocks": 26,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:55",
+      "slug": "prod-55",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 55,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 42,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:56",
+      "slug": "prod-56",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 56,
+      "moveCount": 21,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 41,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:57",
+      "slug": "prod-57",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 57,
+      "moveCount": 21,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 113,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:58",
+      "slug": "prod-58",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 58,
+      "moveCount": 21,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 47,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:59",
+      "slug": "prod-59",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 59,
+      "moveCount": 19,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 120,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:60",
+      "slug": "prod-60",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 60,
+      "moveCount": 20,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 2,
+        "blocks": 178,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:61",
+      "slug": "prod-61",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 61,
+      "moveCount": 20,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 126,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:62",
+      "slug": "prod-62",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 62,
+      "moveCount": 18,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 73,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:63",
+      "slug": "prod-63",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 63,
+      "moveCount": 20,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 3,
+        "blocks": 143,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:64",
+      "slug": "prod-64",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 64,
+      "moveCount": 18,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 2,
+        "blocks": 69,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:65",
+      "slug": "prod-65",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 65,
+      "moveCount": 17,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 3,
+        "blocks": 96,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:66",
+      "slug": "prod-66",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 66,
+      "moveCount": 21,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 125,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:67",
+      "slug": "prod-67",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 67,
+      "moveCount": 20,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 105,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:68",
+      "slug": "prod-68",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 68,
+      "moveCount": 24,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 192,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:69",
+      "slug": "prod-69",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 69,
+      "moveCount": 19,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 264,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:70",
+      "slug": "prod-70",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 70,
+      "moveCount": 21,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 1,
+        "blocks": 67,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:71",
+      "slug": "prod-71",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 71,
+      "moveCount": 29,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 53,
+        "obstacles": 1,
+        "bouncers": 0,
+        "blockers": 1,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:72",
+      "slug": "prod-72",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 72,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 36,
+        "obstacles": 2,
+        "bouncers": 0,
+        "blockers": 2,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:73",
+      "slug": "prod-73",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 73,
+      "moveCount": 18,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 59,
+        "obstacles": 2,
+        "bouncers": 0,
+        "blockers": 2,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:74",
+      "slug": "prod-74",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 74,
+      "moveCount": 23,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 96,
+        "obstacles": 1,
+        "bouncers": 0,
+        "blockers": 1,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:75",
+      "slug": "prod-75",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 75,
+      "moveCount": 20,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 2,
+        "blocks": 108,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:76",
+      "slug": "prod-76",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 76,
+      "moveCount": 18,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 96,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:77",
+      "slug": "prod-77",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 77,
+      "moveCount": 22,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 104,
+        "obstacles": 2,
+        "bouncers": 0,
+        "blockers": 2,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:78",
+      "slug": "prod-78",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 78,
+      "moveCount": 20,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 135,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:79",
+      "slug": "prod-79",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 79,
+      "moveCount": 18,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 106,
+        "obstacles": 1,
+        "bouncers": 0,
+        "blockers": 1,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:80",
+      "slug": "prod-80",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 80,
+      "moveCount": 24,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 3,
+        "blocks": 100,
+        "obstacles": 1,
+        "bouncers": 0,
+        "blockers": 1,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:81",
+      "slug": "prod-81",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 81,
+      "moveCount": 20,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 25,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:82",
+      "slug": "prod-82",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 82,
+      "moveCount": 19,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 48,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:83",
+      "slug": "prod-83",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 83,
+      "moveCount": 19,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 64,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:84",
+      "slug": "prod-84",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 84,
+      "moveCount": 18,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 2,
+        "blocks": 74,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:85",
+      "slug": "prod-85",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 85,
+      "moveCount": 22,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 48,
+        "obstacles": 1,
+        "bouncers": 0,
+        "blockers": 1,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:86",
+      "slug": "prod-86",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 86,
+      "moveCount": 20,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 77,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:87",
+      "slug": "prod-87",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 87,
+      "moveCount": 20,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 81,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:88",
+      "slug": "prod-88",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 88,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 98,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:89",
+      "slug": "prod-89",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 89,
+      "moveCount": 26,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 51,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:90",
+      "slug": "prod-90",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 90,
+      "moveCount": 26,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 4,
+        "blocks": 161,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:91",
+      "slug": "prod-91",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 91,
+      "moveCount": 28,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 36,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:92",
+      "slug": "prod-92",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 92,
+      "moveCount": 25,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 96,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:93",
+      "slug": "prod-93",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 93,
+      "moveCount": 18,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 91,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:94",
+      "slug": "prod-94",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 94,
+      "moveCount": 20,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 3,
+        "blocks": 265,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:95",
+      "slug": "prod-95",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 95,
+      "moveCount": 33,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 100,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:96",
+      "slug": "prod-96",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 96,
+      "moveCount": 18,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 47,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:97",
+      "slug": "prod-97",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 97,
+      "moveCount": 19,
+      "difficulty": "HARD",
+      "difficultyValue": 1,
+      "counts": {
+        "platforms": 1,
+        "blocks": 113,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:98",
+      "slug": "prod-98",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 98,
+      "moveCount": 18,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 1,
+        "blocks": 105,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:99",
+      "slug": "prod-99",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 99,
+      "moveCount": 23,
+      "difficulty": "NORMAL",
+      "difficultyValue": 0,
+      "counts": {
+        "platforms": 3,
+        "blocks": 79,
+        "obstacles": 0,
+        "bouncers": 0,
+        "blockers": 0,
+        "hammers": 0,
+        "stages": 1
+      }
+    },
+    {
+      "key": "mainline:100",
+      "slug": "prod-100",
+      "category": "mainline",
+      "categoryName": "主线关卡",
+      "id": 100,
+      "moveCount": 23,
+      "difficulty": "SUPER_HARD",
+      "difficultyValue": 2,
+      "counts": {
+        "platforms": 4,
+        "blocks": 166,
         "obstacles": 0,
         "bouncers": 0,
         "blockers": 0,
