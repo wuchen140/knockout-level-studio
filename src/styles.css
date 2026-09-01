@@ -33,6 +33,23 @@ button:disabled { cursor: not-allowed; opacity: .38; }
 .current-level i { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 3px rgba(237,139,76,.15); }
 .topbar-spacer { flex: 1; }
 .creator-actions { display: inline-flex; align-items: center; gap: 6px; }
+.level-picker-shell { height: 100%; display: flex; flex-direction: column; background: #f4f8f7; color: var(--ink); }
+.level-picker-topbar { flex: 0 0 60px; }
+.level-picker-content { width: min(1120px, 100%); margin: 0 auto; padding: 36px 28px 48px; overflow: auto; }
+.level-picker-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
+.level-picker-heading span { display: block; font-size: 24px; font-weight: 800; }
+.level-picker-heading small { display: block; margin-top: 7px; color: #718082; font-size: 12px; }
+.level-picker-heading b { color: #4d6667; font: 12px 'DM Mono', monospace; }
+.level-picker-filters { display: flex; gap: 10px; margin-bottom: 18px; }
+.level-picker-filters .search-box { width: min(360px, 100%); margin: 0; background: #fff; }
+.level-picker-filters .select-wrap { flex: 0 0 170px; }
+.level-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.level-picker-card { min-height: 74px; display: flex; align-items: center; gap: 12px; padding: 14px 15px; color: var(--ink); text-align: left; background: #fff; border: 1px solid #dce6e3; border-radius: 7px; box-shadow: 0 2px 8px rgba(31, 56, 54, .04); transition: border .15s, transform .15s, box-shadow .15s; }
+.level-picker-card:hover { border-color: #7bc8ba; box-shadow: 0 5px 14px rgba(31, 88, 80, .11); transform: translateY(-1px); }
+.level-picker-card > div { flex: 1; min-width: 0; }
+.level-picker-card strong { display: block; overflow: hidden; font-size: 13px; white-space: nowrap; text-overflow: ellipsis; }
+.level-picker-card small { display: block; margin-top: 6px; color: #7d8c8d; font: 10px 'DM Mono', monospace; }
+.level-picker-card > svg { color: #8aa3a0; }
 .history-tools { display: flex; gap: 2px; }
 .icon-button { width: 31px; height: 31px; display: grid; place-items: center; padding: 0; color: #9facad; border: 1px solid transparent; background: transparent; border-radius: 5px; transition: color .15s, background .15s, border .15s; }
 .icon-button:hover:not(:disabled) { color: #e8f3f1; background: #2e3b3d; border-color: #435255; }
@@ -265,6 +282,11 @@ button:disabled { cursor: not-allowed; opacity: .38; }
   .brand-mark { min-width: auto; }
   .brand-mark > div, .command-button span, .topbar-divider { display: none; }
   .creator-actions { gap: 4px; }
+  .level-picker-content { padding: 24px 14px 34px; }
+  .level-picker-heading span { font-size: 20px; }
+  .level-picker-filters { flex-wrap: wrap; }
+  .level-picker-filters .search-box { flex: 1 1 100%; }
+  .level-picker-filters .select-wrap { flex-basis: 150px; }
   .topbar { gap: 7px; padding: 0 11px; }
   .sidebar-toggle { display: grid; }
   .panel-wrap { position: absolute; top: 0; bottom: 0; transition: transform .22s ease; }

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
-  ArrowLeft, Box, Check, Copy, Download, FileJson, Grid3X3, Layers3,
+  ArrowLeft, ArrowRight, Box, Check, ChevronDown, Copy, Download, FileJson, Grid3X3, Layers3,
   MousePointer2, Move3D, Pause, Play, Plus, Redo2, Rotate3D, RotateCcw, Save,
-  Scaling, Sparkles, Trash2, Undo2, Upload, X,
+  Scaling, Search, Sparkles, Trash2, Undo2, Upload, X,
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
@@ -23,6 +23,32 @@ function historyReducer(state, action) {
 
 function IconButton({ title, active, className = "", children, ...props }) {
   return <button className={`icon-button ${active ? "active" : ""} ${className}`} title={title} aria-label={title} {...props}>{children}</button>;
+}
+
+function ExistingLevelPicker({ levels, onChoose, onBack }) {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("all");
+  const filtered = levels.filter((level) => {
+    const needle = query.trim().toLowerCase();
+    const matchesQuery = !needle || String(level.id).includes(needle) || (level.name || "").toLowerCase().includes(needle) || (level.categoryName || level.category || "").toLowerCase().includes(needle);
+    return matchesQuery && (category === "all" || level.category === category);
+  });
+  return <div className="level-picker-shell">
+    <header className="topbar creator-topbar level-picker-topbar">
+      <a className="icon-button" title="返回关卡浏览" aria-label="返回关卡浏览" href={import.meta.env.BASE_URL}><ArrowLeft size={18} /></a>
+      <div className="brand-mark creator-brand"><span><Box size={18} /></span><div><strong>编辑现有关卡</strong><small>LEVEL EDITOR</small></div></div>
+      <div className="topbar-spacer" />
+      <button className="command-button secondary" onClick={onBack}><ArrowLeft size={15} /><span>返回</span></button>
+    </header>
+    <main className="level-picker-content">
+      <div className="level-picker-heading"><div><span>选择要编辑的关卡</span><small>载入后可调整对象、平台、物理和关卡参数</small></div><b>{filtered.length} / {levels.length}</b></div>
+      <div className="level-picker-filters">
+        <label className="search-box"><Search size={15} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索关卡 ID 或分类" />{query && <button onClick={() => setQuery("")} aria-label="清空搜索"><X size={13} /></button>}</label>
+        <label className="select-wrap"><select value={category} onChange={(event) => setCategory(event.target.value)}><option value="all">全部分类</option>{[...new Map(levels.map((item) => [item.category, item.categoryName || item.category])).entries()].map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select><ChevronDown size={13} /></label>
+      </div>
+      <div className="level-picker-grid">{filtered.map((level) => <button key={level.key} className="level-picker-card" onClick={() => onChoose(level)}><span className={`difficulty-dot diff-${level.difficulty.toLowerCase().replace("_", "-")}`} /><div><strong>{level.name || `关卡 ${level.id}`}</strong><small>{level.categoryName || level.category} · {level.counts.blocks} 个物品 · {level.counts.platforms} 个平台</small></div><ArrowRight size={16} /></button>)}{!filtered.length && <div className="empty-state"><Search size={24} /><span>没有匹配的关卡</span></div>}</div>
+    </main>
+  </div>;
 }
 
 function defaultMotion() {
@@ -124,8 +150,11 @@ function blankLevel(id = 1001) {
 }
 
 function stagesFor(level) {
-  if (level?.stages?.length) return level.stages;
+  if (level?.stages?.length && level.dataFamily !== "royal-smash") return level.stages;
   const indexes = [...new Set((level?.objects || []).map((item) => item.stageIndex).filter((value) => value != null))].sort((a, b) => a - b);
+  if (level?.dataFamily === "royal-smash" && indexes.length) {
+    return indexes.map((stageIndex, index) => ({ key: index === 0 ? "root" : `stage-${stageIndex}`, name: index === 0 ? "主关卡" : `子关卡 ${stageIndex}`, stageIndex }));
+  }
   return [{ key: "root", name: "主关卡", stageIndex: null }, ...indexes.map((stageIndex) => ({ key: `stage-${stageIndex}`, name: `子关卡 ${stageIndex}`, stageIndex }))];
 }
 
@@ -269,9 +298,12 @@ function CreatorInspector({ level, selected, selectedItems, catalog, activeStage
 
 export default function CreatorPage() {
   const [catalog, setCatalog] = useState(null);
+  const [levelIndex, setLevelIndex] = useState([]);
   const [history, dispatch] = useReducer(historyReducer, null, () => {
-    const requestedSlug = new URLSearchParams(window.location.search).get("level");
-    const stored = requestedSlug ? null : localStorage.getItem("knockout:creator:draft");
+    const params = new URLSearchParams(window.location.search);
+    const requestedSlug = params.get("level");
+    const editMode = params.get("mode") === "edit" || Boolean(requestedSlug);
+    const stored = editMode ? null : localStorage.getItem("knockout:creator:draft");
     if (stored) {
       try {
         const present = withCounts(JSON.parse(stored));
@@ -294,7 +326,8 @@ export default function CreatorPage() {
   const [propertiesOpen, setPropertiesOpen] = useState(false);
   const [buildPattern, setBuildPattern] = useState(null);
   const [palette, setPalette] = useState({ materialId: 1, shapeId: 0, colorId: 0, size: [1, 1, 1] });
-  const [savedSnapshot, setSavedSnapshot] = useState(() => new URLSearchParams(window.location.search).get("level") ? "" : localStorage.getItem("knockout:creator:draft") || "");
+  const [savedSnapshot, setSavedSnapshot] = useState(() => new URLSearchParams(window.location.search).get("level") || new URLSearchParams(window.location.search).get("mode") === "edit" ? "" : localStorage.getItem("knockout:creator:draft") || "");
+  const [pickerOpen, setPickerOpen] = useState(() => new URLSearchParams(window.location.search).get("mode") === "edit" && !new URLSearchParams(window.location.search).get("level"));
   const [toast, setToast] = useState("");
   const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, impactForce: 10 });
   const [physicsStatus, setPhysicsStatus] = useState("idle");
@@ -328,12 +361,19 @@ export default function CreatorPage() {
 
   useEffect(() => {
     let cancelled = false;
-    const requestedSlug = new URLSearchParams(window.location.search).get("level");
+    const params = new URLSearchParams(window.location.search);
+    const requestedSlug = params.get("level");
+    const editMode = params.get("mode") === "edit" || Boolean(requestedSlug);
     fetch(dataUrl("catalog.json"))
       .then((response) => response.json())
       .then(async (gameCatalog) => {
         if (cancelled) return;
         setCatalog(gameCatalog);
+        if (!requestedSlug && editMode) {
+          const indexData = await fetch(dataUrl("index.json")).then((response) => response.json());
+          if (!cancelled) setLevelIndex(indexData.levels || []);
+          return;
+        }
         if (!requestedSlug) return;
         try {
           const source = await fetch(dataUrl(`levels/${requestedSlug}.json`)).then((response) => {
@@ -365,6 +405,9 @@ export default function CreatorPage() {
       .catch(() => { if (!cancelled) setToast("模型目录载入失败"); });
     return () => { cancelled = true; };
   }, [notify]);
+  const openExistingLevel = useCallback((item) => {
+    window.location.href = `${import.meta.env.BASE_URL}?view=creator&mode=edit&level=${encodeURIComponent(item.slug)}`;
+  }, []);
   useEffect(() => {
     const upgraded = upgradeRoyalSmashModels(history.present, catalog);
     if (upgraded !== history.present) dispatch({ type: "RESET", value: withCounts(upgraded) });
@@ -637,6 +680,8 @@ export default function CreatorPage() {
 
   const pendingPattern = PATTERNS.find((pattern) => pattern.key === buildPattern);
   const pendingCount = buildPattern ? patternPoints(buildPattern, palette.size).length : 0;
+
+  if (pickerOpen) return <ExistingLevelPicker levels={levelIndex} onChoose={openExistingLevel} onBack={() => { window.location.href = import.meta.env.BASE_URL; }} />;
 
   return <div className={`app-shell creator-shell ${physics.enabled ? "physics-active" : ""}`}>
     <header className="topbar creator-topbar">
