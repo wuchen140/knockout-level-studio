@@ -32,6 +32,7 @@ button:disabled { cursor: not-allowed; opacity: .38; }
 .current-level small { padding: 3px 7px; color: #9eabad; background: #303b3e; border-radius: 3px; font-size: 10px; font-family: 'DM Mono', monospace; font-weight: 400; }
 .current-level i { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 3px rgba(237,139,76,.15); }
 .topbar-spacer { flex: 1; }
+.creator-actions { display: inline-flex; align-items: center; gap: 6px; }
 .history-tools { display: flex; gap: 2px; }
 .icon-button { width: 31px; height: 31px; display: grid; place-items: center; padding: 0; color: #9facad; border: 1px solid transparent; background: transparent; border-radius: 5px; transition: color .15s, background .15s, border .15s; }
 .icon-button:hover:not(:disabled) { color: #e8f3f1; background: #2e3b3d; border-color: #435255; }
@@ -263,6 +264,7 @@ button:disabled { cursor: not-allowed; opacity: .38; }
 @media (max-width: 1100px) {
   .brand-mark { min-width: auto; }
   .brand-mark > div, .command-button span, .topbar-divider { display: none; }
+  .creator-actions { gap: 4px; }
   .topbar { gap: 7px; padding: 0 11px; }
   .sidebar-toggle { display: grid; }
   .panel-wrap { position: absolute; top: 0; bottom: 0; transition: transform .22s ease; }

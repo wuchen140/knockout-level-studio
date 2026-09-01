@@ -371,7 +371,10 @@ function LibraryApp() {
       <IconButton title="打开关卡库" className="sidebar-toggle" onClick={() => setLeftOpen(true)}><Menu size={18} /></IconButton>
       <div className="current-level"><span>{level ? (level.name || `关卡 ${level.id}`) : "载入中"}</span><small>{level?.categoryName || level?.category || "配置数据"}</small>{dirty && <i title="有未保存修改" />}</div>
       <div className="topbar-spacer" />
-      <a className="command-button creator-link" href={`${import.meta.env.BASE_URL}?view=creator`}><Sparkles size={16} /><span>新建关卡</span></a>
+      <div className="creator-actions">
+        <a className="command-button secondary" href={`${import.meta.env.BASE_URL}?view=creator&level=${chosen?.slug || ""}`}><Box size={16} /><span>编辑关卡</span></a>
+        <a className="command-button creator-link" href={`${import.meta.env.BASE_URL}?view=creator`}><Sparkles size={16} /><span>新建关卡</span></a>
+      </div>
       <div className="history-tools">
         <IconButton title="撤销" disabled={physics.enabled || !history.past.length} onClick={() => dispatch({ type: "UNDO" })}><Undo2 size={17} /></IconButton>
         <IconButton title="重做" disabled={physics.enabled || !history.future.length} onClick={() => dispatch({ type: "REDO" })}><Redo2 size={17} /></IconButton>

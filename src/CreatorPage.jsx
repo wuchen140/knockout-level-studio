@@ -7,6 +7,7 @@ import {
 import LevelScene from "./components/LevelScene";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
 import { withoutLegacyWeapons } from "./levelData";
+import { normalizeRoyalSmashLevel } from "./royalSmashLevel";
 
 const clone = (value) => structuredClone(value);
 const dataUrl = (path) => `${import.meta.env.BASE_URL}data/${path}`;
@@ -218,7 +219,8 @@ function CreatorInspector({ level, selected, selectedItems, catalog, activeStage
 export default function CreatorPage() {
   const [catalog, setCatalog] = useState(null);
   const [history, dispatch] = useReducer(historyReducer, null, () => {
-    const stored = localStorage.getItem("knockout:creator:draft");
+    const requestedSlug = new URLSearchParams(window.location.search).get("level");
+    const stored = requestedSlug ? null : localStorage.getItem("knockout:creator:draft");
     if (stored) {
       try {
         const present = withCounts(JSON.parse(stored));
@@ -241,7 +243,7 @@ export default function CreatorPage() {
   const [propertiesOpen, setPropertiesOpen] = useState(false);
   const [buildPattern, setBuildPattern] = useState(null);
   const [palette, setPalette] = useState({ materialId: 0, shapeId: 0, colorId: 1, size: [1, 1, 1] });
-  const [savedSnapshot, setSavedSnapshot] = useState(() => localStorage.getItem("knockout:creator:draft") || "");
+  const [savedSnapshot, setSavedSnapshot] = useState(() => new URLSearchParams(window.location.search).get("level") ? "" : localStorage.getItem("knockout:creator:draft") || "");
   const [toast, setToast] = useState("");
   const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, impactForce: 10 });
   const [physicsStatus, setPhysicsStatus] = useState("idle");
@@ -261,8 +263,51 @@ export default function CreatorPage() {
   const materials = useMemo(() => [...new Map((catalog?.profiles || []).map((item) => [item.materialId, item.material])).entries()].map(([id, name]) => ({ id, name })), [catalog]);
   const shapes = useMemo(() => [...new Map((catalog?.profiles || []).map((item) => [item.shapeId, item.shape])).entries()].map(([id, name]) => ({ id, name })), [catalog]);
   const colors = useMemo(() => [...new Map((catalog?.colors || []).map((item) => [item.colorId, item])).values()].sort((a, b) => a.colorId - b.colorId), [catalog]);
+  const notify = useCallback((message) => {
+    setToast(message);
+    window.clearTimeout(notify.timer);
+    notify.timer = window.setTimeout(() => setToast(""), 2200);
+  }, []);
 
-  useEffect(() => { fetch(dataUrl("catalog.json")).then((response) => response.json()).then(setCatalog).catch(() => setToast("模型目录载入失败")); }, []);
+  useEffect(() => {
+    let cancelled = false;
+    const requestedSlug = new URLSearchParams(window.location.search).get("level");
+    fetch(dataUrl("catalog.json"))
+      .then((response) => response.json())
+      .then(async (gameCatalog) => {
+        if (cancelled) return;
+        setCatalog(gameCatalog);
+        if (!requestedSlug) return;
+        try {
+          const source = await fetch(dataUrl(`levels/${requestedSlug}.json`)).then((response) => {
+            if (!response.ok) throw new Error("missing");
+            return response.json();
+          });
+          const normalized = withCounts(withoutLegacyWeapons(normalizeRoyalSmashLevel(source, gameCatalog)));
+          const stored = localStorage.getItem(`knockout:level:${normalized.key}`);
+          let loaded = normalized;
+          if (stored) {
+            try {
+              const cached = JSON.parse(stored);
+              if (Array.isArray(cached.objects)) loaded = withCounts(withoutLegacyWeapons(cached));
+            } catch {
+              localStorage.removeItem(`knockout:level:${normalized.key}`);
+            }
+          }
+          if (cancelled) return;
+          dispatch({ type: "RESET", value: loaded });
+          const firstContentStage = loaded.stages?.find((stage) => loaded.objects.some((item) => item.type === "block" && (item.stageIndex ?? null) === (stage.stageIndex ?? null)));
+          setActiveStageKey(firstContentStage?.key || loaded.stages?.[0]?.key || "root");
+          setSelectedIds([]);
+          setSavedSnapshot(JSON.stringify(loaded));
+          notify(`已载入 ${loaded.name || `关卡 ${loaded.id}`}，可直接编辑`);
+        } catch {
+          if (!cancelled) notify("现有关卡载入失败，已保留当前草稿");
+        }
+      })
+      .catch(() => { if (!cancelled) setToast("模型目录载入失败"); });
+    return () => { cancelled = true; };
+  }, [notify]);
   useEffect(() => {
     const liveIds = new Set(level.objects.map((item) => item.uid));
     setSelectedIds((current) => {
@@ -270,11 +315,6 @@ export default function CreatorPage() {
       return valid.length === current.length ? current : valid;
     });
   }, [history.present.objects]);
-  const notify = useCallback((message) => {
-    setToast(message);
-    window.clearTimeout(notify.timer);
-    notify.timer = window.setTimeout(() => setToast(""), 2200);
-  }, []);
   const commit = useCallback((next) => dispatch({ type: "COMMIT", value: withCounts(next) }), []);
 
   const startPhysics = useCallback(() => {
@@ -457,9 +497,10 @@ export default function CreatorPage() {
   const save = useCallback(() => {
     const next = withCounts(level);
     const snapshot = JSON.stringify(next);
-    localStorage.setItem("knockout:creator:draft", snapshot);
+    if (next.key && String(next.key).startsWith("custom:")) localStorage.setItem("knockout:creator:draft", snapshot);
+    if (next.key && !String(next.key).startsWith("custom:")) localStorage.setItem(`knockout:level:${next.key}`, snapshot);
     setSavedSnapshot(snapshot);
-    notify("草稿已保存到本地");
+    notify(next.category === "custom" ? "草稿已保存到本地" : "关卡修改已保存到本地");
   }, [level, notify]);
 
   const resetLevel = useCallback(() => {
@@ -510,7 +551,7 @@ export default function CreatorPage() {
   return <div className={`app-shell creator-shell ${physics.enabled ? "physics-active" : ""}`}>
     <header className="topbar creator-topbar">
       <a className="icon-button" title="返回关卡浏览" aria-label="返回关卡浏览" href={import.meta.env.BASE_URL}><ArrowLeft size={18} /></a>
-      <div className="brand-mark creator-brand"><span><Sparkles size={18} /></span><div><strong>新关卡编辑器</strong><small>LEVEL CREATOR</small></div></div>
+      <div className="brand-mark creator-brand"><span><Sparkles size={18} /></span><div><strong>{level.category === "custom" ? "新关卡编辑器" : "关卡编辑器"}</strong><small>{level.category === "custom" ? "LEVEL CREATOR" : "LEVEL EDITOR"}</small></div></div>
       <div className="current-level"><span>关卡 {level.id}</span><small>{activeStage.name}</small>{dirty && <i title="有未保存修改" />}</div>
       <div className="topbar-spacer" />
       <div className="history-tools">
