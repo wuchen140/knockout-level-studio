@@ -9,7 +9,6 @@ const catalog = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "catalog.json"), 
 const profiles = new Map(catalog.profiles.map((profile) => [profile.catalogId ?? profile.id, profile]));
 
 const Q_IDENTITY = { x: 0, y: 0, z: 0, w: 1 };
-const Q_Z_90 = { x: 0, y: 0, z: 0.7071068, w: 0.7071068 };
 const MATERIALS = {
   S: 4001,
   C: 4006,
@@ -94,6 +93,13 @@ function addPatternDepth(level, rows, options = {}) {
   for (const z of zValues) addPattern(level, rows, { ...options, z });
 }
 
+function addUnitColumn(level, x, z, height, colors, platformIndex = 1) {
+  for (let row = 0; row < height; row += 1) {
+    const color = colors[row % colors.length];
+    addItem(level, MATERIALS[color], x, 2.5 + row, z, platformIndex);
+  }
+}
+
 function finalize(level) {
   const obstacleCount = Object.values(level.obstacles).reduce((sum, list) => sum + list.length, 0);
   level.statistics = {
@@ -111,122 +117,152 @@ function finalize(level) {
 function buildLevels() {
   const levels = [];
 
-  // AI-1: a compact stepped crown with two-block depth.
+  // AI-1: three orderly rows of independent columns, intentionally unlike prod-1's pyramid.
   {
-    const level = makeLevel(1, 30, [platform(1, 0, -2, 7, 3)]);
-    addPatternDepth(level, ["CCCCC", "CCCCC", " CCC ", "  C  "]);
-    levels.push(finalize(level));
-  }
-
-  // AI-2: two load-bearing doorposts and one continuous top beam.
-  {
-    const level = makeLevel(2, 29, [platform(1, 0, -2, 8, 3)]);
-    for (const z of [-2.5, -1.5]) {
-      addItem(level, 4003, -2.5, 3.5, z);
-      addItem(level, 4003, 2.5, 3.5, z);
-      addItem(level, 4005, 0, 5.5, z, 1, Q_Z_90);
-      for (const x of [-2, 0, 2]) addItem(level, 4001, x, 6.5, z);
-      for (const x of [-3, -2, 2, 3]) addItem(level, 4001, x, 2.5, z);
+    const level = makeLevel(1, 30, [platform(1, 0, -2, 11, 4)]);
+    const heights = [1, 3, 2, 4, 1, 3, 2, 4, 1];
+    for (const z of [-3.5, -2.5, -1.5]) {
+      const offsetX = (z + 2.5) * 0.3;
+      heights.forEach((height, index) => addUnitColumn(level, index - 4 + offsetX, z, height, ["C"]));
     }
     levels.push(finalize(level));
   }
 
-  // AI-3: twin towers, a smaller gate, and readable tower caps.
+  // AI-2: a regular five-by-four matrix with a controlled height rhythm.
   {
-    const level = makeLevel(3, 28, [platform(1, 0, -2, 9, 3)]);
-    for (const z of [-2.5, -1.5]) {
-      for (const x of [-3, 3]) {
-        addItem(level, 4008, x, 3.5, z);
-        addItem(level, 4001, x, 5.5, z);
-        addItem(level, 4011, x, 6.5, z);
+    const level = makeLevel(2, 29, [platform(1, 0, -2, 7, 5)]);
+    const heights = [2, 4, 3, 4, 2];
+    [-3.5, -2.5, -1.5, -0.5].forEach((z, row) => {
+      const offsetX = (row - 1.5) * 0.2;
+      heights.forEach((height, index) => addUnitColumn(level, index - 2 + offsetX, z, height, (index + row) % 2 ? ["C"] : ["S"]));
+    });
+    levels.push(finalize(level));
+  }
+
+  // AI-3: four ascending support ranks with repeated caps.
+  {
+    const level = makeLevel(3, 28, [platform(1, 0, -2, 10, 4)]);
+    const heights = [2, 3, 4, 5];
+    for (const z of [-3.5, -2.5, -1.5]) {
+      const offsetX = (z + 2.5) * 0.3;
+      heights.forEach((height, index) => {
+        const x = -3 + index * 2 + offsetX;
+        addUnitColumn(level, x, z, height, [index % 2 ? "S" : "C"]);
+        addItem(level, 4011, x, 2.5 + height, z);
+      });
+    }
+    levels.push(finalize(level));
+  }
+
+  // AI-4: a regular three-by-three cross field with a taller center.
+  {
+    const level = makeLevel(4, 27, [platform(1, 0, -2, 7, 7)]);
+    for (const z of [-4, -2, 0]) {
+      const offsetX = (z + 2) * 0.2;
+      for (const x of [-2, 0, 2]) {
+        const height = x === 0 && z === -2 ? 7 : 5;
+        addUnitColumn(level, x + offsetX, z, height, [(x + z) % 4 ? "C" : "S"]);
+        if (x === 0 || z === -2) addItem(level, 4011, x + offsetX, 2.5 + height, z);
       }
-      for (const x of [-1.5, 1.5]) addItem(level, 4002, x, 3, z);
-      addItem(level, 4003, 0, 4.5, z, 1, Q_Z_90);
-      for (const x of [-4, -2, 2, 4]) addItem(level, 4001, x, 2.5, z);
     }
     levels.push(finalize(level));
   }
 
-  // AI-4: the pure-can finale, a broad shield tapering to a central crest.
+  // AI-5: first colored-box lesson presented as a repeated meter rhythm.
   {
-    const level = makeLevel(4, 27, [platform(1, 0, -2, 9, 3)]);
-    addPattern(level, ["SSSSSSS", "SCCSCCS", "SSSSSSS", " SSSSS ", " SCCCS ", "  SSS  ", "   C   "], { z: -2 });
-    levels.push(finalize(level));
-  }
-
-  // AI-5: first colored-box lesson; each color describes one support layer.
-  {
-    const level = makeLevel(5, 26, [platform(1, 0, -2, 9, 3)]);
-    addPatternDepth(level, ["RRRRRRR", " YYYYY ", "  GGG  ", "   B   "]);
-    levels.push(finalize(level));
-  }
-
-  // AI-6: rocket silhouette with a narrow engine band and can cone nose.
-  {
-    const level = makeLevel(6, 25, [platform(1, 0, -2, 7, 3)]);
-    addPatternDepth(level, ["OOROO", " ORR ", " YRY ", " GRG ", " BBB ", "  W  ", "  P  "]);
-    for (const z of [-2.5, -1.5]) addItem(level, 4011, 0, 9.5, z);
-    levels.push(finalize(level));
-  }
-
-  // AI-7: two independent static islands teach target-order allocation.
-  {
-    const level = makeLevel(7, 25, [platform(1, -3, -2, 4, 3), platform(2, 3, -2, 4, 3)]);
-    addPatternDepth(level, ["BBB", "YYY", " B ", " B "], { originX: -3, platformIndex: 1 });
-    addPatternDepth(level, ["RRR", "UUU", " R ", " R "], { originX: 3, platformIndex: 2 });
-    for (const [x, platformIndex] of [[-3, 1], [3, 2]]) {
-      for (const z of [-2.5, -1.5]) addItem(level, 4011, x, 6.5, z, platformIndex);
-    }
-    levels.push(finalize(level));
-  }
-
-  // AI-8: a heart-topped gate with a genuine open center and supported lintel.
-  {
-    const level = makeLevel(8, 23, [platform(1, 0, -2, 9, 3)]);
+    const level = makeLevel(5, 26, [platform(1, 0, -2, 10, 4)]);
+    const heights = [2, 4, 3, 5, 2, 4, 3, 5];
+    const colors = ["R", "O", "Y", "G", "B", "U", "P", "R"];
     for (const z of [-2.5, -1.5]) {
-      for (let row = 0; row < 4; row += 1) {
-        const y = 2.5 + row;
-        for (const x of [-3, -2]) addItem(level, row % 2 ? 4077 : 4073, x, y, z);
-        for (const x of [2, 3]) addItem(level, row % 2 ? 4073 : 4077, x, y, z);
+      const offsetX = (z + 2) * 0.5;
+      heights.forEach((height, index) => {
+        const x = index - 3.5 + offsetX;
+        for (let row = 0; row < height; row += 1) addItem(level, MATERIALS[colors[index]], x, 2.5 + row, z);
+        addItem(level, MATERIALS[colors[(index + 3) % colors.length]], x, 2.5 + height, z);
+      });
+    }
+    levels.push(finalize(level));
+  }
+
+  // AI-6: a low rectangular perimeter in plan view, leaving a clear central court.
+  {
+    const level = makeLevel(6, 25, [platform(1, 0, -2, 11, 8)]);
+    const xs = [-4, -2, 0, 2, 4];
+    const zs = [-5, -3, -1, 1];
+    let perimeterIndex = 0;
+    zs.forEach((z, row) => xs.forEach((x, column) => {
+      if (row !== 0 && row !== zs.length - 1 && column !== 0 && column !== xs.length - 1) return;
+      const height = 3 + (perimeterIndex % 2);
+      const colors = [["B", "G"], ["R", "O"], ["Y", "U"]][perimeterIndex % 3];
+      addUnitColumn(level, x, z, height, colors);
+      addItem(level, MATERIALS[colors[1]], x, 2.5 + height, z);
+      perimeterIndex += 1;
+    }));
+    levels.push(finalize(level));
+  }
+
+  // AI-7: two mirrored ramps point inward; neither island uses a tower or sign silhouette.
+  {
+    const level = makeLevel(7, 25, [platform(1, -3.5, -2, 5, 4), platform(2, 3.5, -2, 5, 4)]);
+    for (const z of [-3.5, -2.5, -1.5]) {
+      const offsetX = (z + 2.5) * 0.25;
+      [1, 2, 3, 4].forEach((height, index) => addUnitColumn(level, -5 + index + offsetX, z, height, ["B", "Y"], 1));
+      [4, 3, 2, 1].forEach((height, index) => addUnitColumn(level, 2 + index + offsetX, z, height, ["R", "U"], 2));
+      addItem(level, 4011, -2 + offsetX, 6.5, z, 1);
+      addItem(level, 4011, 2 + offsetX, 6.5, z, 2);
+    }
+    levels.push(finalize(level));
+  }
+
+  // AI-8: two complementary offset rows interlock without forming a solid wall.
+  {
+    const level = makeLevel(8, 23, [platform(1, 0, -2, 9, 4)]);
+    const rows = [
+      { z: -2.5, heights: [2, 4, 3, 5, 2, 4, 3], colors: ["B", "G"] },
+      { z: -1.5, heights: [4, 2, 5, 3, 4, 2, 5], colors: ["O", "R"] },
+    ];
+    rows.forEach(({ z, heights, colors }) => heights.forEach((height, index) => {
+      const x = index - 3 + (z + 2) * 0.5;
+      addUnitColumn(level, x, z, height, colors);
+      addItem(level, MATERIALS[colors[1]], x, 2.5 + height, z);
+    }));
+    levels.push(finalize(level));
+  }
+
+  // AI-9: a regular nine-point grid with a pronounced central core.
+  {
+    const level = makeLevel(9, 24, [platform(1, 0, -2, 7, 7)]);
+    const heights = [[5, 7, 5], [7, 9, 7], [5, 7, 5]];
+    for (let row = 0; row < 3; row += 1) {
+      for (let column = 0; column < 3; column += 1) {
+        const x = -2 + column * 2 + (row - 1) * 0.3;
+        const z = -4 + row * 2;
+        const colors = (row + column) % 2 ? ["B", "U"] : ["G", "Y"];
+        addUnitColumn(level, x, z, heights[row][column], colors);
+        addItem(level, 4079, x, 2.5 + heights[row][column], z);
       }
-      addItem(level, 4005, 0, 6.5, z, 1, Q_Z_90);
-      addPattern(level, ["RRRRR", " RRR ", "  P  "], { originX: 0, z, platformIndex: 1 });
-      const added = level.items.slice(-9);
-      for (const item of added) item.position.y += 5;
     }
     levels.push(finalize(level));
   }
 
-  // AI-9: a readable robot face on a solid wall, with a can antenna spine.
+  // AI-10: a genuinely three-dimensional circular arena of staggered columns.
   {
-    const level = makeLevel(9, 24, [platform(1, 0, -2, 9, 3)]);
-    addPattern(level, ["BBBBBBB", "BWWBWWB", "BRRBRRB", "BBBBBBB", "BYBYBYB", "BKKKKKB", "BBBBBBB"], { z: -1.5 });
-    for (const x of [-3, 0, 3]) {
-      addItem(level, 4010, x, 4.5, -2.5);
-      addItem(level, 4007, x, 8, -2.5);
-      addItem(level, 4011, x, 9.5, -2.5);
-    }
-    levels.push(finalize(level));
-  }
-
-  // AI-10: full-width AI badge with three rear can towers as chapter finale.
-  {
-    const level = makeLevel(10, 22, [platform(1, 0, -2, 11, 3)]);
-    addPattern(level, [
-      "RRRRRRRRR",
-      "YBBBYBYYY",
-      "YBBBYBBYB",
-      "YYYYYBBYB",
-      "YBBBYBBYB",
-      "YBBBYBBYB",
-      "YBBBYBBYB",
-      "BYYYBBYYY",
-    ], { z: -1.5 });
-    for (const x of [-4, 0, 4]) {
-      addItem(level, 4010, x, 4.5, -2.5);
-      addItem(level, 4008, x, 8.5, -2.5);
-      addItem(level, 4011, x, 10.5, -2.5);
-    }
+    const level = makeLevel(10, 22, [platform(1, 0, -2, 9, 9)]);
+    const outer = [
+      [3, 0, 4], [2.1, 2.1, 5], [0, 3, 6], [-2.1, 2.1, 4],
+      [-3, 0, 5], [-2.1, -2.1, 6], [0, -3, 4], [2.1, -2.1, 5],
+    ];
+    const palette = [["R", "O"], ["Y", "G"], ["B", "U"], ["P", "R"]];
+    outer.forEach(([x, zOffset, height], index) => {
+      addUnitColumn(level, x, -2 + zOffset, height, palette[index % palette.length]);
+      if (index % 2 === 0) addItem(level, 4011, x, 2.5 + height, -2 + zOffset);
+    });
+    const inner = [[1.5, 0], [0, 1.5], [-1.5, 0], [0, -1.5]];
+    inner.forEach(([x, zOffset], index) => addUnitColumn(level, x, -2 + zOffset, 3, palette[(index + 1) % palette.length]));
+    const innerDiagonals = [[1.1, 1.1], [-1.1, 1.1], [-1.1, -1.1], [1.1, -1.1]];
+    innerDiagonals.forEach(([x, zOffset], index) => addUnitColumn(level, x, -2 + zOffset, 3, palette[(index + 2) % palette.length]));
+    addUnitColumn(level, 0, -2, 7, ["C"]);
+    addItem(level, 4011, 0, 9.5, -2);
     levels.push(finalize(level));
   }
 
