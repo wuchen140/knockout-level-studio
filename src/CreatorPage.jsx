@@ -303,7 +303,13 @@ export default function CreatorPage() {
   const level = useMemo(() => withCounts(history.present), [history.present]);
   const stages = level.stages;
   const activeStage = stages.find((stage) => stage.key === activeStageKey) || stages[0];
-  const stageObjects = useMemo(() => level.objects.filter((item) => (item.stageIndex ?? null) === (activeStage.stageIndex ?? null)), [level.objects, activeStage.stageIndex]);
+  const stageObjects = useMemo(() => level.objects.filter((item) => {
+    const itemStage = item.stageIndex ?? null;
+    const activeStageIndex = activeStage.stageIndex ?? null;
+    // Platforms at the root are shared scene geometry and stay visible while
+    // editing any child stage; stage-local platforms remain scoped to that stage.
+    return itemStage === activeStageIndex || (activeStageIndex != null && item.type === "platform" && itemStage == null);
+  }), [level.objects, activeStage.stageIndex]);
   const visibleLevel = useMemo(() => ({ ...level, key: `${level.key}:${activeStage.key}`, objects: stageObjects }), [level, activeStage.key, stageObjects]);
   const selectedItems = selectedIds.map((uid) => level.objects.find((item) => item.uid === uid)).filter(Boolean);
   const selectedId = selectedIds.at(-1) || null;
