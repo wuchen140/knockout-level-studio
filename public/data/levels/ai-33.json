@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 144,
+    "entityCount": 143,
     "entityTypeCount": 7,
     "platformCount": 2,
-    "itemCount": 142,
-    "destructibleItemCount": 142,
+    "itemCount": 141,
+    "destructibleItemCount": 141,
     "specialObstacleCount": 0,
     "customEntityCount": 2
   },
@@ -2325,30 +2325,6 @@
       }
     },
     {
-      "sequence": 97,
-      "catalogId": 4014,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 3.888,
-        "y": 8.5,
-        "z": -1.992
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 98,
       "catalogId": 4015,
       "stage": 1,
@@ -3499,13 +3475,13 @@
   "design": {
     "derivedFrom": "prod-33",
     "referenceLevel": 33,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "旋转平台",
     "motif": "转门",
     "shiftedPlatforms": 2,
     "structureAdjustment": {
       "added": 0,
-      "removed": 2
+      "removed": 3
     }
   }
 }

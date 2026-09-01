@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 106,
+    "entityCount": 107,
     "entityTypeCount": 6,
     "platformCount": 1,
-    "itemCount": 103,
-    "destructibleItemCount": 103,
+    "itemCount": 104,
+    "destructibleItemCount": 104,
     "specialObstacleCount": 2,
     "customEntityCount": 1
   },
@@ -981,6 +981,30 @@
       }
     },
     {
+      "sequence": 41,
+      "catalogId": 4014,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 1.012,
+        "y": 8.5,
+        "z": -3.138
+      },
+      "rotation": {
+        "x": 0,
+        "y": -2.23517e-8,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
       "sequence": 42,
       "catalogId": 4015,
       "stage": 1,
@@ -1711,6 +1735,30 @@
         "x": -0.988,
         "y": 8.5,
         "z": -2.138
+      },
+      "rotation": {
+        "x": 0,
+        "y": -2.23517e-8,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 73,
+      "catalogId": 4017,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 1.012,
+        "y": 9.5,
+        "z": -3.138
       },
       "rotation": {
         "x": 0,
@@ -2467,30 +2515,6 @@
         "y": 1,
         "z": 1
       }
-    },
-    {
-      "sequence": 105,
-      "catalogId": 4016,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 1.012,
-        "y": 10.5,
-        "z": -1.138
-      },
-      "rotation": {
-        "x": 0,
-        "y": -2.23517e-8,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
     }
   ],
   "platforms": [
@@ -2566,13 +2590,13 @@
   "design": {
     "derivedFrom": "prod-77",
     "referenceLevel": 77,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "旋转挡板",
     "motif": "旋翼门",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 1,
-      "removed": 2
+      "added": 0,
+      "removed": 0
     }
   }
 }

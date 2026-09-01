@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 49,
+    "entityCount": 54,
     "entityTypeCount": 7,
     "platformCount": 1,
-    "itemCount": 47,
-    "destructibleItemCount": 47,
+    "itemCount": 52,
+    "destructibleItemCount": 52,
     "specialObstacleCount": 1,
     "customEntityCount": 1
   },
@@ -597,6 +597,30 @@
       }
     },
     {
+      "sequence": 25,
+      "catalogId": 4033,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 0,
+        "y": 10.5,
+        "z": -2.99999976
+      },
+      "rotation": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": -0.5,
+        "w": 0.5
+      },
+      "size": {
+        "x": 4,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
       "sequence": 26,
       "catalogId": 4034,
       "stage": 1,
@@ -1147,6 +1171,102 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 49,
+      "catalogId": 4053,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 5,
+      "shapeId": 1,
+      "position": {
+        "x": -2,
+        "y": 10.5,
+        "z": -2.99999976
+      },
+      "rotation": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": -0.5,
+        "w": 0.5
+      },
+      "size": {
+        "x": 4,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 50,
+      "catalogId": 4053,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 5,
+      "shapeId": 1,
+      "position": {
+        "x": -2,
+        "y": 10.5,
+        "z": -1.99999988
+      },
+      "rotation": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": -0.5,
+        "w": 0.5
+      },
+      "size": {
+        "x": 4,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 51,
+      "catalogId": 4053,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 5,
+      "shapeId": 1,
+      "position": {
+        "x": -2,
+        "y": 10.5,
+        "z": -0.999999881
+      },
+      "rotation": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": -0.5,
+        "w": 0.5
+      },
+      "size": {
+        "x": 4,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 52,
+      "catalogId": 4053,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 5,
+      "shapeId": 1,
+      "position": {
+        "x": 2,
+        "y": 10.5,
+        "z": -1.99999988
+      },
+      "rotation": {
+        "x": 0.5,
+        "y": 0.5,
+        "z": -0.5,
+        "w": 0.5
+      },
+      "size": {
+        "x": 4,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -1211,13 +1331,13 @@
   "design": {
     "derivedFrom": "prod-85",
     "referenceLevel": 85,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "垂直移动平台",
     "motif": "电梯塔",
     "shiftedPlatforms": 0,
     "structureAdjustment": {
-      "added": 0,
-      "removed": 1
+      "added": 4,
+      "removed": 0
     }
   }
 }

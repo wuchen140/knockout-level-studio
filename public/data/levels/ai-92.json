@@ -11,39 +11,15 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 98,
+    "entityCount": 92,
     "entityTypeCount": 4,
     "platformCount": 1,
-    "itemCount": 97,
-    "destructibleItemCount": 97,
+    "itemCount": 91,
+    "destructibleItemCount": 91,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
   "items": [
-    {
-      "sequence": 1,
-      "catalogId": 4076,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2.512,
-        "y": 3.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
     {
       "sequence": 2,
       "catalogId": 4077,
@@ -69,30 +45,6 @@
       }
     },
     {
-      "sequence": 3,
-      "catalogId": 4078,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2.512,
-        "y": 5.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 4,
       "catalogId": 4079,
       "stage": 1,
@@ -103,30 +55,6 @@
         "x": 2.512,
         "y": 5.5,
         "z": -2.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 5,
-      "catalogId": 4080,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2.512,
-        "y": 7.5,
-        "z": -1.508
       },
       "rotation": {
         "x": 0,
@@ -2085,30 +2013,6 @@
       }
     },
     {
-      "sequence": 87,
-      "catalogId": 4117,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 10,
-      "shapeId": 1,
-      "position": {
-        "x": 2.512,
-        "y": 4.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 88,
       "catalogId": 4117,
       "stage": 1,
@@ -2119,30 +2023,6 @@
         "x": 2.512,
         "y": 4.5,
         "z": -2.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 89,
-      "catalogId": 4117,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 10,
-      "shapeId": 1,
-      "position": {
-        "x": 2.512,
-        "y": 6.5,
-        "z": -1.508
       },
       "rotation": {
         "x": 0,
@@ -2323,30 +2203,6 @@
         "y": 1,
         "z": 1
       }
-    },
-    {
-      "sequence": 97,
-      "catalogId": 4078,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2.512,
-        "y": 8.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
     }
   ],
   "platforms": [
@@ -2383,13 +2239,13 @@
   "design": {
     "derivedFrom": "prod-92",
     "referenceLevel": 92,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "立柱综合",
     "motif": "柱廊",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 1,
-      "removed": 0
+      "added": 0,
+      "removed": 5
     }
   }
 }

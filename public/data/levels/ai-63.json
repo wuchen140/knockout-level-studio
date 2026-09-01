@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 147,
+    "entityCount": 143,
     "entityTypeCount": 9,
     "platformCount": 3,
-    "itemCount": 144,
-    "destructibleItemCount": 144,
+    "itemCount": 140,
+    "destructibleItemCount": 140,
     "specialObstacleCount": 0,
     "customEntityCount": 3
   },
@@ -198,30 +198,6 @@
       "position": {
         "x": 1.488,
         "y": 7.5,
-        "z": -2.242
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 9,
-      "catalogId": 4080,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2.488,
-        "y": 9.5,
         "z": -2.242
       },
       "rotation": {
@@ -990,54 +966,6 @@
       "position": {
         "x": 2.488,
         "y": 6.5,
-        "z": -2.242
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 3,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 42,
-      "catalogId": 4042,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 4,
-      "shapeId": 1,
-      "position": {
-        "x": 2.488,
-        "y": 8.5,
-        "z": -2.242
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 3,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 43,
-      "catalogId": 4042,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 4,
-      "shapeId": 1,
-      "position": {
-        "x": 2.488,
-        "y": 10.5,
         "z": -2.242
       },
       "rotation": {
@@ -3451,30 +3379,6 @@
         "y": 1,
         "z": 1
       }
-    },
-    {
-      "sequence": 144,
-      "catalogId": 4075,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2.488,
-        "y": 10.5,
-        "z": -3.242
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
     }
   ],
   "platforms": [
@@ -3555,13 +3459,13 @@
   "design": {
     "derivedFrom": "prod-63",
     "referenceLevel": 63,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "TNT 弱点",
     "motif": "爆破王冠",
     "shiftedPlatforms": 3,
     "structureAdjustment": {
-      "added": 1,
-      "removed": 0
+      "added": 0,
+      "removed": 3
     }
   }
 }

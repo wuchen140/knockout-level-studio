@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 265,
+    "entityCount": 262,
     "entityTypeCount": 9,
     "platformCount": 1,
-    "itemCount": 264,
-    "destructibleItemCount": 264,
+    "itemCount": 261,
+    "destructibleItemCount": 261,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -405,30 +405,6 @@
       }
     },
     {
-      "sequence": 17,
-      "catalogId": 4013,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": -1.976,
-        "y": 9.49732018,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 18,
       "catalogId": 4014,
       "stage": 1,
@@ -462,54 +438,6 @@
       "position": {
         "x": 1.024,
         "y": 9.49732018,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 20,
-      "catalogId": 4016,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": -1.976,
-        "y": 10.4973202,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 21,
-      "catalogId": 4017,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": -1.976,
-        "y": 11.4973202,
         "z": -2.492
       },
       "rotation": {
@@ -6391,13 +6319,13 @@
   "design": {
     "derivedFrom": "prod-69",
     "referenceLevel": 69,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "TNT 弱点",
     "motif": "引线塔",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
       "added": 0,
-      "removed": 0
+      "removed": 3
     }
   }
 }

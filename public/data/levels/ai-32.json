@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 134,
+    "entityCount": 128,
     "entityTypeCount": 4,
     "platformCount": 1,
-    "itemCount": 133,
-    "destructibleItemCount": 133,
+    "itemCount": 127,
+    "destructibleItemCount": 127,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -645,30 +645,6 @@
       }
     },
     {
-      "sequence": 27,
-      "catalogId": 4019,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.012,
-        "y": 8.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 2,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 28,
       "catalogId": 4020,
       "stage": 1,
@@ -1125,54 +1101,6 @@
       }
     },
     {
-      "sequence": 47,
-      "catalogId": 4021,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.012,
-        "y": 6.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 2,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 48,
-      "catalogId": 4022,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.012,
-        "y": 9.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 2,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 49,
       "catalogId": 4023,
       "stage": 1,
@@ -1182,54 +1110,6 @@
       "position": {
         "x": 2.012,
         "y": 4.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 2,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 50,
-      "catalogId": 4018,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.012,
-        "y": 7.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 2,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 51,
-      "catalogId": 4019,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.012,
-        "y": 10.5,
         "z": -1.508
       },
       "rotation": {
@@ -3187,30 +3067,6 @@
         "y": 1,
         "z": 1
       }
-    },
-    {
-      "sequence": 133,
-      "catalogId": 4023,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.012,
-        "y": 11.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 2,
-        "y": 1,
-        "z": 1
-      }
     }
   ],
   "platforms": [
@@ -3254,13 +3110,13 @@
   "design": {
     "derivedFrom": "prod-32",
     "referenceLevel": 32,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "旋转平台",
     "motif": "旋环",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 1,
-      "removed": 0
+      "added": 0,
+      "removed": 5
     }
   }
 }

@@ -86,8 +86,12 @@ function shiftItemsWithinSupport(items, platforms, levelId) {
 function adjustStructure(level, levelId) {
   // Remove only topmost pieces from selected columns. This changes the
   // silhouette without cutting through an authored support chain.
-  const fragileLayouts = [49, 59, 80, 98];
-  const removeCount = fragileLayouts.includes(levelId) ? 0 : (levelId % 5 === 0 ? 1 : levelId % 11 === 0 ? 2 : 0);
+  const fragileLayouts = [44, 49, 50, 59, 72, 73, 80, 81, 84, 96, 98];
+  const removeCount = fragileLayouts.includes(levelId)
+    ? 0
+    : levelId % 6 === 2 ? 5
+      : levelId % 6 === 3 ? 3
+        : 0;
   const columns = new Map();
   for (const item of level.items) {
     const key = `${item.platform}:${round(item.position.x)}:${round(item.position.z)}`;
@@ -104,12 +108,17 @@ function adjustStructure(level, levelId) {
 
   // Add at most one block per platform, directly above an existing stable
   // column. Using the source block's dimensions keeps the contact footprint.
-  const addCount = fragileLayouts.includes(levelId) ? 0 : (levelId % 4 === 0 ? 2 : levelId % 7 === 0 ? 1 : 0);
+  const addCount = fragileLayouts.includes(levelId)
+    ? 0
+    : levelId % 6 === 0 ? 6
+      : levelId % 6 === 1 ? 4
+        : 0;
   const platformIds = new Set(level.platforms.map((platform) => platform.sequence));
   const nextByPlatform = new Map();
   let nextSequence = Math.max(0, ...level.items.map((item) => item.sequence)) + 1;
+  let remainingAdds = addCount;
   for (const platformId of platformIds) {
-    if (nextByPlatform.size >= addCount) break;
+    if (remainingAdds <= 0) break;
     const candidates = level.items.filter((item) => item.platform === platformId);
     if (!candidates.length) continue;
     const byColumn = new Map();
@@ -119,24 +128,28 @@ function adjustStructure(level, levelId) {
       list.push(item);
       byColumn.set(key, list);
     }
-    const column = [...byColumn.values()].sort((a, b) => b.length - a.length || Math.max(...b.map((item) => item.position.y)) - Math.max(...a.map((item) => item.position.y)))[0];
-    const top = [...column].sort((a, b) => b.position.y - a.position.y)[0];
-    const extra = clone(top);
-    extra.sequence = nextSequence;
-    nextSequence += 1;
-    extra.position.y = round(Number(top.position.y) + Number(top.size.y || 1));
-    const alternateId = variantCatalogId(extra, levelId + extra.sequence);
-    const profile = profileOf(alternateId);
-    if (profile) {
-      extra.catalogId = alternateId;
-      extra.materialId = profile.materialId;
-      extra.shapeId = profile.sourceShapeId;
-      extra.size = { x: profile.size[0], y: profile.size[1], z: profile.size[2] };
+    const columns = [...byColumn.values()].sort((a, b) => b.length - a.length || Math.max(...b.map((item) => item.position.y)) - Math.max(...a.map((item) => item.position.y)));
+    for (const column of columns) {
+      if (remainingAdds <= 0) break;
+      const top = [...column].sort((a, b) => b.position.y - a.position.y)[0];
+      const extra = clone(top);
+      extra.sequence = nextSequence;
+      nextSequence += 1;
+      extra.position.y = round(Number(top.position.y) + Number(top.size.y || 1));
+      const alternateId = variantCatalogId(extra, levelId + extra.sequence);
+      const profile = profileOf(alternateId);
+      if (profile) {
+        extra.catalogId = alternateId;
+        extra.materialId = profile.materialId;
+        extra.shapeId = profile.sourceShapeId;
+        extra.size = { x: profile.size[0], y: profile.size[1], z: profile.size[2] };
+      }
+      level.items.push(extra);
+      remainingAdds -= 1;
+      nextByPlatform.set(platformId, true);
     }
-    level.items.push(extra);
-    nextByPlatform.set(platformId, true);
   }
-  return { added: nextByPlatform.size, removed: removed.size };
+  return { added: addCount - remainingAdds, removed: removed.size };
 }
 
 function transformLevel(source, id) {
@@ -149,7 +162,7 @@ function transformLevel(source, id) {
   level.design = {
     derivedFrom: `prod-${id}`,
     referenceLevel: id,
-    variation: "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    variation: "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     ...chapterInfo(id),
   };
 
@@ -167,7 +180,7 @@ function transformLevel(source, id) {
   });
   // A couple of late campaign layouts are intentionally edge-loaded in the
   // source archive; leave their coordinates untouched and only vary models.
-  level.design.shiftedPlatforms = [49, 59, 80, 98].includes(id)
+  level.design.shiftedPlatforms = [44, 49, 50, 59, 72, 73, 80, 81, 84, 96, 98].includes(id)
     ? 0
     : shiftItemsWithinSupport(level.items, level.platforms, id);
   level.design.structureAdjustment = adjustStructure(level, id);

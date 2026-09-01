@@ -11,39 +11,15 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 71,
+    "entityCount": 65,
     "entityTypeCount": 8,
     "platformCount": 2,
-    "itemCount": 69,
-    "destructibleItemCount": 69,
+    "itemCount": 63,
+    "destructibleItemCount": 63,
     "specialObstacleCount": 0,
     "customEntityCount": 2
   },
   "items": [
-    {
-      "sequence": 1,
-      "catalogId": 4027,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": -3.5258317,
-        "y": 3.49999928,
-        "z": -0.646668434
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0.49999997,
-        "z": 0,
-        "w": 0.866025388
-      },
-      "size": {
-        "x": 3,
-        "y": 1,
-        "z": 1
-      }
-    },
     {
       "sequence": 2,
       "catalogId": 4028,
@@ -79,30 +55,6 @@
         "x": -4.02583218,
         "y": 6.49999905,
         "z": 0.219357014
-      },
-      "rotation": {
-        "x": 0.353553444,
-        "y": 0.353553444,
-        "z": 0.612372518,
-        "w": 0.612372398
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 4,
-      "catalogId": 4072,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": -3.52583218,
-        "y": 6.49999905,
-        "z": -0.646668434
       },
       "rotation": {
         "x": 0.353553444,
@@ -237,30 +189,6 @@
       }
     },
     {
-      "sequence": 10,
-      "catalogId": 4078,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": -3.52583218,
-        "y": 7.49999905,
-        "z": -0.646668434
-      },
-      "rotation": {
-        "x": 0.353553444,
-        "y": 0.353553444,
-        "z": 0.612372518,
-        "w": 0.612372398
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 11,
       "catalogId": 4077,
       "stage": 1,
@@ -301,54 +229,6 @@
         "y": 0.612372458,
         "z": 0.353553385,
         "w": 0.353553444
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 13,
-      "catalogId": 4072,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": -4.02583218,
-        "y": 8.49999905,
-        "z": 0.219357014
-      },
-      "rotation": {
-        "x": 0.353553444,
-        "y": 0.353553444,
-        "z": 0.612372518,
-        "w": 0.612372398
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 14,
-      "catalogId": 4073,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": -3.52583218,
-        "y": 8.49999905,
-        "z": -0.646668434
-      },
-      "rotation": {
-        "x": 0.353553444,
-        "y": 0.353553444,
-        "z": 0.612372518,
-        "w": 0.612372398
       },
       "size": {
         "x": 1,
@@ -1651,30 +1531,6 @@
         "y": 1,
         "z": 1
       }
-    },
-    {
-      "sequence": 69,
-      "catalogId": 4076,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": -3.52583218,
-        "y": 9.5,
-        "z": -0.646668434
-      },
-      "rotation": {
-        "x": 0.353553444,
-        "y": 0.353553444,
-        "z": 0.612372518,
-        "w": 0.612372398
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
     }
   ],
   "platforms": [
@@ -1733,13 +1589,13 @@
   "design": {
     "derivedFrom": "prod-14",
     "referenceLevel": 14,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "果酱罐/纸箱",
     "motif": "双塔",
     "shiftedPlatforms": 0,
     "structureAdjustment": {
-      "added": 1,
-      "removed": 0
+      "added": 0,
+      "removed": 5
     }
   }
 }

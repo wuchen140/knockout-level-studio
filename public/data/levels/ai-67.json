@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 106,
+    "entityCount": 110,
     "entityTypeCount": 11,
     "platformCount": 1,
-    "itemCount": 105,
-    "destructibleItemCount": 105,
+    "itemCount": 109,
+    "destructibleItemCount": 109,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -2539,6 +2539,102 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 106,
+      "catalogId": 4072,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.012,
+        "y": 11.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 107,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 0.012,
+        "y": 11.5,
+        "z": -1
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 108,
+      "catalogId": 4073,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.012,
+        "y": 11.5,
+        "z": -3
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 109,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 1.5207,
+        "y": 10.5072,
+        "z": -1.9973
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -2575,12 +2671,12 @@
   "design": {
     "derivedFrom": "prod-67",
     "referenceLevel": 67,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "TNT 弱点",
     "motif": "爆破王冠",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 0,
+      "added": 4,
       "removed": 0
     }
   }

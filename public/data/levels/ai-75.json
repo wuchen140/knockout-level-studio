@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 109,
+    "entityCount": 107,
     "entityTypeCount": 8,
     "platformCount": 2,
-    "itemCount": 107,
-    "destructibleItemCount": 107,
+    "itemCount": 105,
+    "destructibleItemCount": 105,
     "specialObstacleCount": 0,
     "customEntityCount": 2
   },
@@ -270,54 +270,6 @@
       "position": {
         "x": 0,
         "y": 5.5,
-        "z": 2.008
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 12,
-      "catalogId": 4040,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 4,
-      "shapeId": 1,
-      "position": {
-        "x": 0,
-        "y": 6.5,
-        "z": 2.008
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 13,
-      "catalogId": 4072,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 0,
-        "y": 7.5,
         "z": 2.008
       },
       "rotation": {
@@ -2645,13 +2597,13 @@
   "design": {
     "derivedFrom": "prod-75",
     "referenceLevel": 75,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "旋转挡板",
     "motif": "转子金库",
     "shiftedPlatforms": 2,
     "structureAdjustment": {
       "added": 0,
-      "removed": 1
+      "removed": 3
     }
   }
 }

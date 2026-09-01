@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 181,
+    "entityCount": 186,
     "entityTypeCount": 5,
     "platformCount": 2,
-    "itemCount": 179,
-    "destructibleItemCount": 179,
+    "itemCount": 184,
+    "destructibleItemCount": 184,
     "specialObstacleCount": 0,
     "customEntityCount": 2
   },
@@ -4173,6 +4173,30 @@
       }
     },
     {
+      "sequence": 174,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 2.8,
+        "y": 11.5,
+        "z": 3.508
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
       "sequence": 175,
       "catalogId": 4011,
       "stage": 1,
@@ -4278,7 +4302,7 @@
       "position": {
         "x": 2.8,
         "y": 12.5,
-        "z": 5.508
+        "z": 3.508
       },
       "rotation": {
         "x": 0,
@@ -4296,13 +4320,109 @@
       "sequence": 180,
       "catalogId": 4011,
       "stage": 1,
-      "platform": 2,
+      "platform": 1,
       "materialId": 1,
       "shapeId": 3,
       "position": {
-        "x": -2.776,
+        "x": 2.8,
         "y": 12.5,
-        "z": 3.5
+        "z": 5.508
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 181,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 3.8,
+        "y": 12.5,
+        "z": 3.508
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 182,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 3.8,
+        "y": 12.5,
+        "z": 4.508
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 183,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 1.8,
+        "y": 12.5,
+        "z": 3.508
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 184,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 1.8,
+        "y": 12.5,
+        "z": 4.508
       },
       "rotation": {
         "x": 0,
@@ -4403,13 +4523,13 @@
   "design": {
     "derivedFrom": "prod-60",
     "referenceLevel": 60,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "水平移动平台",
     "motif": "漂移码头",
     "shiftedPlatforms": 2,
     "structureAdjustment": {
-      "added": 2,
-      "removed": 1
+      "added": 6,
+      "removed": 0
     }
   }
 }

@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 87,
+    "entityCount": 85,
     "entityTypeCount": 5,
     "platformCount": 1,
-    "itemCount": 86,
-    "destructibleItemCount": 86,
+    "itemCount": 84,
+    "destructibleItemCount": 84,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -1005,30 +1005,6 @@
       }
     },
     {
-      "sequence": 42,
-      "catalogId": 4013,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 0,
-        "y": 8.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 43,
       "catalogId": 4014,
       "stage": 1,
@@ -1037,30 +1013,6 @@
       "shapeId": 4,
       "position": {
         "x": -1,
-        "y": 9.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 44,
-      "catalogId": 4015,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 0,
         "y": 9.5,
         "z": -2.492
       },
@@ -2119,13 +2071,13 @@
   "design": {
     "derivedFrom": "prod-45",
     "referenceLevel": 45,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "冰与低摩擦",
     "motif": "冰框",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
       "added": 0,
-      "removed": 1
+      "removed": 3
     }
   }
 }

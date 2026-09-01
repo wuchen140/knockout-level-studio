@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 110,
+    "entityCount": 114,
     "entityTypeCount": 9,
     "platformCount": 3,
-    "itemCount": 107,
-    "destructibleItemCount": 107,
+    "itemCount": 111,
+    "destructibleItemCount": 111,
     "specialObstacleCount": 0,
     "customEntityCount": 3
   },
@@ -2566,15 +2566,111 @@
     },
     {
       "sequence": 107,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 1.42224014,
+        "y": 8.5072,
+        "z": -0.711315036
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0.382682741,
+        "z": 0,
+        "w": 0.923879862
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 108,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 2.12934613,
+        "y": 8.5072,
+        "z": -0.004207462
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0.382682741,
+        "z": 0,
+        "w": 0.923879862
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 109,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 2.83645177,
+        "y": 8.5072,
+        "z": 0.70290041
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0.382682741,
+        "z": 0,
+        "w": 0.923879862
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 110,
       "catalogId": 4035,
       "stage": 1,
-      "platform": 2,
+      "platform": 1,
       "materialId": 3,
       "shapeId": 2,
       "position": {
-        "x": -0.6906,
-        "y": 8.5072,
-        "z": -2.8241
+        "x": 2.12934756,
+        "y": 8.5,
+        "z": -1.41842067
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 111,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": 3.54355907,
+        "y": 8.5,
+        "z": -0.004204988
       },
       "rotation": {
         "x": 0,
@@ -2667,12 +2763,12 @@
   "design": {
     "derivedFrom": "prod-48",
     "referenceLevel": 48,
-    "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
+    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
     "focus": "冰与低摩擦",
     "motif": "冰冠",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 2,
+      "added": 6,
       "removed": 0
     }
   }
