@@ -152,6 +152,35 @@ function adjustStructure(level, levelId) {
   return { added: addCount - remainingAdds, removed: removed.size };
 }
 
+function ensureSmallStructuralChange(source, level, levelId) {
+  const sameCount = source.items.length === level.items.length;
+  const sameLayout = sameCount && source.items.every((item, index) => (
+    Math.abs(Number(item.position.x) - Number(level.items[index].position.x)) < 0.0001
+      && Math.abs(Number(item.position.z) - Number(level.items[index].position.z)) < 0.0001
+  ));
+  if (!sameLayout || !level.items.length) return { type: null };
+  const platforms = new Map(level.platforms.map((platform) => [platform.sequence, platform]));
+  const candidates = level.items.map((item) => {
+    const platform = platforms.get(item.platform);
+    if (!platform) return null;
+    const yaw = platformYaw(platform);
+    const dx = Number(item.position.x) - Number(platform.position.x);
+    const dz = Number(item.position.z) - Number(platform.position.z);
+    const x = dx * Math.cos(yaw) + dz * Math.sin(yaw);
+    const z = -dx * Math.sin(yaw) + dz * Math.cos(yaw);
+    const margin = Math.min(Number(platform.size.width) / 2 - Math.abs(x), Number(platform.size.depth) / 2 - Math.abs(z));
+    return { item, platform, yaw, x, z, margin };
+  }).filter(Boolean).sort((a, b) => b.margin - a.margin || b.item.position.y - a.item.position.y);
+  const chosen = candidates[0];
+  if (!chosen) return { type: null };
+  const delta = ((levelId % 2 ? 1 : -1) * 0.018);
+  const localX = chosen.x + delta;
+  const localZ = chosen.z;
+  chosen.item.position.x = round(Number(chosen.platform.position.x) + localX * Math.cos(chosen.yaw) - localZ * Math.sin(chosen.yaw));
+  chosen.item.position.z = round(Number(chosen.platform.position.z) + localX * Math.sin(chosen.yaw) + localZ * Math.cos(chosen.yaw));
+  return { type: "micro-shift", sequence: chosen.item.sequence, amount: delta };
+}
+
 function transformLevel(source, id) {
   const level = clone(source);
   level.levelId = id;
@@ -184,6 +213,7 @@ function transformLevel(source, id) {
     ? 0
     : shiftItemsWithinSupport(level.items, level.platforms, id);
   level.design.structureAdjustment = adjustStructure(level, id);
+  level.design.finalVariation = ensureSmallStructuralChange(source, level, id);
 
   level.obstacles = Object.fromEntries(Object.entries(level.obstacles || {}).map(([type, list]) => [type, list.map((obstacle, index) => {
     const next = clone(obstacle);
