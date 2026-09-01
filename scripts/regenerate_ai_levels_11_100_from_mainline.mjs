@@ -83,6 +83,62 @@ function shiftItemsWithinSupport(items, platforms, levelId) {
   return shiftedPlatforms;
 }
 
+function adjustStructure(level, levelId) {
+  // Remove only topmost pieces from selected columns. This changes the
+  // silhouette without cutting through an authored support chain.
+  const fragileLayouts = [49, 59, 80, 98];
+  const removeCount = fragileLayouts.includes(levelId) ? 0 : (levelId % 5 === 0 ? 1 : levelId % 11 === 0 ? 2 : 0);
+  const columns = new Map();
+  for (const item of level.items) {
+    const key = `${item.platform}:${round(item.position.x)}:${round(item.position.z)}`;
+    const list = columns.get(key) || [];
+    list.push(item);
+    columns.set(key, list);
+  }
+  const removable = [...columns.values()]
+    .filter((list) => list.length > 1)
+    .sort((left, right) => Math.max(...right.map((item) => item.position.y)) - Math.max(...left.map((item) => item.position.y)))
+    .flatMap((list) => [...list].sort((a, b) => b.position.y - a.position.y));
+  const removed = new Set(removable.slice(0, removeCount).map((item) => item.sequence));
+  if (removed.size) level.items = level.items.filter((item) => !removed.has(item.sequence));
+
+  // Add at most one block per platform, directly above an existing stable
+  // column. Using the source block's dimensions keeps the contact footprint.
+  const addCount = fragileLayouts.includes(levelId) ? 0 : (levelId % 4 === 0 ? 2 : levelId % 7 === 0 ? 1 : 0);
+  const platformIds = new Set(level.platforms.map((platform) => platform.sequence));
+  const nextByPlatform = new Map();
+  let nextSequence = Math.max(0, ...level.items.map((item) => item.sequence)) + 1;
+  for (const platformId of platformIds) {
+    if (nextByPlatform.size >= addCount) break;
+    const candidates = level.items.filter((item) => item.platform === platformId);
+    if (!candidates.length) continue;
+    const byColumn = new Map();
+    for (const item of candidates) {
+      const key = `${round(item.position.x)}:${round(item.position.z)}`;
+      const list = byColumn.get(key) || [];
+      list.push(item);
+      byColumn.set(key, list);
+    }
+    const column = [...byColumn.values()].sort((a, b) => b.length - a.length || Math.max(...b.map((item) => item.position.y)) - Math.max(...a.map((item) => item.position.y)))[0];
+    const top = [...column].sort((a, b) => b.position.y - a.position.y)[0];
+    const extra = clone(top);
+    extra.sequence = nextSequence;
+    nextSequence += 1;
+    extra.position.y = round(Number(top.position.y) + Number(top.size.y || 1));
+    const alternateId = variantCatalogId(extra, levelId + extra.sequence);
+    const profile = profileOf(alternateId);
+    if (profile) {
+      extra.catalogId = alternateId;
+      extra.materialId = profile.materialId;
+      extra.shapeId = profile.sourceShapeId;
+      extra.size = { x: profile.size[0], y: profile.size[1], z: profile.size[2] };
+    }
+    level.items.push(extra);
+    nextByPlatform.set(platformId, true);
+  }
+  return { added: nextByPlatform.size, removed: removed.size };
+}
+
 function transformLevel(source, id) {
   const level = clone(source);
   level.levelId = id;
@@ -111,9 +167,10 @@ function transformLevel(source, id) {
   });
   // A couple of late campaign layouts are intentionally edge-loaded in the
   // source archive; leave their coordinates untouched and only vary models.
-  level.design.shiftedPlatforms = [59, 98].includes(id)
+  level.design.shiftedPlatforms = [49, 59, 80, 98].includes(id)
     ? 0
     : shiftItemsWithinSupport(level.items, level.platforms, id);
+  level.design.structureAdjustment = adjustStructure(level, id);
 
   level.obstacles = Object.fromEntries(Object.entries(level.obstacles || {}).map(([type, list]) => [type, list.map((obstacle, index) => {
     const next = clone(obstacle);

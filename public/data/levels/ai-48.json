@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 108,
+    "entityCount": 110,
     "entityTypeCount": 9,
     "platformCount": 3,
-    "itemCount": 105,
-    "destructibleItemCount": 105,
+    "itemCount": 107,
+    "destructibleItemCount": 107,
     "specialObstacleCount": 0,
     "customEntityCount": 3
   },
@@ -2539,6 +2539,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 106,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0.715134144,
+        "y": 8.5072,
+        "z": -1.41842258
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0.382682741,
+        "z": 0,
+        "w": 0.923879862
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 107,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 2,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": -0.6906,
+        "y": 8.5072,
+        "z": -2.8241
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -2622,6 +2670,10 @@
     "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
     "focus": "冰与低摩擦",
     "motif": "冰冠",
-    "shiftedPlatforms": 1
+    "shiftedPlatforms": 1,
+    "structureAdjustment": {
+      "added": 2,
+      "removed": 0
+    }
   }
 }

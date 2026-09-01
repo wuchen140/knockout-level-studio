@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 76,
+    "entityCount": 78,
     "entityTypeCount": 5,
     "platformCount": 2,
-    "itemCount": 74,
-    "destructibleItemCount": 74,
+    "itemCount": 76,
+    "destructibleItemCount": 76,
     "specialObstacleCount": 0,
     "customEntityCount": 2
   },
@@ -1795,6 +1795,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 75,
+      "catalogId": 4040,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 4,
+      "shapeId": 1,
+      "position": {
+        "x": 2.512,
+        "y": 9.5,
+        "z": -1.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 76,
+      "catalogId": 4040,
+      "stage": 1,
+      "platform": 2,
+      "materialId": 4,
+      "shapeId": 1,
+      "position": {
+        "x": -1.524,
+        "y": 9.5,
+        "z": -2.508
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -1872,6 +1920,10 @@
     "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
     "focus": "水平移动平台",
     "motif": "漂移码头",
-    "shiftedPlatforms": 2
+    "shiftedPlatforms": 2,
+    "structureAdjustment": {
+      "added": 2,
+      "removed": 0
+    }
   }
 }

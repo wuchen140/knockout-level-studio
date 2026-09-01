@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 126,
+    "entityCount": 124,
     "entityTypeCount": 12,
     "platformCount": 1,
-    "itemCount": 125,
-    "destructibleItemCount": 125,
+    "itemCount": 123,
+    "destructibleItemCount": 123,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -2493,30 +2493,6 @@
       }
     },
     {
-      "sequence": 104,
-      "catalogId": 4080,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 0.845658243,
-        "y": 9.5,
-        "z": -2.63730741
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0.087162659,
-        "z": 0,
-        "w": 0.996194124
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 105,
       "catalogId": 4072,
       "stage": 1,
@@ -2623,30 +2599,6 @@
         "x": -0.143344015,
         "y": 10.5,
         "z": -2.46299171
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0.087162659,
-        "z": 0,
-        "w": 0.996194124
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 110,
-      "catalogId": 4077,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 0.845658243,
-        "y": 10.5,
-        "z": -2.63730741
       },
       "rotation": {
         "x": 0,
@@ -3065,6 +3017,10 @@
     "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
     "focus": "TNT 弱点",
     "motif": "红色金库",
-    "shiftedPlatforms": 0
+    "shiftedPlatforms": 0,
+    "structureAdjustment": {
+      "added": 0,
+      "removed": 2
+    }
   }
 }

@@ -11,39 +11,15 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 163,
+    "entityCount": 162,
     "entityTypeCount": 3,
     "platformCount": 1,
-    "itemCount": 162,
-    "destructibleItemCount": 162,
+    "itemCount": 161,
+    "destructibleItemCount": 161,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
   "items": [
-    {
-      "sequence": 1,
-      "catalogId": 4035,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 3,
-      "shapeId": 2,
-      "position": {
-        "x": -4,
-        "y": 10.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
     {
       "sequence": 2,
       "catalogId": 4035,
@@ -3946,6 +3922,10 @@
     "variation": "安全余量内轻微平移+同规格图鉴变体+机关微调",
     "focus": "石材重支撑",
     "motif": "阶梯",
-    "shiftedPlatforms": 1
+    "shiftedPlatforms": 1,
+    "structureAdjustment": {
+      "added": 0,
+      "removed": 1
+    }
   }
 }
