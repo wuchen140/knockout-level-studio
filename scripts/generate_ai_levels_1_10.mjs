@@ -117,152 +117,163 @@ function finalize(level) {
 function buildLevels() {
   const levels = [];
 
-  // AI-1: three orderly rows of independent columns, intentionally unlike prod-1's pyramid.
+  // AI-1: a right-weighted terrace that borrows prod-1's step grammar without its centered pyramid.
   {
-    const level = makeLevel(1, 30, [platform(1, 0, -2, 11, 4)]);
-    const heights = [1, 3, 2, 4, 1, 3, 2, 4, 1];
-    for (const z of [-3.5, -2.5, -1.5]) {
-      const offsetX = (z + 2.5) * 0.3;
-      heights.forEach((height, index) => addUnitColumn(level, index - 4 + offsetX, z, height, ["C"]));
-    }
+    const level = makeLevel(1, 30, [platform(1, 0, -2, 9, 3)]);
+    addPattern(level, ["CCCCCCCC", " CCCCCCC", "  CCCCCC", "   CCCCC"], { z: -2 });
+    addItem(level, MATERIALS.T, -0.5, 6.5, -2);
+    addItem(level, MATERIALS.T, 3.5, 6.5, -2);
     levels.push(finalize(level));
   }
 
-  // AI-2: a regular five-by-four matrix with a controlled height rhythm.
+  // AI-2: a split-panel wall with two vertical windows instead of prod-2's centered target panel.
   {
-    const level = makeLevel(2, 29, [platform(1, 0, -2, 7, 5)]);
-    const heights = [2, 4, 3, 4, 2];
-    [-3.5, -2.5, -1.5, -0.5].forEach((z, row) => {
-      const offsetX = (row - 1.5) * 0.2;
-      heights.forEach((height, index) => addUnitColumn(level, index - 2 + offsetX, z, height, (index + row) % 2 ? ["C"] : ["S"]));
-    });
+    const level = makeLevel(2, 29, [platform(1, 0, -2, 10, 4)]);
+    const panel = [
+      "SSSSSSSSS",
+      "SSS S SSS",
+      "SSS S SSS",
+      "SSSSSSSSS",
+      " SS S SS ",
+      " SSSSSSS ",
+    ];
+    addPatternDepth(level, panel, { zValues: [-2.7, -1.3] });
+    [-4, 4].forEach((x, index) => addUnitColumn(level, x, -2, 5, [index ? "C" : "S"]));
     levels.push(finalize(level));
   }
 
-  // AI-3: four ascending support ranks with repeated caps.
+  // AI-3: one broad ceremonial gate with rear buttresses, not prod-3's repeated small arches.
   {
     const level = makeLevel(3, 28, [platform(1, 0, -2, 10, 4)]);
-    const heights = [2, 3, 4, 5];
-    for (const z of [-3.5, -2.5, -1.5]) {
-      const offsetX = (z + 2.5) * 0.3;
-      heights.forEach((height, index) => {
-        const x = -3 + index * 2 + offsetX;
-        addUnitColumn(level, x, z, height, [index % 2 ? "S" : "C"]);
-        addItem(level, 4011, x, 2.5 + height, z);
-      });
-    }
+    addPattern(level, [
+      "SSSSSSSSS",
+      "SSS   SSS",
+      "SSS   SSS",
+      "SSS   SSS",
+      "SSSSSSSSS",
+      " SSSSSSS ",
+    ], { z: -2.7 });
+    [-4, 0, 4].forEach((x, index) => {
+      addUnitColumn(level, x, -1.3, 3, [index % 2 ? "C" : "S"]);
+    });
+    for (const x of [-4, 4]) addItem(level, MATERIALS.T, x, 5.5, -1.3);
     levels.push(finalize(level));
   }
 
-  // AI-4: a regular three-by-three cross field with a taller center.
+  // AI-4: a four-corner courtyard fortress that turns prod-4's facade into a real depth layout.
   {
-    const level = makeLevel(4, 27, [platform(1, 0, -2, 7, 7)]);
-    for (const z of [-4, -2, 0]) {
-      const offsetX = (z + 2) * 0.2;
-      for (const x of [-2, 0, 2]) {
-        const height = x === 0 && z === -2 ? 7 : 5;
-        addUnitColumn(level, x + offsetX, z, height, [(x + z) % 4 ? "C" : "S"]);
-        if (x === 0 || z === -2) addItem(level, 4011, x + offsetX, 2.5 + height, z);
-      }
+    const level = makeLevel(4, 27, [platform(1, 0, -2, 8, 7)]);
+    const corners = [[-3, -4], [3, -4], [-3, 0], [3, 0]];
+    corners.forEach(([x, z], index) => {
+      addUnitColumn(level, x, z, 6, [index % 2 ? "C" : "S"]);
+      addItem(level, MATERIALS.T, x, 8.5, z);
+    });
+    for (const z of [-4, 0]) {
+      for (const x of [-2, -1, 0, 1, 2]) addUnitColumn(level, x, z, 3, ["S"]);
     }
+    for (const x of [-3, 3]) {
+      for (const z of [-3, -2, -1]) addUnitColumn(level, x, z, 3, ["C"]);
+    }
+    for (const [x, z] of [[-1, -3], [1, -3], [-1, -1], [1, -1]]) addUnitColumn(level, x, z, 2, ["S"]);
     levels.push(finalize(level));
   }
 
-  // AI-5: first colored-box lesson presented as a repeated meter rhythm.
+  // AI-5: open chevron color bands instead of prod-5's solid rainbow rectangle.
   {
     const level = makeLevel(5, 26, [platform(1, 0, -2, 10, 4)]);
-    const heights = [2, 4, 3, 5, 2, 4, 3, 5];
-    const colors = ["R", "O", "Y", "G", "B", "U", "P", "R"];
-    for (const z of [-2.5, -1.5]) {
-      const offsetX = (z + 2) * 0.5;
-      heights.forEach((height, index) => {
-        const x = index - 3.5 + offsetX;
-        for (let row = 0; row < height; row += 1) addItem(level, MATERIALS[colors[index]], x, 2.5 + row, z);
-        addItem(level, MATERIALS[colors[(index + 3) % colors.length]], x, 2.5 + height, z);
-      });
-    }
+    addPattern(level, [
+      "RRRRRRRRR",
+      " OOOOOOO ",
+      "  YYYYY  ",
+      "  GGGGG  ",
+      "   BBB   ",
+      "   UUU   ",
+      "   PP    ",
+      "   RR    ",
+    ], { z: -2 });
     levels.push(finalize(level));
   }
 
-  // AI-6: a low rectangular perimeter in plan view, leaving a clear central court.
+  // AI-6: a twin-window facade that reuses prod-6's frame lesson without nesting one frame inside another.
   {
-    const level = makeLevel(6, 25, [platform(1, 0, -2, 11, 8)]);
-    const xs = [-4, -2, 0, 2, 4];
-    const zs = [-5, -3, -1, 1];
-    let perimeterIndex = 0;
-    zs.forEach((z, row) => xs.forEach((x, column) => {
-      if (row !== 0 && row !== zs.length - 1 && column !== 0 && column !== xs.length - 1) return;
-      const height = 3 + (perimeterIndex % 2);
-      const colors = [["B", "G"], ["R", "O"], ["Y", "U"]][perimeterIndex % 3];
-      addUnitColumn(level, x, z, height, colors);
-      addItem(level, MATERIALS[colors[1]], x, 2.5 + height, z);
-      perimeterIndex += 1;
-    }));
+    const level = makeLevel(6, 25, [platform(1, 0, -2, 11, 4)]);
+    addPattern(level, [
+      "GGGGGGGGGG",
+      "GG  GG  GG",
+      "GG  GG  GG",
+      "GG  GG  GG",
+      "GGGGGGGGGG",
+    ], { z: -2.7 });
+    [-4.5, -1.5, 1.5, 4.5].forEach((x, index) => {
+      addUnitColumn(level, x, -1.3, 4, [index % 2 ? "Y" : "B"]);
+      addItem(level, MATERIALS[index % 2 ? "O" : "P"], x, 6.5, -1.3);
+    });
+    addUnitColumn(level, 0, -1.3, 3, ["R", "Y"]);
     levels.push(finalize(level));
   }
 
-  // AI-7: two mirrored ramps point inward; neither island uses a tower or sign silhouette.
+  // AI-7: unequal paired watchtowers, keeping prod-7's two-island lesson but changing the silhouettes.
   {
     const level = makeLevel(7, 25, [platform(1, -3.5, -2, 5, 4), platform(2, 3.5, -2, 5, 4)]);
-    for (const z of [-3.5, -2.5, -1.5]) {
-      const offsetX = (z + 2.5) * 0.25;
-      [1, 2, 3, 4].forEach((height, index) => addUnitColumn(level, -5 + index + offsetX, z, height, ["B", "Y"], 1));
-      [4, 3, 2, 1].forEach((height, index) => addUnitColumn(level, 2 + index + offsetX, z, height, ["R", "U"], 2));
-      addItem(level, 4011, -2 + offsetX, 6.5, z, 1);
-      addItem(level, 4011, 2 + offsetX, 6.5, z, 2);
+    for (const z of [-2.7, -1.3]) {
+      [3, 5, 3].forEach((height, index) => addUnitColumn(level, -4.5 + index, z, height, ["B", "Y"], 1));
+      [4, 6, 4].forEach((height, index) => addUnitColumn(level, 2.5 + index, z, height, ["R", "U"], 2));
     }
+    addItem(level, MATERIALS.T, -3.5, 7.5, -2, 1);
+    for (const x of [2.5, 4.5]) addItem(level, MATERIALS.T, x, 6.5, -2, 2);
     levels.push(finalize(level));
   }
 
-  // AI-8: two complementary offset rows interlock without forming a solid wall.
+  // AI-8: a lintel gate that echoes prod-8's negative space without nesting multiple square frames.
   {
-    const level = makeLevel(8, 23, [platform(1, 0, -2, 9, 4)]);
-    const rows = [
-      { z: -2.5, heights: [2, 4, 3, 5, 2, 4, 3], colors: ["B", "G"] },
-      { z: -1.5, heights: [4, 2, 5, 3, 4, 2, 5], colors: ["O", "R"] },
-    ];
-    rows.forEach(({ z, heights, colors }) => heights.forEach((height, index) => {
-      const x = index - 3 + (z + 2) * 0.5;
-      addUnitColumn(level, x, z, height, colors);
-      addItem(level, MATERIALS[colors[1]], x, 2.5 + height, z);
-    }));
-    levels.push(finalize(level));
-  }
-
-  // AI-9: a regular nine-point grid with a pronounced central core.
-  {
-    const level = makeLevel(9, 24, [platform(1, 0, -2, 7, 7)]);
-    const heights = [[5, 7, 5], [7, 9, 7], [5, 7, 5]];
-    for (let row = 0; row < 3; row += 1) {
-      for (let column = 0; column < 3; column += 1) {
-        const x = -2 + column * 2 + (row - 1) * 0.3;
-        const z = -4 + row * 2;
-        const colors = (row + column) % 2 ? ["B", "U"] : ["G", "Y"];
-        addUnitColumn(level, x, z, heights[row][column], colors);
-        addItem(level, 4079, x, 2.5 + heights[row][column], z);
-      }
+    const level = makeLevel(8, 23, [platform(1, 0, -2, 10, 4)]);
+    addPatternDepth(level, [
+      "SSSSSSSSS",
+      "SS     SS",
+      "SS     SS",
+      "SS     SS",
+    ], { zValues: [-2.7, -1.3] });
+    for (const z of [-2.7, -1.3]) {
+      addItem(level, MATERIALS.S, -2, 5.5, z);
+      addItem(level, MATERIALS.S, 2, 5.5, z);
+      addItem(level, 4005, 0, 6.5, z);
+      for (const x of [-2, -1, 0, 1, 2]) addItem(level, MATERIALS.S, x, 7.5, z);
     }
+    addPattern(level, ["SSSSSSSSS", "SS  S  SS", "    S    "], { z: -2 });
     levels.push(finalize(level));
   }
 
-  // AI-10: a genuinely three-dimensional circular arena of staggered columns.
+  // AI-9: a shield-like pixel crest, borrowing prod-9's readable face-scale mass without a robot face.
   {
-    const level = makeLevel(10, 22, [platform(1, 0, -2, 9, 9)]);
-    const outer = [
-      [3, 0, 4], [2.1, 2.1, 5], [0, 3, 6], [-2.1, 2.1, 4],
-      [-3, 0, 5], [-2.1, -2.1, 6], [0, -3, 4], [2.1, -2.1, 5],
-    ];
-    const palette = [["R", "O"], ["Y", "G"], ["B", "U"], ["P", "R"]];
-    outer.forEach(([x, zOffset, height], index) => {
-      addUnitColumn(level, x, -2 + zOffset, height, palette[index % palette.length]);
-      if (index % 2 === 0) addItem(level, 4011, x, 2.5 + height, -2 + zOffset);
+    const level = makeLevel(9, 24, [platform(1, 0, -2, 10, 4)]);
+    addPattern(level, [
+      "  WWWWW  ",
+      " WWWWWWW ",
+      "WWBBPBBWW",
+      "WWBPPPBWW",
+      "WWBBPBBWW",
+      " WWWWWWW ",
+      "  WWWWW  ",
+    ], { z: -2.7 });
+    [-3, -1, 1, 3].forEach((x, index) => addUnitColumn(level, x, -1.3, 4, [index % 2 ? "U" : "B"]));
+    [-2, 0, 2].forEach((x, index) => addUnitColumn(level, x, -2, 5, [index % 2 ? "P" : "B"]));
+    levels.push(finalize(level));
+  }
+
+  // AI-10: a bridge fortress with twin arches, related to prod-10's finale grammar but no target center.
+  {
+    const level = makeLevel(10, 22, [platform(1, 0, -2, 12, 4)]);
+    addPattern(level, [
+      "RRRRRRRRRRR",
+      "RR  Y Y  RR",
+      "RR  Y Y  RR",
+      "RR  Y Y  RR",
+      "GGGGGGGGGGG",
+    ], { z: -2.7 });
+    [-5, -2, 2, 5].forEach((x, index) => {
+      addUnitColumn(level, x, -1.3, 3, [index % 2 ? "P" : "U"]);
     });
-    const inner = [[1.5, 0], [0, 1.5], [-1.5, 0], [0, -1.5]];
-    inner.forEach(([x, zOffset], index) => addUnitColumn(level, x, -2 + zOffset, 3, palette[(index + 1) % palette.length]));
-    const innerDiagonals = [[1.1, 1.1], [-1.1, 1.1], [-1.1, -1.1], [1.1, -1.1]];
-    innerDiagonals.forEach(([x, zOffset], index) => addUnitColumn(level, x, -2 + zOffset, 3, palette[(index + 2) % palette.length]));
-    addUnitColumn(level, 0, -2, 7, ["C"]);
-    addItem(level, 4011, 0, 9.5, -2);
+    for (const x of [-5, 5]) addItem(level, MATERIALS.T, x, 7.5, -2.7);
     levels.push(finalize(level));
   }
 
