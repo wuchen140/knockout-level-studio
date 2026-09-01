@@ -2,6 +2,8 @@
   "levelId": 16,
   "category": "ai",
   "categoryName": "AI关卡",
+  "name": "AI-16",
+  "slug": "ai-16",
   "settings": {
     "version": 1,
     "moveCount": 26,
@@ -10,12 +12,18 @@
     "stabilizeOnSpawn": false,
     "physicsQuality": 0
   },
+  "design": {
+    "derivedFrom": "prod-16",
+    "referenceLevel": 16,
+    "motif": "纸箱短桥",
+    "variation": "独立重排：连续支撑柱列+局部空洞+主线材料语言"
+  },
   "statistics": {
-    "entityCount": 24,
+    "entityCount": 26,
     "entityTypeCount": 2,
     "platformCount": 1,
-    "itemCount": 23,
-    "destructibleItemCount": 23,
+    "itemCount": 25,
+    "destructibleItemCount": 25,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -28,7 +36,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 0,
+        "x": -2,
         "y": 2.5,
         "z": -2
       },
@@ -52,7 +60,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 0,
+        "x": -2,
         "y": 3.5,
         "z": -2
       },
@@ -76,8 +84,56 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 0,
+        "x": -2,
         "y": 4.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 4,
+      "catalogId": 4040,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 4,
+      "shapeId": 1,
+      "position": {
+        "x": -2,
+        "y": 5.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 5,
+      "catalogId": 4040,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 4,
+      "shapeId": 1,
+      "position": {
+        "x": -1,
+        "y": 2.5,
         "z": -2
       },
       "rotation": {
@@ -100,8 +156,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 1,
-        "y": 2.5,
+        "x": -1,
+        "y": 3.5,
         "z": -2
       },
       "rotation": {
@@ -124,8 +180,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 2,
-        "y": 2.5,
+        "x": -1,
+        "y": 4.5,
         "z": -2
       },
       "rotation": {
@@ -148,8 +204,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -2,
-        "y": 2.5,
+        "x": -1,
+        "y": 5.5,
         "z": -2
       },
       "rotation": {
@@ -172,8 +228,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 1,
-        "y": 3.5,
+        "x": 0,
+        "y": 2.5,
         "z": -2
       },
       "rotation": {
@@ -196,7 +252,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 2,
+        "x": 0,
         "y": 3.5,
         "z": -2
       },
@@ -220,8 +276,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -2,
-        "y": 3.5,
+        "x": 0,
+        "y": 4.5,
         "z": -2
       },
       "rotation": {
@@ -244,8 +300,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 1,
-        "y": 4.5,
+        "x": 0,
+        "y": 5.5,
         "z": -2
       },
       "rotation": {
@@ -268,8 +324,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 2,
-        "y": 4.5,
+        "x": 1,
+        "y": 2.5,
         "z": -2
       },
       "rotation": {
@@ -292,8 +348,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -2,
-        "y": 4.5,
+        "x": 1,
+        "y": 3.5,
         "z": -2
       },
       "rotation": {
@@ -317,7 +373,7 @@
       "shapeId": 1,
       "position": {
         "x": 1,
-        "y": 5.5,
+        "y": 4.5,
         "z": -2
       },
       "rotation": {
@@ -341,7 +397,7 @@
       "shapeId": 1,
       "position": {
         "x": 1,
-        "y": 6.5,
+        "y": 5.5,
         "z": -2
       },
       "rotation": {
@@ -365,7 +421,7 @@
       "shapeId": 1,
       "position": {
         "x": 2,
-        "y": 5.5,
+        "y": 2.5,
         "z": -2
       },
       "rotation": {
@@ -389,7 +445,7 @@
       "shapeId": 1,
       "position": {
         "x": 2,
-        "y": 6.5,
+        "y": 3.5,
         "z": -2
       },
       "rotation": {
@@ -412,8 +468,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -2,
-        "y": 5.5,
+        "x": 2,
+        "y": 4.5,
         "z": -2
       },
       "rotation": {
@@ -436,8 +492,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -2,
-        "y": 6.5,
+        "x": 2,
+        "y": 5.5,
         "z": -2
       },
       "rotation": {
@@ -460,8 +516,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -1,
-        "y": 2.5,
+        "x": -2,
+        "y": 6.5,
         "z": -2
       },
       "rotation": {
@@ -485,7 +541,7 @@
       "shapeId": 1,
       "position": {
         "x": -1,
-        "y": 3.5,
+        "y": 6.5,
         "z": -2
       },
       "rotation": {
@@ -508,8 +564,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -1,
-        "y": 4.5,
+        "x": 0,
+        "y": 6.5,
         "z": -2
       },
       "rotation": {
@@ -532,8 +588,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -1,
-        "y": 5.5,
+        "x": 1,
+        "y": 6.5,
         "z": -2
       },
       "rotation": {
@@ -556,7 +612,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -1,
+        "x": 2,
         "y": 6.5,
         "z": -2
       },
@@ -590,8 +646,8 @@
         "w": 1
       },
       "size": {
-        "width": 5.5,
-        "depth": 1.5
+        "width": 6,
+        "depth": 2
       },
       "movement": null,
       "rotationMotion": null
@@ -601,20 +657,5 @@
     "bouncers": [],
     "blockers": [],
     "hammers": []
-  },
-  "name": "AI-16",
-  "slug": "ai-16",
-  "design": {
-    "derivedFrom": "prod-16",
-    "referenceLevel": 16,
-    "variation": "早期章节重设计：错层柱列+局部增删+模型变体",
-    "focus": "果酱罐/纸箱",
-    "motif": "拱门",
-    "structureAdjustment": {
-      "added": 0,
-      "removed": 2,
-      "upperTierReshaped": false,
-      "sourceLayoutPreserved": true
-    }
   }
 }

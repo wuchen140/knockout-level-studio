@@ -8,6 +8,7 @@
     "data:ai": "node scripts/generate_ai_levels_1_10.mjs",
     "data:ai:11-100": "node scripts/generate_ai_levels_11_100.mjs",
     "data:ai:from-mainline": "node scripts/regenerate_ai_levels_11_100_from_mainline.mjs",
+    "data:ai:redesign-10-20": "node scripts/redesign_ai_levels_10_20.mjs",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
