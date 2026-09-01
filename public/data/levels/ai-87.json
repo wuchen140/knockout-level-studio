@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 79,
+    "entityCount": 76,
     "entityTypeCount": 8,
     "platformCount": 1,
-    "itemCount": 78,
-    "destructibleItemCount": 78,
+    "itemCount": 75,
+    "destructibleItemCount": 75,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -717,30 +717,6 @@
       }
     },
     {
-      "sequence": 30,
-      "catalogId": 4014,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.2839,
-        "y": 2.5,
-        "z": -0.8846
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0.087155223,
-        "z": 0,
-        "w": 0.99619478
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 32,
       "catalogId": 4016,
       "stage": 1,
@@ -750,30 +726,6 @@
       "position": {
         "x": 2.6026,
         "y": 2.5,
-        "z": -1.9562
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0.087155223,
-        "z": 0,
-        "w": 0.99619478
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 33,
-      "catalogId": 4055,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 5,
-      "shapeId": 2,
-      "position": {
-        "x": 2.6026,
-        "y": 9.5,
         "z": -1.9562
       },
       "rotation": {
@@ -1110,30 +1062,6 @@
       "position": {
         "x": 2.6026,
         "y": 4.5,
-        "z": -1.9562
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0.087155223,
-        "z": 0,
-        "w": 0.99619478
-      },
-      "size": {
-        "x": 3,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 48,
-      "catalogId": 4026,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.6026,
-        "y": 7.5,
         "z": -1.9562
       },
       "rotation": {
@@ -1940,10 +1868,11 @@
     "shiftedPlatforms": 1,
     "structureAdjustment": {
       "added": 0,
-      "removed": 3
+      "removed": 6
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

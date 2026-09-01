@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 150,
+    "entityCount": 152,
     "entityTypeCount": 7,
     "platformCount": 1,
-    "itemCount": 149,
-    "destructibleItemCount": 149,
+    "itemCount": 151,
+    "destructibleItemCount": 151,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -3595,6 +3595,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 150,
+      "catalogId": 4050,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 5,
+      "shapeId": 1,
+      "position": {
+        "x": -4.012,
+        "y": 12.5,
+        "z": -0.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 151,
+      "catalogId": 4074,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -4.012,
+        "y": 12.5,
+        "z": -1.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -3636,11 +3684,12 @@
     "motif": "晶塔",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 4,
+      "added": 6,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

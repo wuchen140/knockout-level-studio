@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 41,
+    "entityCount": 43,
     "entityTypeCount": 6,
     "platformCount": 1,
-    "itemCount": 40,
-    "destructibleItemCount": 40,
+    "itemCount": 42,
+    "destructibleItemCount": 42,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -979,6 +979,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 41,
+      "catalogId": 4118,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 10,
+      "shapeId": 1,
+      "position": {
+        "x": 2.976,
+        "y": 9,
+        "z": -1.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 42,
+      "catalogId": 4118,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 10,
+      "shapeId": 1,
+      "position": {
+        "x": 2.976,
+        "y": 9,
+        "z": -2.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -1020,11 +1068,12 @@
     "motif": "立柱桥",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 4,
+      "added": 6,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

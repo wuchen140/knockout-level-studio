@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 58,
+    "entityCount": 55,
     "entityTypeCount": 7,
     "platformCount": 1,
-    "itemCount": 57,
-    "destructibleItemCount": 57,
+    "itemCount": 54,
+    "destructibleItemCount": 54,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -237,30 +237,6 @@
       }
     },
     {
-      "sequence": 11,
-      "catalogId": 4079,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": -0.024,
-        "y": 3.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 13,
       "catalogId": 4072,
       "stage": 1,
@@ -295,54 +271,6 @@
         "x": -0.024,
         "y": 5.5,
         "z": -1.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 15,
-      "catalogId": 4074,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": -0.024,
-        "y": 2.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 16,
-      "catalogId": 4075,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": -0.024,
-        "y": 4.5,
-        "z": -2.492
       },
       "rotation": {
         "x": 0,
@@ -1437,10 +1365,11 @@
     "shiftedPlatforms": 1,
     "structureAdjustment": {
       "added": 0,
-      "removed": 3
+      "removed": 6
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

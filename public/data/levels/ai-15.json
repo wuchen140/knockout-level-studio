@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 86,
+    "entityCount": 83,
     "entityTypeCount": 7,
     "platformCount": 1,
-    "itemCount": 85,
-    "destructibleItemCount": 85,
+    "itemCount": 82,
+    "destructibleItemCount": 82,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -593,30 +593,6 @@
       "size": {
         "x": 1,
         "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 26,
-      "catalogId": 4088,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2,
-        "y": 9.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 1,
-        "y": 2,
         "z": 1
       }
     },
@@ -1269,30 +1245,6 @@
       }
     },
     {
-      "sequence": 55,
-      "catalogId": 4083,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2,
-        "y": 11.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 1,
-        "y": 2,
-        "z": 1
-      }
-    },
-    {
       "sequence": 56,
       "catalogId": 4084,
       "stage": 1,
@@ -1495,30 +1447,6 @@
         "x": 1,
         "y": 2.49999976,
         "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0.707106888,
-        "w": 0.707106709
-      },
-      "size": {
-        "x": 1,
-        "y": 2,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 65,
-      "catalogId": 4084,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2,
-        "y": 3.49999976,
-        "z": -1.492
       },
       "rotation": {
         "x": 0,
@@ -2101,10 +2029,11 @@
     "shiftedPlatforms": 1,
     "structureAdjustment": {
       "added": 0,
-      "removed": 3
+      "removed": 6
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

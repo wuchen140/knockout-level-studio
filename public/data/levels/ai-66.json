@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 132,
+    "entityCount": 135,
     "entityTypeCount": 12,
     "platformCount": 1,
-    "itemCount": 131,
-    "destructibleItemCount": 131,
+    "itemCount": 134,
+    "destructibleItemCount": 134,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -3163,6 +3163,78 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 132,
+      "catalogId": 4076,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.030972738,
+        "y": 11.5,
+        "z": -1.47399294
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0.087162659,
+        "z": 0,
+        "w": 0.996194124
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 133,
+      "catalogId": 4072,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 1.01574183,
+        "y": 11.5,
+        "z": -1.65736997
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0.087162659,
+        "z": 0,
+        "w": 0.996194124
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 134,
+      "catalogId": 4045,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 4,
+      "shapeId": 2,
+      "position": {
+        "x": 2.263,
+        "y": 2.5,
+        "z": -1.492
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0.087162659,
+        "z": 0,
+        "w": 0.996194124
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -3211,11 +3283,12 @@
     "motif": "红色金库",
     "shiftedPlatforms": 0,
     "structureAdjustment": {
-      "added": 6,
+      "added": 8,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 1
   }
 }

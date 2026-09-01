@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 77,
+    "entityCount": 75,
     "entityTypeCount": 17,
     "platformCount": 1,
-    "itemCount": 76,
-    "destructibleItemCount": 76,
+    "itemCount": 74,
+    "destructibleItemCount": 74,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -631,30 +631,6 @@
         "x": -2.024,
         "y": 6.5,
         "z": -1.228
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 3,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 28,
-      "catalogId": 4003,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 1,
-      "shapeId": 1,
-      "position": {
-        "x": 1.976,
-        "y": 3.5,
-        "z": -0.228
       },
       "rotation": {
         "x": 0,
@@ -1557,30 +1533,6 @@
       }
     },
     {
-      "sequence": 70,
-      "catalogId": 4024,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": -0.024,
-        "y": 6.5,
-        "z": -0.228
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 3,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 71,
       "catalogId": 4025,
       "stage": 1,
@@ -1672,30 +1624,6 @@
       },
       "size": {
         "x": 2,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 75,
-      "catalogId": 4029,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": -0.024,
-        "y": 9.5,
-        "z": -0.228
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 3,
         "y": 1,
         "z": 1
       }
@@ -1843,6 +1771,30 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 82,
+      "catalogId": 4001,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 1,
+      "position": {
+        "x": 2.2,
+        "y": 2.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -1885,10 +1837,11 @@
     "shiftedPlatforms": 1,
     "structureAdjustment": {
       "added": 0,
-      "removed": 5
+      "removed": 8
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 1
   }
 }

@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 112,
+    "entityCount": 114,
     "entityTypeCount": 5,
     "platformCount": 1,
-    "itemCount": 110,
-    "destructibleItemCount": 110,
+    "itemCount": 112,
+    "destructibleItemCount": 112,
     "specialObstacleCount": 1,
     "customEntityCount": 1
   },
@@ -2659,6 +2659,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 111,
+      "catalogId": 4050,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 5,
+      "shapeId": 1,
+      "position": {
+        "x": -1.976,
+        "y": 10.5,
+        "z": -2.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 112,
+      "catalogId": 4050,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 5,
+      "shapeId": 1,
+      "position": {
+        "x": 2.024,
+        "y": 10.5,
+        "z": -2.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -2720,11 +2768,12 @@
     "motif": "转子金库",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 4,
+      "added": 6,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

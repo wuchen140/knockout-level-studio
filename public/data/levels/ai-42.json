@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 54,
+    "entityCount": 57,
     "entityTypeCount": 3,
     "platformCount": 1,
-    "itemCount": 53,
-    "destructibleItemCount": 53,
+    "itemCount": 56,
+    "destructibleItemCount": 56,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -1291,6 +1291,78 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 54,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 0.9637,
+        "y": 5.5,
+        "z": 2.9149
+      },
+      "rotation": {
+        "x": 0,
+        "y": 1.49012e-8,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 55,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 1.9637,
+        "y": 5.5,
+        "z": 2.9149
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.499999672,
+        "z": 0,
+        "w": 0.866025627
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 56,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": 2.152,
+        "y": 2.5,
+        "z": -1.593
+      },
+      "rotation": {
+        "x": 0,
+        "y": 1.49012e-8,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -1332,11 +1404,12 @@
     "motif": "冰桥",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 6,
+      "added": 8,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 1
   }
 }

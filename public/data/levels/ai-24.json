@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 178,
+    "entityCount": 180,
     "entityTypeCount": 3,
     "platformCount": 1,
-    "itemCount": 177,
-    "destructibleItemCount": 177,
+    "itemCount": 179,
+    "destructibleItemCount": 179,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -4267,6 +4267,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 178,
+      "catalogId": 4013,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 4.024,
+        "y": 11.5,
+        "z": -0.992
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 179,
+      "catalogId": 4012,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -1.976,
+        "y": 11.5,
+        "z": -0.992
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -4308,11 +4356,12 @@
     "motif": "石门",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 6,
+      "added": 8,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

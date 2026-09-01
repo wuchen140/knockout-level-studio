@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 92,
+    "entityCount": 89,
     "entityTypeCount": 4,
     "platformCount": 1,
-    "itemCount": 91,
-    "destructibleItemCount": 91,
+    "itemCount": 88,
+    "destructibleItemCount": 88,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -54,30 +54,6 @@
       "position": {
         "x": 2.512,
         "y": 5.5,
-        "z": -2.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 6,
-      "catalogId": 4072,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 9,
-      "shapeId": 1,
-      "position": {
-        "x": 2.512,
-        "y": 7.5,
         "z": -2.508
       },
       "rotation": {
@@ -1965,30 +1941,6 @@
       }
     },
     {
-      "sequence": 85,
-      "catalogId": 4117,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 10,
-      "shapeId": 1,
-      "position": {
-        "x": 2.512,
-        "y": 2.5,
-        "z": -1.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 86,
       "catalogId": 4117,
       "stage": 1,
@@ -2022,30 +1974,6 @@
       "position": {
         "x": 2.512,
         "y": 4.5,
-        "z": -2.508
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 90,
-      "catalogId": 4117,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 10,
-      "shapeId": 1,
-      "position": {
-        "x": 2.512,
-        "y": 6.5,
         "z": -2.508
       },
       "rotation": {
@@ -2245,10 +2173,11 @@
     "shiftedPlatforms": 1,
     "structureAdjustment": {
       "added": 0,
-      "removed": 5
+      "removed": 8
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

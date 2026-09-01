@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 171,
+    "entityCount": 174,
     "entityTypeCount": 9,
     "platformCount": 4,
-    "itemCount": 167,
-    "destructibleItemCount": 167,
+    "itemCount": 170,
+    "destructibleItemCount": 170,
     "specialObstacleCount": 0,
     "customEntityCount": 4
   },
@@ -4027,6 +4027,78 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 168,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -3.5413,
+        "y": 5.5,
+        "z": -0.992
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 169,
+      "catalogId": 4006,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 2,
+      "position": {
+        "x": -2.5413,
+        "y": 5.5,
+        "z": -1.992
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 170,
+      "catalogId": 4016,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": -1.5,
+        "y": 2.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -4166,11 +4238,12 @@
     "motif": "上升王冠",
     "shiftedPlatforms": 4,
     "structureAdjustment": {
-      "added": 6,
+      "added": 8,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 1
   }
 }

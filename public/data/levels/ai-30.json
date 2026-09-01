@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 169,
+    "entityCount": 172,
     "entityTypeCount": 3,
     "platformCount": 1,
-    "itemCount": 168,
-    "destructibleItemCount": 168,
+    "itemCount": 171,
+    "destructibleItemCount": 171,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -4051,6 +4051,78 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 169,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": -1,
+        "y": 11.5,
+        "z": -2.492
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 170,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": -1,
+        "y": 11.5,
+        "z": -1.492
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 171,
+      "catalogId": 4035,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 2,
+      "position": {
+        "x": 2.2,
+        "y": 2.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -4092,11 +4164,12 @@
     "motif": "阶梯",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 6,
+      "added": 8,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 1
   }
 }

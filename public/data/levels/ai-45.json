@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 85,
+    "entityCount": 82,
     "entityTypeCount": 5,
     "platformCount": 1,
-    "itemCount": 84,
-    "destructibleItemCount": 84,
+    "itemCount": 81,
+    "destructibleItemCount": 81,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -501,30 +501,6 @@
       }
     },
     {
-      "sequence": 21,
-      "catalogId": 4016,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 0,
-        "y": 5.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 22,
       "catalogId": 4017,
       "stage": 1,
@@ -917,30 +893,6 @@
       "shapeId": 4,
       "position": {
         "x": -1,
-        "y": 7.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 39,
-      "catalogId": 4016,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 0,
         "y": 7.5,
         "z": -2.492
       },
@@ -2011,30 +1963,6 @@
         "y": 1,
         "z": 1
       }
-    },
-    {
-      "sequence": 87,
-      "catalogId": 4016,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 0,
-        "y": 6.5,
-        "z": -2.492
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
     }
   ],
   "platforms": [
@@ -2077,10 +2005,11 @@
     "shiftedPlatforms": 1,
     "structureAdjustment": {
       "added": 0,
-      "removed": 3
+      "removed": 6
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

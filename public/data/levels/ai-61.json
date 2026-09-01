@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 131,
+    "entityCount": 133,
     "entityTypeCount": 3,
     "platformCount": 1,
-    "itemCount": 130,
-    "destructibleItemCount": 130,
+    "itemCount": 132,
+    "destructibleItemCount": 132,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -3139,6 +3139,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 131,
+      "catalogId": 4001,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 1,
+      "position": {
+        "x": 0.976,
+        "y": 9.5,
+        "z": -3.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 132,
+      "catalogId": 4001,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 1,
+      "position": {
+        "x": -2.024,
+        "y": 9.5,
+        "z": -1.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -3188,11 +3236,12 @@
     "motif": "引线塔",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 4,
+      "added": 6,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

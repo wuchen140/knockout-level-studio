@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 71,
+    "entityCount": 73,
     "entityTypeCount": 8,
     "platformCount": 1,
-    "itemCount": 70,
-    "destructibleItemCount": 70,
+    "itemCount": 72,
+    "destructibleItemCount": 72,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -1699,6 +1699,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 71,
+      "catalogId": 4031,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 0.976,
+        "y": 11.5,
+        "z": -1.992
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0.707106888,
+        "w": 0.707106709
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 72,
+      "catalogId": 4031,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -1.024,
+        "y": 11.5,
+        "z": -1.992
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0.707106888,
+        "w": 0.707106709
+      },
+      "size": {
+        "x": 2,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -1740,11 +1788,12 @@
     "motif": "旋环",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 6,
+      "added": 8,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

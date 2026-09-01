@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 186,
+    "entityCount": 188,
     "entityTypeCount": 5,
     "platformCount": 2,
-    "itemCount": 184,
-    "destructibleItemCount": 184,
+    "itemCount": 186,
+    "destructibleItemCount": 186,
     "specialObstacleCount": 0,
     "customEntityCount": 2
   },
@@ -4435,6 +4435,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 185,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 3.8,
+        "y": 12.5,
+        "z": 5.508
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 186,
+      "catalogId": 4011,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 1,
+      "shapeId": 3,
+      "position": {
+        "x": 1.8,
+        "y": 12.5,
+        "z": 5.508
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -4528,11 +4576,12 @@
     "motif": "漂移码头",
     "shiftedPlatforms": 2,
     "structureAdjustment": {
-      "added": 6,
+      "added": 8,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

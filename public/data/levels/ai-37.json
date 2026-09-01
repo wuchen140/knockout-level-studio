@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 144,
+    "entityCount": 146,
     "entityTypeCount": 6,
     "platformCount": 1,
-    "itemCount": 143,
-    "destructibleItemCount": 143,
+    "itemCount": 145,
+    "destructibleItemCount": 145,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -3451,6 +3451,54 @@
         "y": 1,
         "z": 1
       }
+    },
+    {
+      "sequence": 144,
+      "catalogId": 4012,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 0.012,
+        "y": 11.5,
+        "z": -3.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 145,
+      "catalogId": 4015,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 2,
+      "shapeId": 4,
+      "position": {
+        "x": 0.012,
+        "y": 11.5,
+        "z": -0.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "platforms": [
@@ -3499,11 +3547,12 @@
     "motif": "转门",
     "shiftedPlatforms": 1,
     "structureAdjustment": {
-      "added": 4,
+      "added": 6,
       "removed": 0
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 27,
+    "entityCount": 24,
     "entityTypeCount": 2,
     "platformCount": 1,
-    "itemCount": 26,
-    "destructibleItemCount": 26,
+    "itemCount": 23,
+    "destructibleItemCount": 23,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -53,30 +53,6 @@
       "shapeId": 1,
       "position": {
         "x": -1.524,
-        "y": 2.5,
-        "z": -2.992
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 4,
-      "catalogId": 4030,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 3,
-      "shapeId": 1,
-      "position": {
-        "x": -0.524,
         "y": 2.5,
         "z": -2.992
       },
@@ -309,30 +285,6 @@
       }
     },
     {
-      "sequence": 14,
-      "catalogId": 4030,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 3,
-      "shapeId": 1,
-      "position": {
-        "x": 0.476,
-        "y": 2.5,
-        "z": -1.992
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 15,
       "catalogId": 4030,
       "stage": 1,
@@ -487,30 +439,6 @@
         "x": 0.976,
         "y": 3.5,
         "z": -0.992
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 22,
-      "catalogId": 4030,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 3,
-      "shapeId": 1,
-      "position": {
-        "x": 0.476,
-        "y": 4.5,
-        "z": -1.992
       },
       "rotation": {
         "x": 0,
@@ -685,10 +613,11 @@
     "shiftedPlatforms": 1,
     "structureAdjustment": {
       "added": 0,
-      "removed": 3
+      "removed": 6
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

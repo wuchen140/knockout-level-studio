@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 79,
+    "entityCount": 76,
     "entityTypeCount": 16,
     "platformCount": 3,
-    "itemCount": 76,
-    "destructibleItemCount": 76,
+    "itemCount": 73,
+    "destructibleItemCount": 73,
     "specialObstacleCount": 0,
     "customEntityCount": 3
   },
@@ -93,54 +93,6 @@
       }
     },
     {
-      "sequence": 7,
-      "catalogId": 4025,
-      "stage": 1,
-      "platform": 2,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.488,
-        "y": 6.5,
-        "z": 9
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 3,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 8,
-      "catalogId": 4026,
-      "stage": 1,
-      "platform": 2,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.488,
-        "y": 9.5,
-        "z": 9
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 3,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 9,
       "catalogId": 4027,
       "stage": 1,
@@ -198,30 +150,6 @@
       "position": {
         "x": 1.488,
         "y": 9.5,
-        "z": 9
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 3,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 12,
-      "catalogId": 4024,
-      "stage": 1,
-      "platform": 2,
-      "materialId": 2,
-      "shapeId": 4,
-      "position": {
-        "x": 2.488,
-        "y": 3.5,
         "z": 9
       },
       "rotation": {
@@ -1929,10 +1857,11 @@
     "shiftedPlatforms": 3,
     "structureAdjustment": {
       "added": 0,
-      "removed": 3
+      "removed": 6
     },
     "finalVariation": {
       "type": null
-    }
+    },
+    "distinctGroupAdded": 0
   }
 }

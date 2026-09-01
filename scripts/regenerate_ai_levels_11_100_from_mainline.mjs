@@ -86,11 +86,11 @@ function shiftItemsWithinSupport(items, platforms, levelId) {
 function adjustStructure(level, levelId) {
   // Remove only topmost pieces from selected columns. This changes the
   // silhouette without cutting through an authored support chain.
-  const fragileLayouts = [44, 49, 50, 59, 72, 73, 80, 81, 84, 96, 98];
+  const fragileLayouts = [13, 14, 32, 44, 48, 49, 50, 57, 59, 72, 73, 74, 80, 81, 84, 96, 98];
   const removeCount = fragileLayouts.includes(levelId)
     ? 0
-    : levelId % 6 === 2 ? 5
-      : levelId % 6 === 3 ? 3
+    : levelId % 6 === 2 ? 8
+      : levelId % 6 === 3 ? 6
         : 0;
   const columns = new Map();
   for (const item of level.items) {
@@ -110,8 +110,8 @@ function adjustStructure(level, levelId) {
   // column. Using the source block's dimensions keeps the contact footprint.
   const addCount = fragileLayouts.includes(levelId)
     ? 0
-    : levelId % 6 === 0 ? 6
-      : levelId % 6 === 1 ? 4
+    : levelId % 6 === 0 ? 8
+      : levelId % 6 === 1 ? 6
         : 0;
   const platformIds = new Set(level.platforms.map((platform) => platform.sequence));
   const nextByPlatform = new Map();
@@ -181,6 +181,22 @@ function ensureSmallStructuralChange(source, level, levelId) {
   return { type: "micro-shift", sequence: chosen.item.sequence, amount: delta };
 }
 
+function addDistinctGroup(level, levelId) {
+  if (levelId % 4 !== 2 || [44, 49, 50, 59, 72, 73, 80, 81, 84, 96, 98].includes(levelId)) return 0;
+  const platform = level.platforms[0];
+  if (!platform) return 0;
+  const source = level.items.find((item) => item.platform === platform.sequence && Number(item.size?.x) === 1 && Number(item.size?.y) === 1 && Number(item.size?.z) === 1);
+  if (!source) return 0;
+  const next = clone(source);
+  next.sequence = Math.max(...level.items.map((item) => item.sequence)) + 1;
+  const side = levelId % 2 ? -1 : 1;
+  next.position.x = round(Number(platform.position.x) + side * Math.min(Number(platform.size.width) / 2 - 0.5, 2.2));
+  next.position.z = round(Number(platform.position.z));
+  next.position.y = 2.5;
+  level.items.push(next);
+  return 1;
+}
+
 function transformLevel(source, id) {
   const level = clone(source);
   level.levelId = id;
@@ -209,11 +225,12 @@ function transformLevel(source, id) {
   });
   // A couple of late campaign layouts are intentionally edge-loaded in the
   // source archive; leave their coordinates untouched and only vary models.
-  level.design.shiftedPlatforms = [44, 49, 50, 59, 72, 73, 80, 81, 84, 96, 98].includes(id)
+  level.design.shiftedPlatforms = [13, 14, 32, 44, 48, 49, 50, 57, 59, 72, 73, 74, 80, 81, 84, 96, 98].includes(id)
     ? 0
     : shiftItemsWithinSupport(level.items, level.platforms, id);
   level.design.structureAdjustment = adjustStructure(level, id);
   level.design.finalVariation = ensureSmallStructuralChange(source, level, id);
+  level.design.distinctGroupAdded = addDistinctGroup(level, id);
 
   level.obstacles = Object.fromEntries(Object.entries(level.obstacles || {}).map(([type, list]) => [type, list.map((obstacle, index) => {
     const next = clone(obstacle);
