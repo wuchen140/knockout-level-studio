@@ -39,10 +39,25 @@ function stageMeta(stageIndex) {
     : { area: "阶段关卡", stageIndex };
 }
 
+function profileFor(catalog, { materialId, shapeId, size = [1, 1, 1], colorId } = {}) {
+  const profiles = catalog?.profiles || [];
+  const sameMaterial = profiles.filter((profile) => profile.materialId === materialId);
+  const sameShape = sameMaterial.filter((profile) => profile.shapeId === shapeId);
+  const candidates = sameShape.length ? sameShape : sameMaterial;
+  return [...candidates].sort((a, b) => {
+    const colorPenalty = colorId == null ? 0 : Number(a.colorId !== colorId) - Number(b.colorId !== colorId);
+    const sizeA = Math.abs((a.modelSize?.[1] || 1) - (size?.[1] || 1));
+    const sizeB = Math.abs((b.modelSize?.[1] || 1) - (size?.[1] || 1));
+    return colorPenalty || sizeA - sizeB;
+  })[0] || null;
+}
+
 function makePlatform(stageIndex, index = 1) {
   return {
     uid: `platform-custom-${crypto.randomUUID()}`,
     type: "platform",
+    dataFamily: "royal-smash",
+    platformShape: "rect",
     name: `平台 ${index}`,
     ...stageMeta(stageIndex),
     path: `platforms/${index}`,
@@ -242,7 +257,7 @@ export default function CreatorPage() {
   const [toolsOpen, setToolsOpen] = useState(false);
   const [propertiesOpen, setPropertiesOpen] = useState(false);
   const [buildPattern, setBuildPattern] = useState(null);
-  const [palette, setPalette] = useState({ materialId: 0, shapeId: 0, colorId: 1, size: [1, 1, 1] });
+  const [palette, setPalette] = useState({ materialId: 1, shapeId: 0, colorId: 0, size: [1, 1, 1] });
   const [savedSnapshot, setSavedSnapshot] = useState(() => new URLSearchParams(window.location.search).get("level") ? "" : localStorage.getItem("knockout:creator:draft") || "");
   const [toast, setToast] = useState("");
   const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, impactForce: 10 });
@@ -367,9 +382,32 @@ export default function CreatorPage() {
     if (!selected) return;
     const next = clone(level);
     const item = next.objects.find((object) => object.uid === selected.uid);
-    if (item) Object.assign(item, changes);
+    if (item) {
+      Object.assign(item, changes);
+      if (item.type === "block" && ("materialId" in changes || "shapeId" in changes || "colorId" in changes)) {
+        const profile = profileFor(catalog, {
+          materialId: item.materialId,
+          shapeId: item.shapeId,
+          size: item.size,
+          colorId: item.colorId,
+        });
+        if (profile) Object.assign(item, {
+          dataFamily: "royal-smash",
+          catalogId: profile.catalogId ?? profile.id,
+          modelPath: profile.modelPath,
+          modelSize: profile.modelSize,
+          sourceShapeId: profile.sourceShapeId,
+          materialId: profile.materialId,
+          materialName: profile.material,
+          shapeId: profile.shapeId,
+          shapeName: profile.shape,
+          colorId: profile.colorId,
+          colorName: profile.colorName === "-1" ? "材质原色" : profile.colorName,
+        });
+      }
+    }
     commit(next);
-  }, [level, selected, commit]);
+  }, [level, selected, catalog, commit]);
   const updateLevel = useCallback((changes) => commit({ ...level, ...changes }), [level, commit]);
   const deleteSelected = useCallback(() => {
     if (!selectedIds.length) return;
@@ -442,18 +480,24 @@ export default function CreatorPage() {
   const addPattern = useCallback((pattern) => {
     const points = patternPoints(pattern, palette.size);
     const start = level.objects.filter((item) => item.type === "block").length;
-    const materialName = materials.find((item) => item.id === palette.materialId)?.name || "材质";
-    const shapeName = shapes.find((item) => item.id === palette.shapeId)?.name || "形状";
-    const color = colors.find((item) => item.colorId === palette.colorId);
+    const profile = profileFor(catalog, palette);
+    const materialName = profile?.material || materials.find((item) => item.id === palette.materialId)?.name || "材质";
+    const shapeName = profile?.shape || shapes.find((item) => item.id === palette.shapeId)?.name || "形状";
+    const color = colors.find((item) => item.materialId === profile?.materialId && item.colorId === profile?.colorId) || colors.find((item) => item.colorId === palette.colorId);
     const blocks = points.map((position, index) => ({
       uid: `block-custom-${crypto.randomUUID()}`,
       type: "block",
+      dataFamily: "royal-smash",
       name: `方块 ${start + index + 1}`,
       ...stageMeta(activeStage.stageIndex),
       platformIndex: null, waveIndex: null, shutterIndex: null, blockIndex: start + index + 1,
-      materialId: palette.materialId, materialName,
-      shapeId: palette.shapeId, shapeName,
-      colorId: palette.colorId, colorName: color?.name || "颜色",
+      catalogId: profile?.catalogId ?? profile?.id ?? null,
+      modelPath: profile?.modelPath || null,
+      modelSize: profile?.modelSize || [...palette.size],
+      sourceShapeId: profile?.sourceShapeId ?? palette.shapeId,
+      materialId: profile?.materialId ?? palette.materialId, materialName,
+      shapeId: profile?.shapeId ?? palette.shapeId, shapeName,
+      colorId: profile?.colorId ?? palette.colorId, colorName: profile?.colorName === "-1" ? "材质原色" : profile?.colorName || color?.name || "颜色",
       position, rotation: [0, 0, 0], size: [...palette.size],
     }));
     commit({ ...level, objects: [...level.objects, ...blocks] });
