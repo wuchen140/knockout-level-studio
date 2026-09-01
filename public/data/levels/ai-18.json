@@ -11,11 +11,11 @@
     "physicsQuality": 0
   },
   "statistics": {
-    "entityCount": 43,
+    "entityCount": 44,
     "entityTypeCount": 11,
     "platformCount": 2,
-    "itemCount": 41,
-    "destructibleItemCount": 41,
+    "itemCount": 42,
+    "destructibleItemCount": 42,
     "specialObstacleCount": 0,
     "customEntityCount": 2
   },
@@ -292,7 +292,7 @@
       "materialId": 9,
       "shapeId": 1,
       "position": {
-        "x": 4.05,
+        "x": 4,
         "y": 7.5,
         "z": -2
       },
@@ -316,7 +316,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 4.05,
+        "x": 4,
         "y": 8.5,
         "z": -2
       },
@@ -340,7 +340,7 @@
       "materialId": 9,
       "shapeId": 1,
       "position": {
-        "x": -3.95,
+        "x": -4,
         "y": 7.5,
         "z": -2
       },
@@ -364,7 +364,7 @@
       "materialId": 9,
       "shapeId": 1,
       "position": {
-        "x": -3.95,
+        "x": -4,
         "y": 8.5,
         "z": -2
       },
@@ -462,6 +462,30 @@
       "position": {
         "x": 1,
         "y": 3.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 20,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 2,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 3,
+        "y": 4.5,
         "z": -2
       },
       "rotation": {
@@ -580,7 +604,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 0.95,
+        "x": 1,
         "y": 7,
         "z": -2
       },
@@ -604,7 +628,7 @@
       "materialId": 9,
       "shapeId": 1,
       "position": {
-        "x": -1.05,
+        "x": -1,
         "y": 7.5,
         "z": -2
       },
@@ -628,7 +652,7 @@
       "materialId": 9,
       "shapeId": 1,
       "position": {
-        "x": -1.05,
+        "x": -1,
         "y": 8.5,
         "z": -2
       },
@@ -789,6 +813,30 @@
       }
     },
     {
+      "sequence": 35,
+      "catalogId": 4077,
+      "stage": 1,
+      "platform": 2,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 3,
+        "y": 5.5,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
       "sequence": 36,
       "catalogId": 4076,
       "stage": 1,
@@ -861,30 +909,6 @@
       }
     },
     {
-      "sequence": 39,
-      "catalogId": 4041,
-      "stage": 1,
-      "platform": 2,
-      "materialId": 4,
-      "shapeId": 1,
-      "position": {
-        "x": 2.95,
-        "y": 8,
-        "z": -2
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 2,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
       "sequence": 40,
       "catalogId": 4076,
       "stage": 1,
@@ -892,7 +916,7 @@
       "materialId": 9,
       "shapeId": 1,
       "position": {
-        "x": -1.95,
+        "x": -2,
         "y": 7.5,
         "z": -2
       },
@@ -916,7 +940,7 @@
       "materialId": 9,
       "shapeId": 1,
       "position": {
-        "x": -1.95,
+        "x": -2,
         "y": 8.5,
         "z": -2
       },
@@ -940,7 +964,7 @@
       "materialId": 9,
       "shapeId": 1,
       "position": {
-        "x": -2.95,
+        "x": -3,
         "y": 7.5,
         "z": -2
       },
@@ -964,7 +988,7 @@
       "materialId": 9,
       "shapeId": 1,
       "position": {
-        "x": -2.95,
+        "x": -3,
         "y": 8.5,
         "z": -2
       },
@@ -988,7 +1012,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 2.05,
+        "x": 2,
         "y": 7.5,
         "z": -2
       },
@@ -1066,7 +1090,7 @@
     "motif": "双塔",
     "structureAdjustment": {
       "added": 0,
-      "removed": 3,
+      "removed": 2,
       "upperTierReshaped": true
     }
   }

@@ -235,14 +235,14 @@ function transformEarlyLevel(source, id) {
       const localX = dx * cos + dz * sin;
       const localZ = -dx * sin + dz * cos;
       const tier = Math.round(maxY - Number(item.position.y));
-      const nudge = ((id + tier + item.sequence) % 2 ? 1 : -1) * 0.05;
+      const nudge = 0;
       const nextX = clamp(localX + nudge, -halfWidth, halfWidth);
       item.position.x = round(Number(platform.position.x) + nextX * cos - localZ * sin);
       item.position.z = round(Number(platform.position.z) + nextX * sin + localZ * cos);
     }
   }
-  const removeMap = { 10: 2, 12: 2, 16: 2, 18: 3 };
-  const addMap = { 11: 3, 13: 4, 15: 3, 19: 3 };
+  const removeMap = { 10: 2, 12: 2, 14: 2, 16: 2, 17: 1, 18: 2, 20: 4 };
+  const addMap = { 11: 3, 13: 3, 15: 3, 19: 3 };
   const removeCount = removeMap[id] || 0;
   const addCount = addMap[id] || 0;
   const columns = new Map();
@@ -285,7 +285,7 @@ function transformEarlyLevel(source, id) {
       added += 1;
     }
   }
-  level.design.structureAdjustment = { added, removed: removed.size, upperTierReshaped: true };
+  level.design.structureAdjustment = { added, removed: removed.size, upperTierReshaped: false, sourceLayoutPreserved: true };
   level.statistics = { ...level.statistics, entityCount: level.items.length + level.platforms.length + Object.values(level.obstacles || {}).flat().length, platformCount: level.platforms.length, itemCount: level.items.length, destructibleItemCount: level.items.length, specialObstacleCount: Object.values(level.obstacles || {}).flat().length, customEntityCount: level.platforms.length };
   return level;
 }
