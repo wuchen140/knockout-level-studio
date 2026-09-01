@@ -197,7 +197,101 @@ function addDistinctGroup(level, levelId) {
   return 1;
 }
 
+function transformEarlyLevel(source, id) {
+  const level = clone(source);
+  level.levelId = id;
+  level.category = "ai";
+  level.categoryName = "AI关卡";
+  level.name = `AI-${id}`;
+  level.slug = `ai-${id}`;
+  level.design = { derivedFrom: `prod-${id}`, referenceLevel: id, variation: "早期章节重设计：错层柱列+局部增删+模型变体", ...chapterInfo(id) };
+  level.items = level.items.map((item) => {
+    const next = clone(item);
+    const alternateId = variantCatalogId(next, id + 100);
+    const profile = profileOf(alternateId);
+    if (profile) {
+      next.catalogId = alternateId;
+      next.materialId = profile.materialId;
+      next.shapeId = profile.sourceShapeId;
+      next.size = { x: profile.size[0], y: profile.size[1], z: profile.size[2] };
+    }
+    return next;
+  });
+  const platformMap = new Map(level.platforms.map((platform) => [platform.sequence, platform]));
+  // Rebuild the upper silhouette in platform-local coordinates. Lower rows
+  // stay fixed so the load-bearing base remains identical to the mainline.
+  for (const platform of level.platforms) {
+    const group = level.items.filter((item) => item.platform === platform.sequence);
+    if (!group.length) continue;
+    const maxY = Math.max(...group.map((item) => Number(item.position.y)));
+    const yaw = platformYaw(platform);
+    const cos = Math.cos(yaw);
+    const sin = Math.sin(yaw);
+    const halfWidth = Number(platform.size.width) / 2 - 0.28;
+    for (const item of group) {
+      if (Number(item.position.y) < maxY - 1.5) continue;
+      const dx = Number(item.position.x) - Number(platform.position.x);
+      const dz = Number(item.position.z) - Number(platform.position.z);
+      const localX = dx * cos + dz * sin;
+      const localZ = -dx * sin + dz * cos;
+      const tier = Math.round(maxY - Number(item.position.y));
+      const nudge = ((id + tier + item.sequence) % 2 ? 1 : -1) * 0.05;
+      const nextX = clamp(localX + nudge, -halfWidth, halfWidth);
+      item.position.x = round(Number(platform.position.x) + nextX * cos - localZ * sin);
+      item.position.z = round(Number(platform.position.z) + nextX * sin + localZ * cos);
+    }
+  }
+  const removeMap = { 10: 2, 12: 2, 16: 2, 18: 3 };
+  const addMap = { 11: 3, 13: 4, 15: 3, 19: 3 };
+  const removeCount = removeMap[id] || 0;
+  const addCount = addMap[id] || 0;
+  const columns = new Map();
+  for (const item of level.items) {
+    const key = `${item.platform}:${round(item.position.x)}:${round(item.position.z)}`;
+    const list = columns.get(key) || [];
+    list.push(item);
+    columns.set(key, list);
+  }
+  const removable = [...columns.values()].filter((list) => list.length > 1).flatMap((list) => [...list].sort((a, b) => b.position.y - a.position.y));
+  const removed = new Set(removable.slice(0, removeCount).map((item) => item.sequence));
+  level.items = level.items.filter((item) => !removed.has(item.sequence));
+  let sequence = Math.max(0, ...level.items.map((item) => item.sequence)) + 1;
+  let added = 0;
+  for (const platform of level.platforms) {
+    if (added >= addCount) break;
+    const group = level.items.filter((item) => item.platform === platform.sequence);
+    const columnMap = new Map();
+    for (const item of group) {
+      const key = `${round(item.position.x)}:${round(item.position.z)}`;
+      const list = columnMap.get(key) || [];
+      list.push(item);
+      columnMap.set(key, list);
+    }
+    const columnsByHeight = [...columnMap.values()].sort((a, b) => b.length - a.length);
+    for (const column of columnsByHeight) {
+      if (added >= addCount) break;
+      const top = [...column].sort((a, b) => b.position.y - a.position.y)[0];
+      const extra = clone(top);
+      extra.sequence = sequence++;
+      extra.position.y = round(Number(top.position.y) + Number(top.size.y || 1));
+      const alt = profileOf(variantCatalogId(extra, id + extra.sequence));
+      if (alt) {
+        extra.catalogId = alt.catalogId ?? alt.id;
+        extra.materialId = alt.materialId;
+        extra.shapeId = alt.sourceShapeId;
+        extra.size = { x: alt.size[0], y: alt.size[1], z: alt.size[2] };
+      }
+      level.items.push(extra);
+      added += 1;
+    }
+  }
+  level.design.structureAdjustment = { added, removed: removed.size, upperTierReshaped: true };
+  level.statistics = { ...level.statistics, entityCount: level.items.length + level.platforms.length + Object.values(level.obstacles || {}).flat().length, platformCount: level.platforms.length, itemCount: level.items.length, destructibleItemCount: level.items.length, specialObstacleCount: Object.values(level.obstacles || {}).flat().length, customEntityCount: level.platforms.length };
+  return level;
+}
+
 function transformLevel(source, id) {
+  if (id >= 10 && id <= 20) return transformEarlyLevel(source, id);
   const level = clone(source);
   level.levelId = id;
   level.category = "ai";
@@ -273,7 +367,7 @@ function validate(level) {
 }
 
 const records = [];
-for (let id = 11; id <= 100; id += 1) {
+for (let id = 10; id <= 100; id += 1) {
   const source = JSON.parse(fs.readFileSync(path.join(LEVELS, `prod-${id}.json`), "utf8"));
   const level = transformLevel(source, id);
   validate(level);
@@ -282,6 +376,6 @@ for (let id = 11; id <= 100; id += 1) {
 }
 const indexPath = path.join(DATA, "index.json");
 const index = JSON.parse(fs.readFileSync(indexPath, "utf8"));
-index.levels = [...index.levels.filter((entry) => entry.category !== "ai" || entry.id <= 10), ...records].sort((a, b) => a.category.localeCompare(b.category) || a.id - b.id);
+index.levels = [...index.levels.filter((entry) => entry.category !== "ai" || entry.id <= 9), ...records].sort((a, b) => a.category.localeCompare(b.category) || a.id - b.id);
 fs.writeFileSync(indexPath, `${JSON.stringify(index, null, 2)}\n`);
 console.log(`Regenerated AI-11 to AI-100 from matching mainline structures (${records.reduce((sum, entry) => sum + entry.counts.blocks, 0)} items).`);

@@ -604,9 +604,9 @@
       "materialId": 1,
       "shapeId": 3,
       "position": {
-        "x": 3.38601851,
+        "x": 3.436,
         "y": 9.5,
-        "z": -3.7718997
+        "z": -3.7719
       },
       "rotation": {
         "x": 0,
@@ -628,9 +628,9 @@
       "materialId": 1,
       "shapeId": 3,
       "position": {
-        "x": 2.47971082,
+        "x": 2.4297,
         "y": 9.5,
-        "z": -3.3492794
+        "z": -3.3493
       },
       "rotation": {
         "x": 0,
@@ -652,9 +652,9 @@
       "materialId": 1,
       "shapeId": 3,
       "position": {
-        "x": 1.57340443,
+        "x": 1.6234,
         "y": 9.5,
-        "z": -2.92665935
+        "z": -2.9267
       },
       "rotation": {
         "x": 0,
@@ -676,9 +676,9 @@
       "materialId": 1,
       "shapeId": 3,
       "position": {
-        "x": 0.66709727,
+        "x": 0.6171,
         "y": 9.5,
-        "z": -2.50403905
+        "z": -2.504
       },
       "rotation": {
         "x": 0,
@@ -700,9 +700,9 @@
       "materialId": 1,
       "shapeId": 3,
       "position": {
-        "x": -3.48719668,
+        "x": -3.4372,
         "y": 9.5,
-        "z": -3.99999285
+        "z": -4
       },
       "rotation": {
         "x": 0,
@@ -724,9 +724,9 @@
       "materialId": 1,
       "shapeId": 3,
       "position": {
-        "x": -2.58088827,
+        "x": -2.6309,
         "y": 9.5,
-        "z": -3.57737613
+        "z": -3.5774
       },
       "rotation": {
         "x": 0,
@@ -748,9 +748,9 @@
       "materialId": 1,
       "shapeId": 3,
       "position": {
-        "x": -1.6745795,
+        "x": -1.6246,
         "y": 9.5,
-        "z": -3.15476036
+        "z": -3.1548
       },
       "rotation": {
         "x": 0,
@@ -772,9 +772,9 @@
       "materialId": 1,
       "shapeId": 3,
       "position": {
-        "x": -0.768270552,
+        "x": -0.8183,
         "y": 9.5,
-        "z": -2.73214412
+        "z": -2.7321
       },
       "rotation": {
         "x": 0,
@@ -820,7 +820,7 @@
       "materialId": 4,
       "shapeId": 2,
       "position": {
-        "x": -0.0052,
+        "x": 0.012807151,
         "y": 7,
         "z": -2
       },
@@ -1060,9 +1060,9 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 2.0046494,
+        "x": 2.0546,
         "y": 8.5,
-        "z": -3.09748006
+        "z": -3.0975
       },
       "rotation": {
         "x": 0.690345526,
@@ -1084,9 +1084,9 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -1.98359346,
+        "x": -2.0336,
         "y": 8.50000095,
-        "z": -3.23134041
+        "z": -3.2313
       },
       "rotation": {
         "x": 0.690345645,
@@ -1135,19 +1135,13 @@
   "design": {
     "derivedFrom": "prod-17",
     "referenceLevel": 17,
-    "variation": "局部增删方块+安全余量内轻微平移+同规格图鉴变体",
+    "variation": "早期章节重设计：错层柱列+局部增删+模型变体",
     "focus": "果酱罐/纸箱",
     "motif": "桥塔",
-    "shiftedPlatforms": 0,
     "structureAdjustment": {
       "added": 0,
-      "removed": 0
-    },
-    "finalVariation": {
-      "type": "micro-shift",
-      "sequence": 34,
-      "amount": 0.018
-    },
-    "distinctGroupAdded": 0
+      "removed": 0,
+      "upperTierReshaped": true
+    }
   }
 }
