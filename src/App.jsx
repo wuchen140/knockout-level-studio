@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
 import CreatorPage from "./CreatorPage";
-import { exportLevelExcel, exportLevelJson } from "./exportExcel";
+import { exportLevelsExcel, exportLevelJson } from "./exportExcel";
 import { withoutLegacyWeapons } from "./levelData";
 import { normalizeRoyalSmashLevel } from "./royalSmashLevel";
 
@@ -34,7 +34,7 @@ function IconButton({ title, active, className = "", children, ...props }) {
   return <button className={`icon-button ${active ? "active" : ""} ${className}`} title={title} aria-label={title} {...props}>{children}</button>;
 }
 
-function LevelSidebar({ levels, selectedKey, onChoose, onClose }) {
+function LevelSidebar({ levels, selectedKey, exportSelectedKeys, onToggleExport, onSelectAllFiltered, onClearExport, onChoose, onClose }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [difficulty, setDifficulty] = useState("all");
@@ -59,13 +59,21 @@ function LevelSidebar({ levels, selectedKey, onChoose, onClose }) {
       <label className="select-wrap"><select value={category} onChange={(event) => setCategory(event.target.value)}><option value="all">全部分类</option>{categories.map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select><ChevronDown size={13} /></label>
       <label className="select-wrap"><select value={difficulty} onChange={(event) => setDifficulty(event.target.value)}><option value="all">全部难度</option><option value="NORMAL">普通</option><option value="HARD">困难</option><option value="SUPER_HARD">超难</option></select><ChevronDown size={13} /></label>
     </div>
+    <div className="export-select-toolbar">
+      <span>{exportSelectedKeys.size ? `已选 ${exportSelectedKeys.size} 关` : "选择关卡后批量导出"}</span>
+      <button onClick={() => onSelectAllFiltered(filtered)}>{filtered.length > 0 && filtered.every((item) => exportSelectedKeys.has(item.key)) ? "取消全选" : "全选当前"}</button>
+      {exportSelectedKeys.size > 0 && <button onClick={onClearExport}>清空</button>}
+    </div>
     <div className="level-list">
-      {filtered.map((level) => <button key={level.key} className={`level-row ${selectedKey === level.key ? "selected" : ""}`} onClick={() => onChoose(level)}>
-        <span className={`difficulty-dot diff-${level.difficulty.toLowerCase().replace("_", "-")}`} />
-        <span className="level-main"><strong>{level.name || `关卡 ${level.id}`}</strong><small>{level.categoryName || level.category}</small></span>
-        <span className="level-counts"><b>{level.counts.blocks}</b><small>物品</small></span>
-        {selectedKey === level.key && <Check size={15} />}
-      </button>)}
+      {filtered.map((level) => <div key={level.key} className={`level-row ${selectedKey === level.key ? "selected" : ""}`}>
+        <input className="export-checkbox" type="checkbox" checked={exportSelectedKeys.has(level.key)} onChange={() => onToggleExport(level.key)} aria-label={`选择${level.name || `关卡 ${level.id}`}用于导出`} />
+        <button className="level-row-open" onClick={() => onChoose(level)}>
+          <span className={`difficulty-dot diff-${level.difficulty.toLowerCase().replace("_", "-")}`} />
+          <span className="level-main"><strong>{level.name || `关卡 ${level.id}`}</strong><small>{level.categoryName || level.category}</small></span>
+          <span className="level-counts"><b>{level.counts.blocks}</b><small>物品</small></span>
+          {selectedKey === level.key && <Check size={15} />}
+        </button>
+      </div>)}
       {!filtered.length && <div className="empty-state"><Search size={24} /><span>没有匹配的关卡</span></div>}
     </div>
   </aside>;
@@ -169,6 +177,8 @@ function LibraryApp() {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [toast, setToast] = useState("");
+  const [exportSelectedKeys, setExportSelectedKeys] = useState(() => new Set());
+  const [exporting, setExporting] = useState(false);
   const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, impactForce: 10 });
   const [physicsStatus, setPhysicsStatus] = useState("idle");
   const physicsTransformsRef = useRef([]);
@@ -182,6 +192,58 @@ function LibraryApp() {
     window.clearTimeout(notify.timer);
     notify.timer = window.setTimeout(() => setToast(""), 2200);
   }, []);
+
+  const toggleExportSelection = useCallback((key) => {
+    setExportSelectedKeys((current) => {
+      const next = new Set(current);
+      if (next.has(key)) next.delete(key); else next.add(key);
+      return next;
+    });
+  }, []);
+  const selectAllFiltered = useCallback((filtered) => {
+    setExportSelectedKeys((current) => {
+      const keys = filtered.map((item) => item.key);
+      const allSelected = keys.length > 0 && keys.every((key) => current.has(key));
+      const next = new Set(current);
+      keys.forEach((key) => (allSelected ? next.delete(key) : next.add(key)));
+      return next;
+    });
+  }, []);
+  const clearExportSelection = useCallback(() => setExportSelectedKeys(new Set()), []);
+
+  const exportSelectedLevels = useCallback(async () => {
+    const targets = index.filter((item) => exportSelectedKeys.has(item.key));
+    if (!targets.length) {
+      if (level) exportLevelsExcel(level);
+      else notify("请先选择要导出的关卡");
+      return;
+    }
+    if (!catalog) return;
+    setExporting(true);
+    try {
+      const loaded = await Promise.all(targets.map(async (target) => {
+        const source = await fetch(dataUrl(`levels/${target.slug}.json`)).then((response) => {
+          if (!response.ok) throw new Error("missing");
+          return response.json();
+        });
+        const normalized = normalizeRoyalSmashLevel(source, catalog);
+        const stored = localStorage.getItem(`knockout:level:${normalized.key}`);
+        if (stored) {
+          try {
+            const cached = JSON.parse(stored);
+            if (Array.isArray(cached.objects)) return withoutLegacyWeapons(cached);
+          } catch { localStorage.removeItem(`knockout:level:${normalized.key}`); }
+        }
+        return withoutLegacyWeapons(normalized);
+      }));
+      exportLevelsExcel(loaded);
+      notify(`已导出 ${loaded.length} 个关卡`);
+    } catch {
+      notify("部分关卡载入失败，未生成 Excel");
+    } finally {
+      setExporting(false);
+    }
+  }, [catalog, exportSelectedKeys, index, level, notify]);
 
   useEffect(() => {
     Promise.all([fetch(dataUrl("index.json")).then((response) => response.json()), fetch(dataUrl("catalog.json")).then((response) => response.json())])
@@ -383,7 +445,7 @@ function LibraryApp() {
       <button className="command-button secondary" disabled={physics.enabled} onClick={() => importRef.current?.click()}><Upload size={16} /><span>导入 JSON</span></button>
       <input ref={importRef} type="file" accept="application/json,.json" hidden onChange={importJson} />
       <div className="export-menu">
-        <button className="command-button secondary" onClick={() => level && exportLevelExcel(level)}><Download size={16} /><span>导出 Excel</span></button>
+        <button className="command-button secondary" disabled={exporting || !level} onClick={exportSelectedLevels}><Download size={16} /><span>{exporting ? "导出中" : exportSelectedKeys.size ? `导出 Excel（${exportSelectedKeys.size}）` : "导出 Excel"}</span></button>
         <IconButton title="导出 JSON" onClick={() => level && exportLevelJson(level)}><FileJson size={16} /></IconButton>
       </div>
       <button className={`command-button save-button ${dirty ? "dirty" : ""}`} disabled={!level} onClick={save}><Save size={16} /><span>{dirty ? "保存修改" : "已保存"}</span></button>
@@ -391,7 +453,7 @@ function LibraryApp() {
     </header>
 
     <main className="workspace">
-      <div className={`panel-wrap left-wrap ${leftOpen ? "open" : ""}`}><LevelSidebar levels={index} selectedKey={chosen?.key} onChoose={(item) => { setChosen(item); setLeftOpen(false); }} onClose={() => setLeftOpen(false)} /></div>
+      <div className={`panel-wrap left-wrap ${leftOpen ? "open" : ""}`}><LevelSidebar levels={index} selectedKey={chosen?.key} exportSelectedKeys={exportSelectedKeys} onToggleExport={toggleExportSelection} onSelectAllFiltered={selectAllFiltered} onClearExport={clearExportSelection} onChoose={(item) => { setChosen(item); setLeftOpen(false); }} onClose={() => setLeftOpen(false)} /></div>
       <section className="viewport">
         {loading && <div className="loading-overlay"><span /><p>正在构建 {chosen?.name || `关卡 ${chosen?.id}`}</p></div>}
         <LevelScene level={level} catalog={catalog} selectedId={selectedId} onSelect={(uid) => { setSelectedId(uid); if (uid) setRightOpen(true); }} onTransform={updateTransform} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} physics={physics} onPhysicsUpdate={(transforms) => { physicsTransformsRef.current = transforms; }} onPhysicsStatus={setPhysicsStatus} />

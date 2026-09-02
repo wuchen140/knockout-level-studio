@@ -79,15 +79,22 @@ button:disabled { cursor: not-allowed; opacity: .38; }
 .search-box input::placeholder { color: #a9b1b2; }
 .search-box button { display: grid; place-items: center; padding: 0; color: #93a0a1; border: 0; background: transparent; }
 .filter-row { display: flex; gap: 6px; padding: 0 14px 12px; }
+.export-select-toolbar { min-height: 28px; display: flex; align-items: center; gap: 5px; padding: 0 14px 9px; color: #899496; font: 9px 'DM Mono', monospace; }
+.export-select-toolbar span { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.export-select-toolbar button { height: 25px; padding: 0 6px; color: #438a82; border: 1px solid #c8e0db; border-radius: 4px; background: #f3faf8; font-size: 9px; }
+.export-select-toolbar button:hover { color: #21635c; background: #e6f5f1; }
 .select-wrap { flex: 1; position: relative; display: flex; align-items: center; }
 .select-wrap select, .field-row select { width: 100%; appearance: none; height: 30px; padding: 0 25px 0 8px; border: 1px solid #dce5e2; border-radius: 4px; outline: 0; color: #526064; background: #fff; font-size: 10px; }
 .select-wrap svg { position: absolute; right: 7px; color: #98a3a4; pointer-events: none; }
 .level-list { flex: 1; overflow: auto; padding: 0 7px 14px; }
 .level-list::-webkit-scrollbar, .inspector-scroll::-webkit-scrollbar { width: 5px; }
 .level-list::-webkit-scrollbar-thumb, .inspector-scroll::-webkit-scrollbar-thumb { background: #d4dfdc; border-radius: 5px; }
-.level-row { width: 100%; min-height: 49px; display: flex; align-items: center; gap: 9px; padding: 7px 10px; border: 1px solid transparent; border-radius: 5px; color: var(--ink); background: transparent; text-align: left; }
+.level-row { width: 100%; min-height: 49px; display: flex; align-items: center; gap: 7px; padding: 4px 7px; border: 1px solid transparent; border-radius: 5px; color: var(--ink); background: transparent; text-align: left; }
 .level-row:hover { background: #f2f6f5; }
 .level-row.selected { color: #154542; background: #e2f3ef; border-color: #c5e9e2; }
+.level-row-open { min-width: 0; flex: 1; display: flex; align-items: center; gap: 9px; padding: 3px; color: inherit; border: 0; background: transparent; text-align: left; }
+.level-row-open:hover { color: #154542; }
+.export-checkbox { width: 15px; height: 15px; flex: 0 0 15px; margin: 0 2px 0 1px; accent-color: var(--teal); cursor: pointer; }
 .difficulty-dot { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: #64a9a1; }
 .diff-hard { background: #db9a53; }
 .diff-super-hard { background: #e26d61; }
