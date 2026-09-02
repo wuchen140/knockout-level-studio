@@ -1,4 +1,5 @@
 import { Euler, MathUtils, Quaternion } from "three";
+import JSZip from "jszip";
 import { utils, writeFile } from "xlsx";
 
 function quaternion(rotation) {
@@ -97,11 +98,33 @@ export function formatLevelJson(level) {
 }
 
 export function exportLevelJson(level) {
-  const blob = new Blob([JSON.stringify(formatLevelJson(level), null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(formatLevelJson(level), null, 2)], { type: "application/json;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
   link.download = `${level.category}_${level.id}_关卡.json`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+export async function exportLevelsJson(levels) {
+  const list = (Array.isArray(levels) ? levels : [levels]).filter(Boolean);
+  if (!list.length) return;
+  if (list.length === 1) {
+    exportLevelJson(list[0]);
+    return;
+  }
+  const zip = new JSZip();
+  for (const level of list) {
+    const category = level.category || "custom";
+    const id = level.id ?? "unknown";
+    zip.file(`${category}/level-${id}.json`, JSON.stringify(formatLevelJson(level), null, 2));
+  }
+  const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `KnockOut_批量关卡_${list.length}关.zip`;
   link.click();
   URL.revokeObjectURL(url);
 }

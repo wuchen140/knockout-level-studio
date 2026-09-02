@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
 import CreatorPage from "./CreatorPage";
-import { exportLevelsExcel, exportLevelJson } from "./exportExcel";
+import { exportLevelsExcel, exportLevelsJson, exportLevelJson } from "./exportExcel";
 import { withoutLegacyWeapons } from "./levelData";
 import { normalizeRoyalSmashLevel } from "./royalSmashLevel";
 
@@ -211,17 +211,10 @@ function LibraryApp() {
   }, []);
   const clearExportSelection = useCallback(() => setExportSelectedKeys(new Set()), []);
 
-  const exportSelectedLevels = useCallback(async () => {
+  const loadLevelsForExport = useCallback(async () => {
     const targets = index.filter((item) => exportSelectedKeys.has(item.key));
-    if (!targets.length) {
-      if (level) exportLevelsExcel(level);
-      else notify("请先选择要导出的关卡");
-      return;
-    }
-    if (!catalog) return;
-    setExporting(true);
-    try {
-      const loaded = await Promise.all(targets.map(async (target) => {
+    if (!targets.length || !catalog) return [];
+    return Promise.all(targets.map(async (target) => {
         const source = await fetch(dataUrl(`levels/${target.slug}.json`)).then((response) => {
           if (!response.ok) throw new Error("missing");
           return response.json();
@@ -236,6 +229,18 @@ function LibraryApp() {
         }
         return withoutLegacyWeapons(normalized);
       }));
+  }, [catalog, exportSelectedKeys, index]);
+
+  const exportSelectedLevels = useCallback(async () => {
+    const targets = index.filter((item) => exportSelectedKeys.has(item.key));
+    if (!targets.length) {
+      if (level) exportLevelsExcel(level);
+      else notify("请先选择要导出的关卡");
+      return;
+    }
+    setExporting(true);
+    try {
+      const loaded = await loadLevelsForExport();
       exportLevelsExcel(loaded);
       notify(`已导出 ${loaded.length} 个关卡`);
     } catch {
@@ -243,7 +248,26 @@ function LibraryApp() {
     } finally {
       setExporting(false);
     }
-  }, [catalog, exportSelectedKeys, index, level, notify]);
+  }, [exportSelectedKeys, index, level, loadLevelsForExport, notify]);
+
+  const exportSelectedJsonLevels = useCallback(async () => {
+    const targets = index.filter((item) => exportSelectedKeys.has(item.key));
+    if (!targets.length) {
+      if (level) exportLevelJson(level);
+      else notify("请先选择要导出的关卡");
+      return;
+    }
+    setExporting(true);
+    try {
+      const loaded = await loadLevelsForExport();
+      await exportLevelsJson(loaded);
+      notify(`已导出 ${loaded.length} 个 JSON 关卡文件`);
+    } catch {
+      notify("部分关卡载入失败，未生成 JSON 文件夹");
+    } finally {
+      setExporting(false);
+    }
+  }, [exportSelectedKeys, index, level, loadLevelsForExport, notify]);
 
   useEffect(() => {
     Promise.all([fetch(dataUrl("index.json")).then((response) => response.json()), fetch(dataUrl("catalog.json")).then((response) => response.json())])
@@ -446,7 +470,7 @@ function LibraryApp() {
       <input ref={importRef} type="file" accept="application/json,.json" hidden onChange={importJson} />
       <div className="export-menu">
         <button className="command-button secondary" disabled={exporting || !level} onClick={exportSelectedLevels}><Download size={16} /><span>{exporting ? "导出中" : exportSelectedKeys.size ? `导出 Excel（${exportSelectedKeys.size}）` : "导出 Excel"}</span></button>
-        <IconButton title="导出 JSON" onClick={() => level && exportLevelJson(level)}><FileJson size={16} /></IconButton>
+        <button className="command-button secondary export-json-button" disabled={exporting || !level} title="批量导出 JSON 到文件夹" onClick={exportSelectedJsonLevels}><FileJson size={16} /><span>{exportSelectedKeys.size ? `导出 JSON（${exportSelectedKeys.size}）` : "导出 JSON"}</span></button>
       </div>
       <button className={`command-button save-button ${dirty ? "dirty" : ""}`} disabled={!level} onClick={save}><Save size={16} /><span>{dirty ? "保存修改" : "已保存"}</span></button>
       <IconButton title="打开属性面板" className="sidebar-toggle" onClick={() => setRightOpen(true)}><PanelRightClose size={18} /></IconButton>
