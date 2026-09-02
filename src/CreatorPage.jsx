@@ -330,6 +330,8 @@ export default function CreatorPage() {
   const [selectedIds, setSelectedIds] = useState([]);
   const [multiSelect, setMultiSelect] = useState(false);
   const [mode, setMode] = useState("translate");
+  const [transformSpace, setTransformSpace] = useState("world");
+  const [pivotMode, setPivotMode] = useState("center");
   const [showGrid, setShowGrid] = useState(true);
   const [snapEnabled, setSnapEnabled] = useState(true);
   const [snapSize, setSnapSize] = useState(0.5);
@@ -708,6 +710,15 @@ export default function CreatorPage() {
       if (event.key === "Escape" && buildPattern) { setBuildPattern(null); return; }
       if (event.key === "Escape" && physics.enabled) { exitPhysics(); return; }
       if (event.key === "Escape") { setSelectedIds([]); setMultiSelect(false); return; }
+      if (!event.metaKey && !event.ctrlKey && !["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
+        const key = event.key.toLowerCase();
+        if (key === "w") { setMode("translate"); return; }
+        if (key === "e") { setMode("rotate"); return; }
+        if (key === "r") { setMode("scale"); return; }
+        if (key === "f" && selectedId) { setCameraCommand((current) => ({ preset: "focus", focusUid: selectedId, token: current.token + 1 })); return; }
+        if (key === "x" && selectedItems.length > 1) { setTransformSpace((current) => current === "world" ? "local" : "world"); return; }
+        if (key === "v" && selectedItems.length > 1) { setPivotMode((current) => current === "center" ? "pivot" : "center"); return; }
+      }
       const command = event.metaKey || event.ctrlKey;
       if (command && event.key.toLowerCase() === "s") { event.preventDefault(); save(); }
       if (physics.enabled) return;
@@ -718,7 +729,7 @@ export default function CreatorPage() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [save, deleteSelected, duplicateSelected, buildPattern, physics.enabled, exitPhysics]);
+  }, [save, deleteSelected, duplicateSelected, buildPattern, physics.enabled, exitPhysics, selectedId, selectedItems.length]);
 
   const pendingPattern = PATTERNS.find((pattern) => pattern.key === buildPattern);
   const pendingCount = buildPattern ? patternPoints(buildPattern, palette.size).length : 0;
@@ -768,11 +779,14 @@ export default function CreatorPage() {
       </aside>
 
       <section className="viewport creator-viewport">
-        <LevelScene level={visibleLevel} catalog={catalog} selectedId={selectedId} selectedIds={selectedIds} onSelect={handleSceneSelect} onTransform={(uid, changes) => { const next = clone(level); const item = next.objects.find((object) => object.uid === uid); if (item) Object.assign(item, changes); commit(next); }} onTransformBatch={updateTransformBatch} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} snap={{ enabled: snapEnabled, translation: snapSize, rotation: 15, scale: snapSize }} physics={physics} onPhysicsUpdate={(transforms) => { physicsTransformsRef.current = transforms; }} onPhysicsStatus={setPhysicsStatus} />
+        <LevelScene level={visibleLevel} catalog={catalog} selectedId={selectedId} selectedIds={selectedIds} onSelect={handleSceneSelect} onTransform={(uid, changes) => { const next = clone(level); const item = next.objects.find((object) => object.uid === uid); if (item) Object.assign(item, changes); commit(next); }} onTransformBatch={updateTransformBatch} mode={mode} transformSpace={transformSpace} pivotMode={pivotMode} showGrid={showGrid} cameraCommand={cameraCommand} snap={{ enabled: snapEnabled, translation: snapSize, rotation: 15, scale: snapSize }} physics={physics} onPhysicsUpdate={(transforms) => { physicsTransformsRef.current = transforms; }} onPhysicsStatus={setPhysicsStatus} />
         <div className="scene-toolbar" aria-label="场景工具">
           <IconButton title="移动" disabled={physics.enabled} active={mode === "translate"} onClick={() => setMode("translate")}><Move3D size={18} /></IconButton>
           <IconButton title="旋转" disabled={physics.enabled} active={mode === "rotate"} onClick={() => setMode("rotate")}><Rotate3D size={18} /></IconButton>
           <IconButton title="缩放" disabled={physics.enabled} active={mode === "scale"} onClick={() => setMode("scale")}><Scaling size={18} /></IconButton>
+          <button className="transform-mode-label" title="快捷键 W/E/R 切换移动、旋转、缩放">{mode === "translate" ? "移动 W" : mode === "rotate" ? "旋转 E" : "缩放 R"}</button>
+          <button className={`transform-space-toggle ${transformSpace === "local" ? "active" : ""}`} disabled={physics.enabled} onClick={() => setTransformSpace((value) => value === "world" ? "local" : "world")} title="快捷键 X 切换世界/局部坐标">{transformSpace === "world" ? "世界" : "局部"}</button>
+          {selectedItems.length > 1 && <button className={`transform-space-toggle ${pivotMode === "pivot" ? "active" : ""}`} disabled={physics.enabled} onClick={() => setPivotMode((value) => value === "center" ? "pivot" : "center")} title="快捷键 V 切换中心/轴心">{pivotMode === "center" ? "中心" : "轴心"}</button>}
           <span />
           <IconButton title="多选对象" disabled={physics.enabled} active={multiSelect} onClick={() => setMultiSelect((value) => !value)}><MousePointer2 size={18} /></IconButton>
           <IconButton title="显示网格" active={showGrid} onClick={() => setShowGrid((value) => !value)}><Grid3X3 size={18} /></IconButton>

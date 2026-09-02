@@ -116,6 +116,10 @@ button:disabled { cursor: not-allowed; opacity: .38; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .scene-toolbar { position: absolute; top: 18px; left: 18px; display: flex; gap: 3px; padding: 4px; background: rgba(30,40,42,.9); border: 1px solid #455659; border-radius: 6px; box-shadow: 0 7px 18px rgba(5,12,12,.22); }
 .scene-toolbar span { width: 1px; margin: 4px 3px; background: #415153; }
+.transform-mode-label, .transform-space-toggle { height: 25px; padding: 0 7px; color: #aab8b8; border: 1px solid transparent; border-radius: 3px; background: transparent; font-size: 9px; white-space: nowrap; }
+.transform-mode-label { color: #e0c27b; font-family: 'DM Mono', monospace; }
+.transform-space-toggle:hover:not(:disabled), .transform-space-toggle.active { color: #7ee2d7; background: rgba(56,163,155,.17); border-color: rgba(91,205,194,.28); }
+.transform-mode-label:hover { color: #fff0c4; background: #3a4a4b; }
 .camera-toolbar { position: absolute; top: 20px; right: 19px; display: flex; gap: 4px; padding: 4px; background: rgba(30,40,42,.86); border: 1px solid #455659; border-radius: 6px; }
 .camera-toolbar button { height: 24px; padding: 0 8px; color: #aab8b8; border: 0; border-radius: 3px; background: transparent; font-size: 10px; }
 .camera-toolbar button:hover { color: #e9f4f1; background: #3a4a4b; }

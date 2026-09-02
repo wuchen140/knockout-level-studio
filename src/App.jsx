@@ -172,6 +172,8 @@ function LibraryApp() {
   const [savedSnapshot, setSavedSnapshot] = useState("");
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState("translate");
+  const [transformSpace, setTransformSpace] = useState("world");
+  const [pivotMode, setPivotMode] = useState("center");
   const [showGrid, setShowGrid] = useState(false);
   const [cameraCommand, setCameraCommand] = useState({ preset: "back", token: 0 });
   const [leftOpen, setLeftOpen] = useState(false);
@@ -426,6 +428,15 @@ function LibraryApp() {
   useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === "Escape" && physics.enabled) { exitPhysics(); return; }
+      if (!event.metaKey && !event.ctrlKey && !["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
+        const key = event.key.toLowerCase();
+        if (key === "w") { setMode("translate"); return; }
+        if (key === "e") { setMode("rotate"); return; }
+        if (key === "r") { setMode("scale"); return; }
+        if (key === "f" && selectedId) { setCameraCommand((current) => ({ preset: "focus", focusUid: selectedId, token: current.token + 1 })); return; }
+        if (key === "x") { setTransformSpace((current) => current === "world" ? "local" : "world"); return; }
+        if (key === "v" && selectedId) { setPivotMode((current) => current === "center" ? "pivot" : "center"); return; }
+      }
       const command = event.metaKey || event.ctrlKey;
       if (command && event.key.toLowerCase() === "s") { event.preventDefault(); save(); }
       if (physics.enabled) return;
@@ -435,7 +446,7 @@ function LibraryApp() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [save, deleteSelected, physics.enabled, exitPhysics]);
+  }, [save, deleteSelected, physics.enabled, exitPhysics, selectedId]);
 
   const importJson = async (event) => {
     const file = event.target.files?.[0];
@@ -480,11 +491,14 @@ function LibraryApp() {
       <div className={`panel-wrap left-wrap ${leftOpen ? "open" : ""}`}><LevelSidebar levels={index} selectedKey={chosen?.key} exportSelectedKeys={exportSelectedKeys} onToggleExport={toggleExportSelection} onSelectAllFiltered={selectAllFiltered} onClearExport={clearExportSelection} onChoose={(item) => { setChosen(item); setLeftOpen(false); }} onClose={() => setLeftOpen(false)} /></div>
       <section className="viewport">
         {loading && <div className="loading-overlay"><span /><p>正在构建 {chosen?.name || `关卡 ${chosen?.id}`}</p></div>}
-        <LevelScene level={level} catalog={catalog} selectedId={selectedId} onSelect={(uid) => { setSelectedId(uid); if (uid) setRightOpen(true); }} onTransform={updateTransform} mode={mode} showGrid={showGrid} cameraCommand={cameraCommand} physics={physics} onPhysicsUpdate={(transforms) => { physicsTransformsRef.current = transforms; }} onPhysicsStatus={setPhysicsStatus} />
+        <LevelScene level={level} catalog={catalog} selectedId={selectedId} onSelect={(uid) => { setSelectedId(uid); if (uid) setRightOpen(true); }} onTransform={updateTransform} mode={mode} transformSpace={transformSpace} pivotMode={pivotMode} showGrid={showGrid} cameraCommand={cameraCommand} physics={physics} onPhysicsUpdate={(transforms) => { physicsTransformsRef.current = transforms; }} onPhysicsStatus={setPhysicsStatus} />
         <div className="scene-toolbar" aria-label="场景工具">
           <IconButton title="移动" disabled={physics.enabled} active={mode === "translate"} onClick={() => setMode("translate")}><Move3D size={18} /></IconButton>
           <IconButton title="旋转" disabled={physics.enabled} active={mode === "rotate"} onClick={() => setMode("rotate")}><Rotate3D size={18} /></IconButton>
           <IconButton title="缩放" disabled={physics.enabled} active={mode === "scale"} onClick={() => setMode("scale")}><Scaling size={18} /></IconButton>
+          <button className="transform-mode-label" title="快捷键 W/E/R 切换移动、旋转、缩放">{mode === "translate" ? "移动 W" : mode === "rotate" ? "旋转 E" : "缩放 R"}</button>
+          <button className={`transform-space-toggle ${transformSpace === "local" ? "active" : ""}`} disabled={physics.enabled} onClick={() => setTransformSpace((value) => value === "world" ? "local" : "world")} title="快捷键 X 切换世界/局部坐标">{transformSpace === "world" ? "世界" : "局部"}</button>
+          {selectedId && <button className={`transform-space-toggle ${pivotMode === "pivot" ? "active" : ""}`} disabled={physics.enabled} onClick={() => setPivotMode((value) => value === "center" ? "pivot" : "center")} title="快捷键 V 切换中心/轴心">{pivotMode === "center" ? "中心" : "轴心"}</button>}
           <span />
           <IconButton title="显示网格" active={showGrid} onClick={() => setShowGrid((value) => !value)}><Grid3X3 size={18} /></IconButton>
           <span />

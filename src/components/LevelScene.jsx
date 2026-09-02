@@ -292,7 +292,7 @@ function modelVisual(model, spec, item, catalog) {
   return visual;
 }
 
-export default function LevelScene({ level, catalog, selectedId, selectedIds, onSelect, onTransform, onTransformBatch, mode, showGrid, cameraCommand, snap, physics, onPhysicsUpdate, onPhysicsStatus }) {
+export default function LevelScene({ level, catalog, selectedId, selectedIds, onSelect, onTransform, onTransformBatch, mode, transformSpace = "world", pivotMode = "center", showGrid, cameraCommand, snap, physics, onPhysicsUpdate, onPhysicsStatus }) {
   const mountRef = useRef(null);
   const apiRef = useRef(null);
   const transformSnapshot = useRef(null);
@@ -589,16 +589,20 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     if (activeObjects.length > 1) {
       const bounds = new THREE.Box3();
       for (const object of activeObjects) bounds.expandByObject(object);
-      api.selectionGroup.position.copy(bounds.getCenter(new THREE.Vector3()));
+      const center = pivotMode === "pivot"
+        ? activeObjects.at(-1).getWorldPosition(new THREE.Vector3())
+        : bounds.getCenter(new THREE.Vector3());
+      api.selectionGroup.position.copy(center);
       api.selectionGroup.rotation.set(0, 0, 0);
       api.selectionGroup.scale.set(1, 1, 1);
       api.selectionGroup.updateMatrixWorld(true);
       for (const object of activeObjects) api.selectionGroup.attach(object);
       api.transform.attach(api.selectionGroup);
     }
-  }, [selectedId, selectedIds, level, physics?.enabled]);
+  }, [selectedId, selectedIds, level, physics?.enabled, pivotMode]);
 
   useEffect(() => { apiRef.current?.transform.setMode(mode); }, [mode]);
+  useEffect(() => { apiRef.current?.transform.setSpace(transformSpace); }, [transformSpace]);
   useEffect(() => { if (apiRef.current) apiRef.current.grid.visible = showGrid; }, [showGrid]);
   useEffect(() => {
     const transform = apiRef.current?.transform;
@@ -614,7 +618,10 @@ export default function LevelScene({ level, catalog, selectedId, selectedIds, on
     const box = new THREE.Box3().setFromObject(api.objectGroup);
     if (api.selectionGroup.children.length) box.expandByObject(api.selectionGroup);
     if (box.isEmpty()) return;
-    const center = box.getCenter(new THREE.Vector3());
+    const focusObject = cameraCommand.preset === "focus" && cameraCommand.focusUid
+      ? api.objectsById.get(cameraCommand.focusUid)
+      : null;
+    const center = focusObject ? new THREE.Box3().setFromObject(focusObject).getCenter(new THREE.Vector3()) : box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
     const verticalFov = THREE.MathUtils.degToRad(api.camera.fov);
     const fitHeight = size.y / (2 * Math.tan(verticalFov / 2));
