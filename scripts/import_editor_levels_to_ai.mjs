@@ -134,15 +134,21 @@ function convertLevel(source) {
   };
 }
 
-const zip = await JSZip.loadAsync(fs.readFileSync(path.resolve(inputPath)));
-const entries = Object.values(zip.files).filter((entry) => !entry.dir && /(?:^|\/)level-\d+\.json$/i.test(entry.name));
-if (!entries.length) throw new Error("No level JSON files found in the ZIP");
-
 const levels = [];
-for (const entry of entries) {
-  const source = JSON.parse(await entry.async("string"));
-  if (!Array.isArray(source.objects)) throw new Error(`${entry.name} is not an editor-exported level`);
+const resolvedInput = path.resolve(inputPath);
+if (/\.json$/i.test(resolvedInput)) {
+  const source = JSON.parse(fs.readFileSync(resolvedInput, "utf8"));
+  if (!Array.isArray(source.objects)) throw new Error(`${inputPath} is not an editor-exported level`);
   levels.push(convertLevel(source));
+} else {
+  const zip = await JSZip.loadAsync(fs.readFileSync(resolvedInput));
+  const entries = Object.values(zip.files).filter((entry) => !entry.dir && /(?:^|\/)level-\d+\.json$/i.test(entry.name));
+  if (!entries.length) throw new Error("No level JSON files found in the ZIP");
+  for (const entry of entries) {
+    const source = JSON.parse(await entry.async("string"));
+    if (!Array.isArray(source.objects)) throw new Error(`${entry.name} is not an editor-exported level`);
+    levels.push(convertLevel(source));
+  }
 }
 levels.sort((a, b) => a.levelId - b.levelId);
 
