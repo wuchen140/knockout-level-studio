@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
 import { exportLevelExcel, exportLevelJson } from "./exportExcel";
+import { loadStoredLevel, removeStoredLevel, saveStoredLevel } from "./levelStorage";
 import { withoutLegacyWeapons } from "./levelData";
 import { normalizeRoyalSmashLevel } from "./royalSmashLevel";
 
@@ -346,6 +347,7 @@ export default function CreatorPage() {
   const [savedSnapshot, setSavedSnapshot] = useState(() => new URLSearchParams(window.location.search).get("level") || new URLSearchParams(window.location.search).get("mode") === "edit" ? "" : localStorage.getItem("knockout:creator:draft") || "");
   const [pickerOpen, setPickerOpen] = useState(() => new URLSearchParams(window.location.search).get("mode") === "edit" && !new URLSearchParams(window.location.search).get("level"));
   const [toast, setToast] = useState("");
+  const [saveStatus, setSaveStatus] = useState("idle");
   const [physics, setPhysics] = useState({ enabled: false, paused: false, resetToken: 0, impactForce: 10 });
   const [physicsStatus, setPhysicsStatus] = useState("idle");
   const physicsTransformsRef = useRef([]);
@@ -398,14 +400,14 @@ export default function CreatorPage() {
             return response.json();
           });
           const normalized = withCounts(withoutLegacyWeapons(normalizeRoyalSmashLevel(source, gameCatalog)));
-          const stored = localStorage.getItem(`knockout:level:${normalized.key}`);
+          const stored = await loadStoredLevel(normalized.key);
           let loaded = normalized;
           if (stored) {
             try {
               const cached = JSON.parse(stored);
               if (Array.isArray(cached.objects)) loaded = withCounts(withoutLegacyWeapons(cached));
             } catch {
-              localStorage.removeItem(`knockout:level:${normalized.key}`);
+              await removeStoredLevel(normalized.key);
             }
           }
           if (cancelled) return;
@@ -675,13 +677,21 @@ export default function CreatorPage() {
     setSelectedIds([]);
   }, [level, activeStage, commit]);
 
-  const save = useCallback(() => {
+  const save = useCallback(async () => {
     const next = withCounts(level);
     const snapshot = JSON.stringify(next);
-    if (next.key && String(next.key).startsWith("custom:")) localStorage.setItem("knockout:creator:draft", snapshot);
-    if (next.key && !String(next.key).startsWith("custom:")) localStorage.setItem(`knockout:level:${next.key}`, snapshot);
-    setSavedSnapshot(snapshot);
-    notify(next.category === "custom" ? "草稿已保存到本地" : "关卡修改已保存到本地");
+    setSaveStatus("saving");
+    try {
+      if (next.key && String(next.key).startsWith("custom:")) localStorage.setItem("knockout:creator:draft", snapshot);
+      if (next.key && !String(next.key).startsWith("custom:")) await saveStoredLevel(next.key, snapshot);
+      setSavedSnapshot(snapshot);
+      setSaveStatus("saved");
+      notify(next.category === "custom" ? "草稿已保存到本地" : `${next.name || `关卡 ${next.id}`} 保存成功`);
+      window.setTimeout(() => setSaveStatus("idle"), 1800);
+    } catch {
+      setSaveStatus("error");
+      notify("保存失败：浏览器存储不可用，请先导出 JSON 备份");
+    }
   }, [level, notify]);
 
   const resetLevel = useCallback(() => {
@@ -755,7 +765,7 @@ export default function CreatorPage() {
       <input ref={importRef} type="file" accept="application/json,.json" hidden onChange={importJson} />
       <button className="command-button secondary" onClick={() => exportLevelExcel(withCounts(level))}><Download size={16} /><span>Excel</span></button>
       <IconButton title="导出 JSON" onClick={() => exportLevelJson(withCounts(level))}><FileJson size={16} /></IconButton>
-      <button className={`command-button save-button ${dirty ? "dirty" : ""}`} onClick={save}><Save size={16} /><span>{dirty ? "保存草稿" : "已保存"}</span></button>
+      <button className={`command-button save-button ${dirty ? "dirty" : ""} ${saveStatus}`} disabled={saveStatus === "saving"} onClick={save}><Save size={16} /><span>{saveStatus === "saving" ? "保存中" : saveStatus === "saved" ? "保存成功" : saveStatus === "error" ? "重试保存" : dirty ? (level.category === "custom" ? "保存草稿" : "保存修改") : "已保存"}</span></button>
       <IconButton title="打开搭建工具" className="creator-mobile-toggle creator-mobile-tools" onClick={() => { setToolsOpen(true); setPropertiesOpen(false); }}><Layers3 size={18} /></IconButton>
       <IconButton title="打开属性面板" className="creator-mobile-toggle creator-mobile-properties" onClick={() => { setPropertiesOpen(true); setToolsOpen(false); }}><Box size={18} /></IconButton>
     </header>

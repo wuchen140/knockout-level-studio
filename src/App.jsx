@@ -10,6 +10,7 @@ import CreatorPage from "./CreatorPage";
 import { exportLevelsExcel, exportLevelsJson, exportLevelJson } from "./exportExcel";
 import { withoutLegacyWeapons } from "./levelData";
 import { normalizeRoyalSmashLevel } from "./royalSmashLevel";
+import { loadStoredLevel, removeStoredLevel, saveStoredLevel } from "./levelStorage";
 
 const clone = (value) => structuredClone(value);
 const dataUrl = (path) => `${import.meta.env.BASE_URL}data/${path}`;
