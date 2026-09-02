@@ -68,33 +68,125 @@ export function exportLevelExcel(level) {
   exportLevelsExcel([level]);
 }
 
-function pick(source, fields) {
-  return Object.fromEntries(fields.filter((field) => source?.[field] !== undefined).map((field) => [field, source[field]]));
+function number(value, fallback = 0) {
+  return Number.isFinite(Number(value)) ? Number(value) : fallback;
 }
 
-function omitNulls(value) {
-  if (Array.isArray(value)) return value.filter((item) => item !== null && item !== undefined).map(omitNulls);
-  if (!value || typeof value !== "object") return value;
-  return Object.fromEntries(
-    Object.entries(value)
-      .filter(([, item]) => item !== null && item !== undefined)
-      .map(([key, item]) => [key, omitNulls(item)]),
+function vectorObject(value, fallback = 0) {
+  return { x: number(value?.[0] ?? value?.x, fallback), y: number(value?.[1] ?? value?.y, fallback), z: number(value?.[2] ?? value?.z, fallback) };
+}
+
+function quaternionFromEuler(rotation = [0, 0, 0]) {
+  const euler = new Euler(
+    number(rotation?.[0] ?? rotation?.x) * MathUtils.DEG2RAD,
+    number(rotation?.[1] ?? rotation?.y) * MathUtils.DEG2RAD,
+    number(rotation?.[2] ?? rotation?.z) * MathUtils.DEG2RAD,
+    "XYZ",
   );
+  const value = new Quaternion().setFromEuler(euler).normalize();
+  return { x: value.x, y: value.y, z: value.z, w: value.w };
+}
+
+function sourceShapeId(item) {
+  if (item.sourceShapeId !== undefined && item.sourceShapeId !== null) return number(item.sourceShapeId, 1);
+  return number(item.shapeId, 0) + 1;
+}
+
+function sourceSize(item) {
+  const current = [number(item.size?.[0] ?? item.size?.x, 1), number(item.size?.[1] ?? item.size?.y, 1), number(item.size?.[2] ?? item.size?.z, 1)];
+  const model = item.modelSize || current;
+  const source = item.sourceSize || current;
+  return {
+    x: number(source[0], 1) * number(model[0], 1) / Math.max(number(model[0], 1), 0.0001),
+    y: number(source[1], 1) * number(current[1], 1) / Math.max(number(model[1], 1), 0.0001),
+    z: number(source[2], 1) * number(current[2], 1) / Math.max(number(model[2], 1), 0.0001),
+  };
+}
+
+function movementForEditor(motion) {
+  if (!motion) return null;
+  if (motion.vertical) return {
+    axis: "Y", min: number(motion.verticalMin), max: number(motion.verticalMax), initialDirection: motion.verticalDirection === "Negative" ? -1 : 1,
+    speed: number(motion.verticalSpeed), easeTime: number(motion.easeTime), startupDelay: number(motion.startupDelay),
+  };
+  if (motion.horizontal) return {
+    axis: motion.horizontalAxis === "Z" ? "Z" : "X", min: number(motion.horizontalMin), max: number(motion.horizontalMax), initialDirection: motion.horizontalDirection === "Negative" ? -1 : 1,
+    speed: number(motion.horizontalSpeed), easeTime: number(motion.easeTime), startupDelay: number(motion.startupDelay),
+  };
+  return null;
+}
+
+function rotationMotionForEditor(motion) {
+  if (!motion?.rotating) return null;
+  return { axis: vectorObject(motion.rotationAxis), speed: number(motion.rotationSpeed) };
+}
+
+function omitEmpty(value) {
+  if (Array.isArray(value)) return value.map(omitEmpty);
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(Object.entries(value).filter(([, item]) => item !== undefined).map(([key, item]) => [key, omitEmpty(item)]));
 }
 
 export function formatLevelJson(level) {
-  const root = pick(level, [
-    "id", "moveCount", "difficultyValue", "progressionCount", "firstProgressionLevel", "counts",
-  ]);
-  root.objects = (level.objects || [])
-    .filter((item) => item.type !== "cannon" && item.type !== "attackBall")
-    .map((item) => item.type === "platform"
-    ? pick(item, ["type", "name", "area", "stageIndex", "platformIndex", "position", "rotation", "size", "motion"])
-    : pick(item, [
-      "type", "name", "area", "stageIndex", "platformIndex", "waveIndex", "shutterIndex", "blockIndex",
-      "materialId", "shapeId", "colorId", "position", "rotation", "size",
-    ]));
-  return omitNulls(root);
+  const objects = (level.objects || []).filter((item) => item.type !== "cannon" && item.type !== "attackBall");
+  const platformObjects = objects.filter((item) => item.type === "platform");
+  const blockObjects = objects.filter((item) => item.type === "block");
+  const obstacleObjects = objects.filter((item) => ["bouncer", "blocker", "hammer"].includes(item.type));
+  const obstacles = { bouncers: [], blockers: [], hammers: [] };
+  for (const item of obstacleObjects) {
+    const key = `${item.type}s`;
+    obstacles[key].push(omitEmpty({
+      sequence: obstacles[key].length + 1,
+      id: item.sourceId,
+      position: vectorObject(item.position),
+      rotation: quaternionFromEuler(item.rotation),
+      parameters: item.parameters || {},
+    }));
+  }
+  return omitEmpty({
+    category: level.category,
+    categoryName: level.categoryName,
+    levelId: level.id,
+    settings: {
+      version: number(level.settings?.version, 1),
+      moveCount: number(level.moveCount ?? level.settings?.moveCount),
+      difficulty: number(level.difficultyValue ?? level.settings?.difficulty),
+      backgroundIndex: number(level.settings?.backgroundIndex, -1),
+      stabilizeOnSpawn: Boolean(level.settings?.stabilizeOnSpawn),
+      physicsQuality: number(level.settings?.physicsQuality),
+    },
+    statistics: {
+      entityCount: objects.length,
+      entityTypeCount: new Set(objects.map((item) => item.type)).size,
+      platformCount: platformObjects.length,
+      itemCount: blockObjects.length,
+      destructibleItemCount: blockObjects.length,
+      specialObstacleCount: obstacleObjects.length,
+      customEntityCount: platformObjects.length,
+    },
+    items: blockObjects.map((item, index) => omitEmpty({
+      sequence: index + 1,
+      catalogId: item.catalogId,
+      stage: item.stageIndex ?? 1,
+      platform: item.platformIndex ?? 1,
+      materialId: item.materialId,
+      shapeId: sourceShapeId(item),
+      position: vectorObject(item.position),
+      rotation: quaternionFromEuler(item.rotation),
+      size: sourceSize(item),
+    })),
+    platforms: platformObjects.map((item, index) => omitEmpty({
+      sequence: item.platformIndex ?? index + 1,
+      id: item.sourceId || (item.platformShape === "circle" ? "Table_Circle" : "Table_Rect"),
+      shape: item.platformShape || "rect",
+      position: vectorObject(item.position),
+      rotation: quaternionFromEuler(item.rotation),
+      size: { width: number(item.size?.[0], 1), depth: number(item.size?.[2], 1) },
+      movement: movementForEditor(item.motion),
+      rotationMotion: rotationMotionForEditor(item.motion),
+    })),
+    obstacles,
+  });
 }
 
 export function exportLevelJson(level) {
