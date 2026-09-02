@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
   ArrowLeft, ArrowRight, Box, Check, ChevronDown, Copy, Download, FileJson, Grid3X3, Layers3,
-  MousePointer2, Move3D, Pause, Play, Plus, Redo2, Rotate3D, RotateCcw, Save,
+  MousePointer2, Move3D, Palette, Pause, Play, Plus, Redo2, Rotate3D, RotateCcw, Save,
   Scaling, Search, Sparkles, Trash2, Undo2, Upload, X,
 } from "lucide-react";
 import LevelScene from "./components/LevelScene";
@@ -218,10 +218,15 @@ function patternPoints(pattern, size) {
   ])).flat();
 }
 
-function BatchInspector({ selectedItems, onApply, onDelete, onDuplicate, onSelectAll, onSelectSameMaterial, onClear }) {
+function BatchInspector({ selectedItems, catalog, onApply, onReplaceAppearance, onDelete, onDuplicate, onSelectAll, onSelectSameMaterial, onClear }) {
   const [offset, setOffset] = useState([0, 0, 0]);
   const [rotation, setRotation] = useState([0, 0, 0]);
   const [scale, setScale] = useState([1, 1, 1]);
+  const [materialId, setMaterialId] = useState(null);
+  const [colorId, setColorId] = useState(null);
+  const materials = useMemo(() => [...new Map((catalog?.profiles || []).map((item) => [item.materialId, item.material])).entries()].map(([id, name]) => ({ id, name })), [catalog]);
+  const colors = useMemo(() => [...new Map((catalog?.colors || []).map((item) => [item.colorId, item])).values()].sort((a, b) => a.colorId - b.colorId), [catalog]);
+  const blockCount = selectedItems.filter((item) => item.type === "block").length;
   const vectorFields = (value, setValue, step = 0.5) => <div className="vector-grid">{value.map((item, index) => <NumberField key={index} label={["X", "Y", "Z"][index]} value={item} step={step} onCommit={(next) => { const vector = [...value]; vector[index] = next; setValue(vector); }} />)}</div>;
 
   return <div className="inspector-scroll batch-inspector">
@@ -246,6 +251,13 @@ function BatchInspector({ selectedItems, onApply, onDelete, onDuplicate, onSelec
       {vectorFields(scale, setScale, 0.1)}
       <button className="batch-apply" onClick={() => { onApply({ scale }); setScale([1, 1, 1]); }}><Scaling size={14} />应用缩放</button>
     </div>
+    <div className="property-section batch-appearance">
+      <div className="section-label"><Palette size={13} />批量替换外观 <small>仅作用于 {blockCount} 个方块</small></div>
+      <label className="field-row"><span>材质</span><select value={materialId ?? ""} onChange={(event) => setMaterialId(event.target.value === "" ? null : Number(event.target.value))}><option value="">选择材质</option>{materials.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+      <button className="batch-apply" disabled={!blockCount || materialId == null} onClick={() => { onReplaceAppearance({ materialId }); setMaterialId(null); }}><Palette size={14} />替换材质</button>
+      <div className="batch-color-row"><span>颜色</span><div className="swatches">{colors.map((item) => <button key={item.colorId} className={colorId === item.colorId ? "selected" : ""} title={item.name} aria-label={item.name} style={{ "--swatch": item.hex }} onClick={() => setColorId(item.colorId)} />)}</div></div>
+      <button className="batch-apply" disabled={!blockCount || colorId == null} onClick={() => { onReplaceAppearance({ colorId }); setColorId(null); }}><Palette size={14} />替换颜色</button>
+    </div>
     <div className="property-section batch-selection-actions"><div className="section-label">选择工具</div>
       <button onClick={onSelectAll}>全选方块</button>
       <button disabled={selectedItems.at(-1)?.type !== "block"} onClick={onSelectSameMaterial}>同材质</button>
@@ -254,7 +266,7 @@ function BatchInspector({ selectedItems, onApply, onDelete, onDuplicate, onSelec
   </div>;
 }
 
-function CreatorInspector({ level, selected, selectedItems, catalog, activeStage, onUpdate, onDelete, onDuplicate, onLevelUpdate, onBatchApply, onSelectAll, onSelectSameMaterial, onClearSelection, open }) {
+function CreatorInspector({ level, selected, selectedItems, catalog, activeStage, onUpdate, onDelete, onDuplicate, onLevelUpdate, onBatchApply, onReplaceAppearance, onSelectAll, onSelectSameMaterial, onClearSelection, open }) {
   const materials = useMemo(() => [...new Map((catalog?.profiles || []).map((item) => [item.materialId, item.material])).entries()].map(([id, name]) => ({ id, name })), [catalog]);
   const shapes = useMemo(() => [...new Map((catalog?.profiles || []).map((item) => [item.shapeId, item.shape])).entries()].map(([id, name]) => ({ id, name })), [catalog]);
   const colors = useMemo(() => [...new Map((catalog?.colors || []).map((item) => [item.colorId, item])).values()].sort((a, b) => a.colorId - b.colorId), [catalog]);
@@ -262,7 +274,7 @@ function CreatorInspector({ level, selected, selectedItems, catalog, activeStage
   const multiple = selectedItems.length > 1;
   return <aside className={`creator-properties ${open ? "open" : ""}`}>
     <div className="creator-panel-title"><div><strong>{multiple ? "批量编辑" : selected ? "对象属性" : "关卡设置"}</strong><small>{multiple ? `${selectedItems.length} 个对象` : selected ? selected.name : activeStage.name}</small></div></div>
-    {multiple ? <BatchInspector selectedItems={selectedItems} onApply={onBatchApply} onDelete={onDelete} onDuplicate={onDuplicate} onSelectAll={onSelectAll} onSelectSameMaterial={onSelectSameMaterial} onClear={onClearSelection} /> : selected ? <div className="inspector-scroll">
+    {multiple ? <BatchInspector selectedItems={selectedItems} catalog={catalog} onApply={onBatchApply} onReplaceAppearance={onReplaceAppearance} onDelete={onDelete} onDuplicate={onDuplicate} onSelectAll={onSelectAll} onSelectSameMaterial={onSelectSameMaterial} onClear={onClearSelection} /> : selected ? <div className="inspector-scroll">
       <div className="object-heading">
         <span className={`object-icon ${selected.type}`}><Box size={17} /></span>
         <div><strong>{selected.name}</strong><small>{OBJECT_LABELS[selected.type] || "对象"} · {activeStage.name}</small></div>
@@ -534,6 +546,36 @@ export default function CreatorPage() {
     commit(next);
   }, [level, selectedIds, selectedItems.length, commit]);
 
+  const replaceBatchAppearance = useCallback(({ materialId, colorId }) => {
+    if (!selectedItems.some((item) => item.type === "block")) return;
+    const ids = new Set(selectedIds);
+    const next = clone(level);
+    for (const item of next.objects) {
+      if (!ids.has(item.uid) || item.type !== "block") continue;
+      const profile = profileFor(catalog, {
+        ...item,
+        materialId: materialId ?? item.materialId,
+        colorId: colorId ?? item.colorId,
+      });
+      if (!profile) continue;
+      Object.assign(item, {
+        dataFamily: "royal-smash",
+        catalogId: profile.catalogId ?? profile.id,
+        modelPath: profile.modelPath,
+        modelSize: profile.modelSize,
+        sourceShapeId: profile.sourceShapeId,
+        materialId: profile.materialId,
+        materialName: profile.material,
+        shapeId: profile.shapeId,
+        shapeName: profile.shape,
+        colorId: profile.colorId,
+        colorName: profile.colorName === "-1" ? "材质原色" : profile.colorName,
+      });
+    }
+    commit(next);
+    notify(materialId != null ? "已批量替换材质" : "已批量替换颜色");
+  }, [catalog, commit, level, notify, selectedIds, selectedItems]);
+
   const updateTransformBatch = useCallback((changes) => {
     if (!changes?.length) return;
     const next = clone(level);
@@ -769,7 +811,7 @@ export default function CreatorPage() {
         </div>
       </section>
 
-      <CreatorInspector level={level} selected={selected} selectedItems={selectedItems} catalog={catalog} activeStage={activeStage} onUpdate={updateSelected} onDelete={deleteSelected} onDuplicate={duplicateSelected} onLevelUpdate={updateLevel} onBatchApply={applyBatch} onSelectAll={selectAllBlocks} onSelectSameMaterial={selectSameMaterial} onClearSelection={() => setSelectedIds([])} open={propertiesOpen} />
+      <CreatorInspector level={level} selected={selected} selectedItems={selectedItems} catalog={catalog} activeStage={activeStage} onUpdate={updateSelected} onDelete={deleteSelected} onDuplicate={duplicateSelected} onLevelUpdate={updateLevel} onBatchApply={applyBatch} onReplaceAppearance={replaceBatchAppearance} onSelectAll={selectAllBlocks} onSelectSameMaterial={selectSameMaterial} onClearSelection={() => setSelectedIds([])} open={propertiesOpen} />
       {(toolsOpen || propertiesOpen) && <button className="creator-mobile-scrim" aria-label="关闭面板" onClick={() => { setToolsOpen(false); setPropertiesOpen(false); }} />}
     </main>
     {pendingPattern && <div className="build-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setBuildPattern(null); }}>
