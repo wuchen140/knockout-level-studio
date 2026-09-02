@@ -72,8 +72,8 @@ function profileFor(catalog, { materialId, shapeId, size = [1, 1, 1], colorId } 
   const candidates = sameShape.length ? sameShape : sameMaterial;
   return [...candidates].sort((a, b) => {
     const colorPenalty = colorId == null ? 0 : Number(a.colorId !== colorId) - Number(b.colorId !== colorId);
-    const sizeA = Math.abs((a.modelSize?.[1] || 1) - (size?.[1] || 1));
-    const sizeB = Math.abs((b.modelSize?.[1] || 1) - (size?.[1] || 1));
+    const sizeA = (a.modelSize || [1, 1, 1]).reduce((sum, value, index) => sum + Math.abs(value - (size?.[index] || 1)), 0);
+    const sizeB = (b.modelSize || [1, 1, 1]).reduce((sum, value, index) => sum + Math.abs(value - (size?.[index] || 1)), 0);
     return colorPenalty || sizeA - sizeB;
   })[0] || null;
 }
@@ -223,8 +223,10 @@ function BatchInspector({ selectedItems, catalog, onApply, onReplaceAppearance, 
   const [rotation, setRotation] = useState([0, 0, 0]);
   const [scale, setScale] = useState([1, 1, 1]);
   const [materialId, setMaterialId] = useState(null);
+  const [shapeId, setShapeId] = useState(null);
   const [colorId, setColorId] = useState(null);
   const materials = useMemo(() => [...new Map((catalog?.profiles || []).map((item) => [item.materialId, item.material])).entries()].map(([id, name]) => ({ id, name })), [catalog]);
+  const shapes = useMemo(() => [...new Map((catalog?.profiles || []).filter((item) => materialId == null || item.materialId === materialId).map((item) => [item.shapeId, item.shape])).entries()].map(([id, name]) => ({ id, name })), [catalog, materialId]);
   const colors = useMemo(() => [...new Map((catalog?.colors || []).map((item) => [item.colorId, item])).values()].sort((a, b) => a.colorId - b.colorId), [catalog]);
   const blockCount = selectedItems.filter((item) => item.type === "block").length;
   const vectorFields = (value, setValue, step = 0.5) => <div className="vector-grid">{value.map((item, index) => <NumberField key={index} label={["X", "Y", "Z"][index]} value={item} step={step} onCommit={(next) => { const vector = [...value]; vector[index] = next; setValue(vector); }} />)}</div>;
@@ -253,8 +255,9 @@ function BatchInspector({ selectedItems, catalog, onApply, onReplaceAppearance, 
     </div>
     <div className="property-section batch-appearance">
       <div className="section-label"><Palette size={13} />批量替换外观 <small>仅作用于 {blockCount} 个方块</small></div>
-      <label className="field-row"><span>材质</span><select value={materialId ?? ""} onChange={(event) => setMaterialId(event.target.value === "" ? null : Number(event.target.value))}><option value="">选择材质</option>{materials.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-      <button className="batch-apply" disabled={!blockCount || materialId == null} onClick={() => { onReplaceAppearance({ materialId }); setMaterialId(null); }}><Palette size={14} />替换材质</button>
+      <label className="field-row"><span>材质</span><select value={materialId ?? ""} onChange={(event) => { setMaterialId(event.target.value === "" ? null : Number(event.target.value)); setShapeId(null); }}><option value="">选择材质</option>{materials.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+      <label className="field-row"><span>形状</span><select value={shapeId ?? ""} disabled={materialId == null} onChange={(event) => setShapeId(event.target.value === "" ? null : Number(event.target.value))}><option value="">选择形状</option>{shapes.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+      <button className="batch-apply" disabled={!blockCount || materialId == null || shapeId == null} onClick={() => { onReplaceAppearance({ materialId, shapeId }); setMaterialId(null); setShapeId(null); }}><Palette size={14} />替换材质和形状</button>
       <div className="batch-color-row"><span>颜色</span><div className="swatches">{colors.map((item) => <button key={item.colorId} className={colorId === item.colorId ? "selected" : ""} title={item.name} aria-label={item.name} style={{ "--swatch": item.hex }} onClick={() => setColorId(item.colorId)} />)}</div></div>
       <button className="batch-apply" disabled={!blockCount || colorId == null} onClick={() => { onReplaceAppearance({ colorId }); setColorId(null); }}><Palette size={14} />替换颜色</button>
     </div>
@@ -548,7 +551,7 @@ export default function CreatorPage() {
     commit(next);
   }, [level, selectedIds, selectedItems.length, commit]);
 
-  const replaceBatchAppearance = useCallback(({ materialId, colorId }) => {
+  const replaceBatchAppearance = useCallback(({ materialId, shapeId, colorId }) => {
     if (!selectedItems.some((item) => item.type === "block")) return;
     const ids = new Set(selectedIds);
     const next = clone(level);
@@ -557,6 +560,7 @@ export default function CreatorPage() {
       const profile = profileFor(catalog, {
         ...item,
         materialId: materialId ?? item.materialId,
+        shapeId: shapeId ?? item.shapeId,
         colorId: colorId ?? item.colorId,
       });
       if (!profile) continue;
@@ -575,7 +579,7 @@ export default function CreatorPage() {
       });
     }
     commit(next);
-    notify(materialId != null ? "已批量替换材质" : "已批量替换颜色");
+    notify(materialId != null ? "已批量替换材质和形状" : "已批量替换颜色");
   }, [catalog, commit, level, notify, selectedIds, selectedItems]);
 
   const updateTransformBatch = useCallback((changes) => {
