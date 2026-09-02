@@ -144,9 +144,9 @@ export function formatLevelJson(level) {
     }));
   }
   return omitEmpty({
+    levelId: level.id,
     category: level.category,
     categoryName: level.categoryName,
-    levelId: level.id,
     settings: {
       version: number(level.settings?.version, 1),
       moveCount: number(level.moveCount ?? level.settings?.moveCount),
