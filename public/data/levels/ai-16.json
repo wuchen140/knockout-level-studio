@@ -13,34 +13,33 @@
     "physicsQuality": 0
   },
   "design": {
-    "revision": "2026-09-07",
+    "revision": "2026-09-07-v2",
     "referenceLevel": 16,
-    "motif": "纸箱登阶",
-    "lesson": "纯纸箱新材料教学；单层六级台阶，保持低物品量和清晰接触关系。",
-    "weakPoint": "高台阶底部；对照低阶可感知纸箱较重。",
+    "motif": "纸箱山门",
+    "lesson": "纯纸箱新材料教学；单层五列构成中高两低的缓坡。",
+    "weakPoint": "顶层边缘先卸载，再比较满载底部。",
     "approach": "依据原始主线材料、几何与物理数据独立搭建",
     "intendedTargets": [
-      1,
-      2,
-      4,
+      3,
       7,
-      11,
-      16
+      12,
+      16,
+      19
     ],
     "comparisonTargets": [
-      3,
-      6,
-      10,
-      15,
-      21
+      1,
+      4,
+      8,
+      13,
+      17
     ]
   },
   "statistics": {
-    "entityCount": 22,
+    "entityCount": 20,
     "entityTypeCount": 2,
     "platformCount": 1,
-    "itemCount": 21,
-    "destructibleItemCount": 21,
+    "itemCount": 19,
+    "destructibleItemCount": 19,
     "specialObstacleCount": 0,
     "customEntityCount": 1
   },
@@ -53,7 +52,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -2.6,
+        "x": -2.08,
         "y": 2.5,
         "z": -2
       },
@@ -77,8 +76,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -1.56,
-        "y": 2.5,
+        "x": -2.08,
+        "y": 3.5,
         "z": -2
       },
       "rotation": {
@@ -101,8 +100,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -1.56,
-        "y": 3.5,
+        "x": -2.08,
+        "y": 4.5,
         "z": -2
       },
       "rotation": {
@@ -125,7 +124,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -0.52,
+        "x": -1.04,
         "y": 2.5,
         "z": -2
       },
@@ -149,7 +148,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -0.52,
+        "x": -1.04,
         "y": 3.5,
         "z": -2
       },
@@ -173,7 +172,7 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": -0.52,
+        "x": -1.04,
         "y": 4.5,
         "z": -2
       },
@@ -197,8 +196,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 0.52,
-        "y": 2.5,
+        "x": -1.04,
+        "y": 5.5,
         "z": -2
       },
       "rotation": {
@@ -221,8 +220,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 0.52,
-        "y": 3.5,
+        "x": 0,
+        "y": 2.5,
         "z": -2
       },
       "rotation": {
@@ -245,8 +244,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 0.52,
-        "y": 4.5,
+        "x": 0,
+        "y": 3.5,
         "z": -2
       },
       "rotation": {
@@ -269,8 +268,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 0.52,
-        "y": 5.5,
+        "x": 0,
+        "y": 4.5,
         "z": -2
       },
       "rotation": {
@@ -293,8 +292,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 1.56,
-        "y": 2.5,
+        "x": 0,
+        "y": 5.5,
         "z": -2
       },
       "rotation": {
@@ -317,8 +316,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 1.56,
-        "y": 3.5,
+        "x": 0,
+        "y": 6.5,
         "z": -2
       },
       "rotation": {
@@ -341,8 +340,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 1.56,
-        "y": 4.5,
+        "x": 1.04,
+        "y": 2.5,
         "z": -2
       },
       "rotation": {
@@ -365,8 +364,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 1.56,
-        "y": 5.5,
+        "x": 1.04,
+        "y": 3.5,
         "z": -2
       },
       "rotation": {
@@ -389,8 +388,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 1.56,
-        "y": 6.5,
+        "x": 1.04,
+        "y": 4.5,
         "z": -2
       },
       "rotation": {
@@ -413,8 +412,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 2.6,
-        "y": 2.5,
+        "x": 1.04,
+        "y": 5.5,
         "z": -2
       },
       "rotation": {
@@ -437,8 +436,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 2.6,
-        "y": 3.5,
+        "x": 2.08,
+        "y": 2.5,
         "z": -2
       },
       "rotation": {
@@ -461,8 +460,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 2.6,
-        "y": 4.5,
+        "x": 2.08,
+        "y": 3.5,
         "z": -2
       },
       "rotation": {
@@ -485,56 +484,8 @@
       "materialId": 4,
       "shapeId": 1,
       "position": {
-        "x": 2.6,
-        "y": 5.5,
-        "z": -2
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 20,
-      "catalogId": 4040,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 4,
-      "shapeId": 1,
-      "position": {
-        "x": 2.6,
-        "y": 6.5,
-        "z": -2
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "size": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "sequence": 21,
-      "catalogId": 4040,
-      "stage": 1,
-      "platform": 1,
-      "materialId": 4,
-      "shapeId": 1,
-      "position": {
-        "x": 2.6,
-        "y": 7.5,
+        "x": 2.08,
+        "y": 4.5,
         "z": -2
       },
       "rotation": {
@@ -567,7 +518,7 @@
         "w": 1
       },
       "size": {
-        "width": 6.7,
+        "width": 5.5,
         "depth": 1.4
       },
       "movement": null,
