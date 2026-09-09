@@ -6,6 +6,7 @@
   "scripts": {
     "data": "python3 scripts/export_web_data.py",
     "data:ai": "node scripts/generate_ai_levels_1_10.mjs",
+    "check:ai:1-10": "node scripts/check_ai_1_10.mjs",
     "data:ai:11-100": "node scripts/generate_ai_levels_11_100.mjs",
     "data:ai:from-mainline": "node scripts/regenerate_ai_levels_11_100_from_mainline.mjs",
     "data:ai:21-100": "node scripts/redesign_ai_21_100_20260907.mjs",
