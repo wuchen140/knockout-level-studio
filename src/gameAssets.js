@@ -30,6 +30,10 @@ function nearestLength(value) {
 export function assetSpecFor(item) {
   if (!item) return null;
   if (item.dataFamily === "royal-smash") {
+    if (item.type === "bouncer") {
+      const variant = Math.max(1, Math.min(5, Number(item.sourceId?.match(/(\d+)$/)?.[1]) || 1));
+      return { key: `royal-smash-bouncer-${variant}`, material: "royal-smash-bouncer", nominalSize: [1, variant, 1], url: `royal-smash/bouncer-${variant}.glb` };
+    }
     if (item.type === "platform") {
       const shape = item.platformShape === "round" ? "round" : "rect";
       return {

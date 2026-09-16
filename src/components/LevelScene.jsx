@@ -217,7 +217,7 @@ function makeEditableObject(item, catalog) {
 function modelVisual(model, spec, item, catalog) {
   const visual = model.scene.clone(true);
   visual.name = `${item.name} 游戏模型`;
-  if (spec.material === "royal-smash" || spec.material === "royal-smash-platform") {
+  if (spec.material === "royal-smash" || spec.material === "royal-smash-platform" || spec.material === "royal-smash-bouncer") {
     if (spec.material === "royal-smash-platform") {
       const inverseWidth = 1 / Math.max(item.size?.[0] || 1, 0.05);
       const inverseDepth = 1 / Math.max(item.size?.[2] || 1, 0.05);
