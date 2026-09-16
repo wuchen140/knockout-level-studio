@@ -17,7 +17,7 @@
     "itemCount": 90,
     "destructibleItemCount": 90,
     "specialObstacleCount": 0,
-    "customEntityCount": 2
+    "customEntityCount": 92
   },
   "items": [
     {
@@ -2140,7 +2140,7 @@
       "materialId": 1,
       "shapeId": 1,
       "position": {
-        "x": 7.15256e-7,
+        "x": 7.15255737e-7,
         "y": 2.50000072,
         "z": -2
       },
@@ -2164,7 +2164,7 @@
       "materialId": 1,
       "shapeId": 1,
       "position": {
-        "x": 0.00000143051,
+        "x": 0.00000143051136,
         "y": 8.50000095,
         "z": -2
       },
@@ -2203,12 +2203,12 @@
       },
       "movement": {
         "axis": "X",
-        "min": -0.6,
-        "max": 0.6,
+        "min": -0.600000024,
+        "max": 0.600000024,
         "speed": 1,
         "initialDirection": 1,
         "easeTime": 0.5,
-        "startupDelay": 0.1
+        "startupDelay": 0.100000001
       },
       "rotationMotion": null
     },
@@ -2233,12 +2233,12 @@
       },
       "movement": {
         "axis": "X",
-        "min": -0.6,
-        "max": 0.6,
+        "min": -0.600000024,
+        "max": 0.600000024,
         "speed": 1,
         "initialDirection": -1,
         "easeTime": 0.5,
-        "startupDelay": 0.1
+        "startupDelay": 0.100000001
       },
       "rotationMotion": null
     }

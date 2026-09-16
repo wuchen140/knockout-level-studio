@@ -4,7 +4,7 @@
   "categoryName": "主线关卡（RS 1）",
   "settings": {
     "version": 1,
-    "moveCount": 18,
+    "moveCount": 24,
     "difficulty": 0,
     "backgroundIndex": -1,
     "stabilizeOnSpawn": false,
@@ -12,12 +12,12 @@
   },
   "statistics": {
     "entityCount": 62,
-    "entityTypeCount": 12,
+    "entityTypeCount": 11,
     "platformCount": 1,
     "itemCount": 59,
     "destructibleItemCount": 59,
     "specialObstacleCount": 2,
-    "customEntityCount": 3
+    "customEntityCount": 62
   },
   "items": [
     {
@@ -29,7 +29,7 @@
       "shapeId": 1,
       "position": {
         "x": -3,
-        "y": 2.5,
+        "y": 8.5,
         "z": -1.49502301
       },
       "rotation": {
@@ -53,7 +53,7 @@
       "shapeId": 1,
       "position": {
         "x": -3,
-        "y": 2.5,
+        "y": 8.5,
         "z": -0.495023012
       },
       "rotation": {
@@ -125,7 +125,7 @@
       "shapeId": 1,
       "position": {
         "x": 3,
-        "y": 2.5,
+        "y": 8.5,
         "z": -1.49502301
       },
       "rotation": {
@@ -149,7 +149,7 @@
       "shapeId": 1,
       "position": {
         "x": 3,
-        "y": 2.5,
+        "y": 8.5,
         "z": -0.495023012
       },
       "rotation": {
@@ -173,7 +173,7 @@
       "shapeId": 1,
       "position": {
         "x": -3,
-        "y": 8.5,
+        "y": 2.5,
         "z": -1.49502301
       },
       "rotation": {
@@ -197,7 +197,7 @@
       "shapeId": 1,
       "position": {
         "x": -3,
-        "y": 8.5,
+        "y": 2.5,
         "z": -0.495023012
       },
       "rotation": {
@@ -269,7 +269,7 @@
       "shapeId": 1,
       "position": {
         "x": 3,
-        "y": 8.5,
+        "y": 2.5,
         "z": -1.49502301
       },
       "rotation": {
@@ -293,7 +293,7 @@
       "shapeId": 1,
       "position": {
         "x": 3,
-        "y": 8.5,
+        "y": 2.5,
         "z": -0.495023012
       },
       "rotation": {
@@ -317,7 +317,7 @@
       "shapeId": 1,
       "position": {
         "x": -3,
-        "y": 2.5,
+        "y": 8.5,
         "z": -2.49502301
       },
       "rotation": {
@@ -365,7 +365,7 @@
       "shapeId": 1,
       "position": {
         "x": 3,
-        "y": 2.5,
+        "y": 8.5,
         "z": -2.49502301
       },
       "rotation": {
@@ -437,7 +437,7 @@
       "shapeId": 1,
       "position": {
         "x": -3,
-        "y": 8.5,
+        "y": 2.5,
         "z": -2.49502301
       },
       "rotation": {
@@ -485,7 +485,7 @@
       "shapeId": 1,
       "position": {
         "x": 3,
-        "y": 8.5,
+        "y": 2.5,
         "z": -2.49502301
       },
       "rotation": {
@@ -502,7 +502,7 @@
     },
     {
       "sequence": 21,
-      "catalogId": 4085,
+      "catalogId": 4084,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -526,7 +526,7 @@
     },
     {
       "sequence": 22,
-      "catalogId": 4089,
+      "catalogId": 4083,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -646,7 +646,7 @@
     },
     {
       "sequence": 27,
-      "catalogId": 4085,
+      "catalogId": 4084,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -670,7 +670,7 @@
     },
     {
       "sequence": 28,
-      "catalogId": 4085,
+      "catalogId": 4084,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -694,7 +694,7 @@
     },
     {
       "sequence": 29,
-      "catalogId": 4089,
+      "catalogId": 4083,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -718,7 +718,7 @@
     },
     {
       "sequence": 30,
-      "catalogId": 4089,
+      "catalogId": 4083,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -862,7 +862,7 @@
     },
     {
       "sequence": 36,
-      "catalogId": 4085,
+      "catalogId": 4084,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -886,7 +886,7 @@
     },
     {
       "sequence": 37,
-      "catalogId": 4089,
+      "catalogId": 4083,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -958,7 +958,7 @@
     },
     {
       "sequence": 40,
-      "catalogId": 4085,
+      "catalogId": 4084,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -982,7 +982,7 @@
     },
     {
       "sequence": 41,
-      "catalogId": 4085,
+      "catalogId": 4084,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -1006,7 +1006,7 @@
     },
     {
       "sequence": 42,
-      "catalogId": 4089,
+      "catalogId": 4083,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -1030,7 +1030,7 @@
     },
     {
       "sequence": 43,
-      "catalogId": 4089,
+      "catalogId": 4083,
       "stage": 1,
       "platform": 1,
       "materialId": 9,
@@ -1445,7 +1445,7 @@
       "position": {
         "x": 0,
         "y": 2,
-        "z": -1.465
+        "z": -1.46500754
       },
       "rotation": {
         "x": 0,
@@ -1468,20 +1468,20 @@
         "sequence": 1,
         "id": "Blocker_L",
         "position": {
-          "x": -1.305,
-          "y": 4.5,
-          "z": -5.295
+          "x": -1.60000002,
+          "y": 5.5,
+          "z": -5.46196938
         },
         "rotation": {
           "x": 0,
           "y": 0,
-          "z": 0.707,
-          "w": 0.707
+          "z": 0.707106888,
+          "w": 0.707106709
         },
         "parameters": {
           "rotSpeed": -90,
           "travel": {
-            "x": -1.5,
+            "x": -1,
             "y": 0,
             "z": 0
           },
@@ -1493,20 +1493,20 @@
         "sequence": 2,
         "id": "Blocker_L",
         "position": {
-          "x": 1.305,
-          "y": 7.5,
-          "z": -5.295
+          "x": 1.60000002,
+          "y": 5.5,
+          "z": -4.46196938
         },
         "rotation": {
-          "x": 0,
-          "y": 0,
-          "z": -0.707,
-          "w": 0.707
+          "x": 2.94270386e-9,
+          "y": -1.4901163e-8,
+          "z": -0.707106888,
+          "w": 0.707106709
         },
         "parameters": {
           "rotSpeed": 90,
           "travel": {
-            "x": 1.5,
+            "x": 1,
             "y": 0,
             "z": 0
           },

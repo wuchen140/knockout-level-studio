@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "family": "royal-smash",
-  "modelCount": 126,
+  "modelCount": 128,
   "profiles": [
     {
       "id": 4001,
@@ -4157,6 +4157,72 @@
       "mass": 12.925,
       "staticFriction": 0.55,
       "dynamicFriction": 0.5,
+      "impactShatter": false,
+      "shatterThreshold": 10,
+      "fragmentVelocityMultiplier": 1.5
+    },
+    {
+      "id": 4127,
+      "catalogId": 4127,
+      "material": "纸箱",
+      "materialId": 4,
+      "shape": "方块",
+      "shapeId": 0,
+      "sourceShapeId": 1,
+      "size": [
+        1,
+        1,
+        1
+      ],
+      "modelSize": [
+        1,
+        1,
+        1
+      ],
+      "modelPath": null,
+      "unityName": "PiggyBox_1",
+      "colorName": "-1",
+      "colorId": 0,
+      "preload": false,
+      "shatterParticles": 3,
+      "baseMass": 3.025,
+      "catalogMassMultiplier": 1.1,
+      "mass": 3.327,
+      "staticFriction": 0.495,
+      "dynamicFriction": 0.495,
+      "impactShatter": false,
+      "shatterThreshold": 10,
+      "fragmentVelocityMultiplier": 1.5
+    },
+    {
+      "id": 4128,
+      "catalogId": 4128,
+      "material": "纸箱",
+      "materialId": 4,
+      "shape": "方块",
+      "shapeId": 0,
+      "sourceShapeId": 1,
+      "size": [
+        1,
+        1,
+        1
+      ],
+      "modelSize": [
+        1,
+        1,
+        1
+      ],
+      "modelPath": null,
+      "unityName": "Pinata",
+      "colorName": "-1",
+      "colorId": 0,
+      "preload": false,
+      "shatterParticles": 3,
+      "baseMass": 3.025,
+      "catalogMassMultiplier": 1.1,
+      "mass": 3.327,
+      "staticFriction": 0.495,
+      "dynamicFriction": 0.495,
       "impactShatter": false,
       "shatterThreshold": 10,
       "fragmentVelocityMultiplier": 1.5

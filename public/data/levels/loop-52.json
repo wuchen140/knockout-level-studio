@@ -4,7 +4,7 @@
   "categoryName": "循环关卡（RS1 Loop）",
   "settings": {
     "version": 1,
-    "moveCount": 20,
+    "moveCount": 19,
     "difficulty": 0,
     "backgroundIndex": -1,
     "stabilizeOnSpawn": false,
@@ -17,7 +17,7 @@
     "itemCount": 128,
     "destructibleItemCount": 128,
     "specialObstacleCount": 1,
-    "customEntityCount": 3
+    "customEntityCount": 131
   },
   "items": [
     {
@@ -3110,7 +3110,7 @@
         "w": 1
       },
       "size": {
-        "width": 6,
+        "width": 6.00000048,
         "depth": 2
       },
       "movement": null,
@@ -3132,8 +3132,8 @@
         "w": 1
       },
       "size": {
-        "width": 6,
-        "depth": 2
+        "width": 6.00000048,
+        "depth": 2.00000024
       },
       "movement": null,
       "rotationMotion": null
@@ -3147,7 +3147,7 @@
         "id": "Blocker_L",
         "position": {
           "x": 0,
-          "y": 5.1,
+          "y": 5.0999999,
           "z": 3
         },
         "rotation": {

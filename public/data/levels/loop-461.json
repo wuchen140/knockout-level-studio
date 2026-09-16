@@ -1,0 +1,1508 @@
+{
+  "levelId": 461,
+  "category": "loop",
+  "categoryName": "循环关卡（RS1 Loop）",
+  "settings": {
+    "version": 1,
+    "moveCount": 22,
+    "difficulty": 0,
+    "backgroundIndex": -1,
+    "stabilizeOnSpawn": false,
+    "physicsQuality": 0
+  },
+  "statistics": {
+    "entityCount": 61,
+    "entityTypeCount": 10,
+    "platformCount": 1,
+    "itemCount": 60,
+    "destructibleItemCount": 60,
+    "specialObstacleCount": 0,
+    "customEntityCount": 61
+  },
+  "items": [
+    {
+      "sequence": 1,
+      "catalogId": 4034,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -2.36238432,
+        "y": 4.5,
+        "z": -4.63496017
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 5,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 2,
+      "catalogId": 4032,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -2.36238432,
+        "y": 8.5,
+        "z": -4.63496017
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 3,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 3,
+      "catalogId": 4113,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -1.5963372,
+        "y": 5.5,
+        "z": -3.99217606
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 5,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 4,
+      "catalogId": 4077,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -1.5963372,
+        "y": 8.5,
+        "z": -3.99217606
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 5,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -1.5963372,
+        "y": 9.5,
+        "z": -3.99217606
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 6,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -1.5963372,
+        "y": 2.5,
+        "z": -3.99217606
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 7,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -2.23912168,
+        "y": 2.5,
+        "z": -3.22612858
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 8,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.83029002,
+        "y": 3.5,
+        "z": -3.3493917
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 9,
+      "catalogId": 4095,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.83029002,
+        "y": 5.5,
+        "z": -3.3493917
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 10,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.83029002,
+        "y": 7.5,
+        "z": -3.3493917
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 11,
+      "catalogId": 4089,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -1.15168202,
+        "y": 9.5,
+        "z": -2.96636796
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 12,
+      "catalogId": 4089,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -1.15168202,
+        "y": 2.5,
+        "z": -2.96636796
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 13,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -0.0642427281,
+        "y": 2.5,
+        "z": -2.70660734
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 14,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.0642427281,
+        "y": 5.5,
+        "z": -2.70660734
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 15,
+      "catalogId": 4095,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.0642427281,
+        "y": 7.5,
+        "z": -2.70660734
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 16,
+      "catalogId": 4089,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.385635108,
+        "y": 9.5,
+        "z": -2.3235836
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 17,
+      "catalogId": 4089,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.385635108,
+        "y": 3.5,
+        "z": -2.3235836
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 18,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 0.707027853,
+        "y": 2.5,
+        "z": -2.0594399
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 19,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.707027853,
+        "y": 5.5,
+        "z": -2.0594399
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 20,
+      "catalogId": 4095,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.707027853,
+        "y": 7.5,
+        "z": -2.0594399
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 21,
+      "catalogId": 4089,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.385635644,
+        "y": 9.5,
+        "z": -1.6764164
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 22,
+      "catalogId": 4089,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.385635644,
+        "y": 3.5,
+        "z": -1.6764164
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 23,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 1.47307479,
+        "y": 3.5,
+        "z": -1.4166553
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 24,
+      "catalogId": 4095,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 1.47307479,
+        "y": 5.5,
+        "z": -1.4166553
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 25,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 1.47307479,
+        "y": 7.5,
+        "z": -1.4166553
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 26,
+      "catalogId": 4089,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 1.15168262,
+        "y": 9.5,
+        "z": -1.03363192
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 27,
+      "catalogId": 4089,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 1.15168262,
+        "y": 2.5,
+        "z": -1.03363192
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 28,
+      "catalogId": 4113,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 2.23912215,
+        "y": 5.5,
+        "z": -0.773871303
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 5,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 29,
+      "catalogId": 4077,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 2.23912215,
+        "y": 8.5,
+        "z": -0.773871303
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 30,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 2.23912215,
+        "y": 9.5,
+        "z": -0.773871303
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 31,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 2.23912215,
+        "y": 2.5,
+        "z": -0.773871303
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 32,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 1.59633768,
+        "y": 2.5,
+        "z": -0.00782370567
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 33,
+      "catalogId": 4034,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 3.00516939,
+        "y": 4.5,
+        "z": -0.131086469
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 5,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 34,
+      "catalogId": 4032,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 3.00516939,
+        "y": 8.5,
+        "z": -0.131086469
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 3,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 35,
+      "catalogId": 4034,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -3.00516891,
+        "y": 4.5,
+        "z": -3.86891365
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 5,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 36,
+      "catalogId": 4032,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -3.00516891,
+        "y": 8.5,
+        "z": -3.86891365
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 3,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 37,
+      "catalogId": 4113,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -2.23912168,
+        "y": 5.5,
+        "z": -3.22612858
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 5,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 38,
+      "catalogId": 4077,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -2.23912168,
+        "y": 8.5,
+        "z": -3.22612858
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 39,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -2.23912168,
+        "y": 9.5,
+        "z": -3.22612858
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 40,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -1.47307432,
+        "y": 3.5,
+        "z": -2.58334446
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 41,
+      "catalogId": 4095,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -1.47307432,
+        "y": 5.5,
+        "z": -2.58334446
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 42,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -1.47307432,
+        "y": 7.5,
+        "z": -2.58334446
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 43,
+      "catalogId": 4086,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -1.15167177,
+        "y": 8.5,
+        "z": -2.96638036
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 44,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": -0.707027376,
+        "y": 2.5,
+        "z": -1.94055998
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 45,
+      "catalogId": 4086,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.385624647,
+        "y": 4.5,
+        "z": -2.323596
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 46,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.707027376,
+        "y": 5.5,
+        "z": -1.94055998
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 47,
+      "catalogId": 4095,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": -0.707027376,
+        "y": 7.5,
+        "z": -1.94055998
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 48,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 0.0642432794,
+        "y": 2.5,
+        "z": -1.29339266
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 49,
+      "catalogId": 4086,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.385645956,
+        "y": 4.5,
+        "z": -1.67642868
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 50,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.0642432794,
+        "y": 5.5,
+        "z": -1.29339266
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 51,
+      "catalogId": 4095,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.0642432794,
+        "y": 7.5,
+        "z": -1.29339266
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 52,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.830290496,
+        "y": 3.5,
+        "z": -0.650608301
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 53,
+      "catalogId": 4095,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.830290496,
+        "y": 5.5,
+        "z": -0.650608301
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 54,
+      "catalogId": 4080,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 0.830290496,
+        "y": 7.5,
+        "z": -0.650608301
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 55,
+      "catalogId": 4086,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 1.15169311,
+        "y": 8.5,
+        "z": -1.03364396
+      },
+      "rotation": {
+        "x": 0.664463639,
+        "y": -0.241843328,
+        "z": 0.241843328,
+        "w": 0.66446346
+      },
+      "size": {
+        "x": 1,
+        "y": 2,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 56,
+      "catalogId": 4113,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 1.59633768,
+        "y": 5.5,
+        "z": -0.00782370567
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 5,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 57,
+      "catalogId": 4077,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 9,
+      "shapeId": 1,
+      "position": {
+        "x": 1.59633768,
+        "y": 8.5,
+        "z": -0.00782370567
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 58,
+      "catalogId": 4030,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 1.59633768,
+        "y": 9.5,
+        "z": -0.00782370567
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 59,
+      "catalogId": 4034,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 2.36238456,
+        "y": 4.5,
+        "z": 0.634960175
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 5,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "sequence": 60,
+      "catalogId": 4032,
+      "stage": 1,
+      "platform": 1,
+      "materialId": 3,
+      "shapeId": 1,
+      "position": {
+        "x": 2.36238456,
+        "y": 8.5,
+        "z": 0.634960175
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "x": 3,
+        "y": 1,
+        "z": 1
+      }
+    }
+  ],
+  "platforms": [
+    {
+      "sequence": 1,
+      "id": "Table_Rect",
+      "shape": "rect",
+      "position": {
+        "x": 6.25484864e-9,
+        "y": 2,
+        "z": -2
+      },
+      "rotation": {
+        "x": 0,
+        "y": -0.342018157,
+        "z": 0,
+        "w": 0.939693332
+      },
+      "size": {
+        "width": 8,
+        "depth": 2
+      },
+      "movement": {
+        "axis": "Y",
+        "min": 0,
+        "max": 2,
+        "speed": 1,
+        "initialDirection": 1,
+        "easeTime": 0.5,
+        "startupDelay": 0.100000001
+      },
+      "rotationMotion": {
+        "axis": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "speed": 30
+      }
+    }
+  ],
+  "obstacles": {
+    "bouncers": [],
+    "blockers": [],
+    "hammers": []
+  }
+}

@@ -17,7 +17,7 @@
     "itemCount": 96,
     "destructibleItemCount": 96,
     "specialObstacleCount": 1,
-    "customEntityCount": 2
+    "customEntityCount": 98
   },
   "items": [
     {
@@ -2038,10 +2038,10 @@
     },
     {
       "sequence": 85,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": 2.5,
@@ -2062,10 +2062,10 @@
     },
     {
       "sequence": 86,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": 2.5,
@@ -2086,10 +2086,10 @@
     },
     {
       "sequence": 87,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": 2.5,
@@ -2110,10 +2110,10 @@
     },
     {
       "sequence": 88,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": 2.5,
@@ -2134,10 +2134,10 @@
     },
     {
       "sequence": 89,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": 2.5,
@@ -2158,10 +2158,10 @@
     },
     {
       "sequence": 90,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": 2.5,
@@ -2182,10 +2182,10 @@
     },
     {
       "sequence": 91,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": -2.5,
@@ -2206,10 +2206,10 @@
     },
     {
       "sequence": 92,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": -2.5,
@@ -2230,10 +2230,10 @@
     },
     {
       "sequence": 93,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": -2.5,
@@ -2254,10 +2254,10 @@
     },
     {
       "sequence": 94,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": -2.5,
@@ -2278,10 +2278,10 @@
     },
     {
       "sequence": 95,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": -2.5,
@@ -2302,10 +2302,10 @@
     },
     {
       "sequence": 96,
-      "catalogId": 4040,
+      "catalogId": 4062,
       "stage": 1,
       "platform": 1,
-      "materialId": 4,
+      "materialId": 8,
       "shapeId": 1,
       "position": {
         "x": -2.5,
@@ -2343,7 +2343,7 @@
       },
       "size": {
         "width": 6,
-        "depth": 3
+        "depth": 3.00000048
       },
       "movement": {
         "axis": "X",
@@ -2352,7 +2352,7 @@
         "speed": 1,
         "initialDirection": 1,
         "easeTime": 0.5,
-        "startupDelay": 0.1
+        "startupDelay": 0.100000001
       },
       "rotationMotion": null
     }
@@ -2365,8 +2365,8 @@
         "id": "Blocker_L",
         "position": {
           "x": 0,
-          "y": 6.4,
-          "z": -4.79
+          "y": 6.4000001,
+          "z": -4.78999996
         },
         "rotation": {
           "x": 0,

@@ -17,7 +17,7 @@
     "itemCount": 26,
     "destructibleItemCount": 26,
     "specialObstacleCount": 0,
-    "customEntityCount": 2
+    "customEntityCount": 28
   },
   "items": [
     {
@@ -30,7 +30,7 @@
       "position": {
         "x": -2.30685329,
         "y": 4.49999952,
-        "z": 2.38419e-7
+        "z": 2.38418579e-7
       },
       "rotation": {
         "x": -0.270598084,
@@ -78,7 +78,7 @@
       "position": {
         "x": -2.30685329,
         "y": 8.5,
-        "z": 2.38419e-7
+        "z": 2.38418579e-7
       },
       "rotation": {
         "x": -0.270598084,
@@ -651,15 +651,15 @@
       "id": "Table_Rect",
       "shape": "rect",
       "position": {
-        "x": -2.25,
+        "x": -2.24999881,
         "y": 2,
         "z": 0
       },
       "rotation": {
         "x": 0,
-        "y": -0.383,
+        "y": -0.382683426,
         "z": 0,
-        "w": 0.924
+        "w": 0.923879564
       },
       "size": {
         "width": 3,
@@ -667,12 +667,12 @@
       },
       "movement": {
         "axis": "X",
-        "min": -0.35,
-        "max": 0.35,
+        "min": -0.349999994,
+        "max": 0.349999994,
         "speed": 1,
         "initialDirection": 1,
         "easeTime": 0.5,
-        "startupDelay": 0.1
+        "startupDelay": 0.100000001
       },
       "rotationMotion": null
     },
@@ -681,15 +681,15 @@
       "id": "Table_Rect",
       "shape": "rect",
       "position": {
-        "x": 2.25,
+        "x": 2.25000072,
         "y": 2,
         "z": 0
       },
       "rotation": {
         "x": 0,
-        "y": 0.383,
+        "y": 0.382683426,
         "z": 0,
-        "w": 0.924
+        "w": 0.923879564
       },
       "size": {
         "width": 3,
@@ -697,12 +697,12 @@
       },
       "movement": {
         "axis": "X",
-        "min": -0.35,
-        "max": 0.35,
+        "min": -0.349999994,
+        "max": 0.349999994,
         "speed": 1,
         "initialDirection": 1,
         "easeTime": 0.5,
-        "startupDelay": 0.1
+        "startupDelay": 0.100000001
       },
       "rotationMotion": null
     }
